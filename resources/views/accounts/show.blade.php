@@ -1,0 +1,55 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <h1>{{ $account->name }} ({{ $account->code }})</h1>
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Cost Centre</h5>
+                    <p>{{ $account->costCentre?->name ?? 'N/A' }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Budgets ({{ $account->budgets->count() }})</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>Annual Budget</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($account->budgets as $budget)
+            <tr>
+                <td>{{ $budget->year }}</td>
+                <td>${{ number_format($budget->annual_budget, 2) }}</td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    <h3>Actuals ({{ $account->actuals->count() }})</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>Month</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($account->actuals as $actual)
+            <tr>
+                <td>{{ $actual->year }}</td>
+                <td>{{ $actual->month }}</td>
+                <td>${{ number_format($actual->amount, 2) }}</td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@endsection

@@ -1,0 +1,42 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <h1>New Budget</h1>
+    <form action="{{ route('budgets.store') }}" method="POST">
+        @csrf
+        <div class="mb-3">
+            <label>Cost Centre</label>
+            <select name="cost_centre_id" class="form-control" required>
+                <option value="">Select Cost Centre</option>
+                @foreach($costCentres as $cc)
+                    <option value="{{ $cc->id }}">{{ $cc->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="mb-3">
+            <label>Account</label>
+            <select name="account_id" class="form-control" required>
+                <option value="">Select Account</option>
+                @foreach($accounts as $account)
+                    <option value="{{ $account->id }}">{{ $account->name }} ({{ $account->code }}) - {{ $account->costCentre?->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="mb-3">
+            <label>Annual Budget</label>
+            <input type="number" name="annual_budget" class="form-control" step="0.01" required>
+        </div>
+        <div class="mb-3">
+            <label>Year</label>
+            <select name="year" class="form-control" required>
+                @for($y = now()->year; $y >= now()->year - 5; $y--)
+                    <option value="{{ $y }}">{{ $y }}</option>
+                @endfor
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+        <a href="{{ route('budgets.index') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+@endsection
