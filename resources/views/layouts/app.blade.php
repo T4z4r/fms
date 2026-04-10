@@ -75,6 +75,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('analysis') }}">{{ __('AI Analysis') }}</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('settings.index') }}">{{ __('Settings') }}</a>
+                            </li>
                         @endauth
                     </ul>
 

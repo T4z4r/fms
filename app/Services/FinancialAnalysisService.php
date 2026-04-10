@@ -73,7 +73,7 @@ class FinancialAnalysisService
         $trend = [];
 
         for ($month = 1; $month <= 12; $month++) {
-            $actual = $monthlyActuals[$month]?->sum('amount') ?? 0;
+            $actual = $monthlyActuals->get($month)?->sum('amount') ?? 0;
             $budget = $monthlyBudgets->sum(fn ($item) => $item[$month] ?? 0);
 
             $trend[] = [
@@ -95,7 +95,7 @@ class FinancialAnalysisService
         $threshold = 1.5;
 
         for ($month = 1; $month <= 12; $month++) {
-            $actual = $monthlyActuals[$month]?->sum('amount') ?? 0;
+            $actual = $monthlyActuals->get($month)?->sum('amount') ?? 0;
             $budget = $monthlyBudgets->sum(fn ($item) => $item[$month] ?? 0);
 
             if ($budget > 0) {

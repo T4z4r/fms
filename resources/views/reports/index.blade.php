@@ -26,15 +26,16 @@
             @foreach($costCentres as $cc)
             @php
                 $budgetTotal = $cc->budgets->sum('annual_budget');
-                $actualTotal = $actuals[$cc->id]?->sum('total') ?? 0;
+                $actualGroup = $actuals->get($cc->id);
+                $actualTotal = $actualGroup ? $actualGroup->sum('total') : 0;
                 $variance = $budgetTotal - $actualTotal;
             @endphp
             <tr>
                 <td>{{ $cc->name }}</td>
-                <td>${{ number_format($budgetTotal, 2) }}</td>
-                <td>${{ number_format($actualTotal, 2) }}</td>
+                <td>£{{ number_format($budgetTotal, 2) }}</td>
+                <td>£{{ number_format($actualTotal, 2) }}</td>
                 <td class="{{ $variance >= 0 ? 'text-success' : 'text-danger' }}">
-                    ${{ number_format($variance, 2) }}
+                    £{{ number_format($variance, 2) }}
                 </td>
             </tr>
             @endforeach
