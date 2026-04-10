@@ -5,6 +5,7 @@ use App\Http\Controllers\ActualController;
 use App\Http\Controllers\AlertController;
 use App\Http\Controllers\AnalysisController;
 use App\Http\Controllers\BudgetController;
+use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\CostCentreController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect('/dashboard');
+    return redirect('/login');
 });
 
 Auth::routes();
@@ -48,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/analysis', [AnalysisController::class, 'index'])->name('analysis');
     Route::get('/analysis/compare', [AnalysisController::class, 'compare'])->name('analysis.compare');
+    Route::get('/charts', [ChartsController::class, 'index'])->name('charts');
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
