@@ -216,6 +216,11 @@
                                         {{ __('Charts') }}</span></a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('powerbi') ? 'text-primary fw-semibold' : '' }}"
+                                        href="{{ route('powerbi') }}"><i class="bi bi-bar-chart-fill"></i><span>
+                                        {{ __('Power BI') }}</span></a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link {{ request()->routeIs('settings.*') ? 'text-primary fw-semibold' : '' }}"
                                         href="{{ route('settings.index') }}"><i class="bi bi-gear"></i><span>
                                         {{ __('Settings') }}</span></a>

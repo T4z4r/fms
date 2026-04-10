@@ -10,6 +10,7 @@ use App\Http\Controllers\CostCentreController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImportController;
+use App\Http\Controllers\PowerBIController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TutorialController;
 use Illuminate\Support\Facades\Auth;
@@ -57,6 +58,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/analysis', [AnalysisController::class, 'index'])->name('analysis');
     Route::get('/analysis/compare', [AnalysisController::class, 'compare'])->name('analysis.compare');
     Route::get('/charts', [ChartsController::class, 'index'])->name('charts');
+    Route::get('/powerbi', [PowerBIController::class, 'index'])->name('powerbi');
     Route::get('/tutorial', [TutorialController::class, 'index'])->name('tutorial');
 });
 

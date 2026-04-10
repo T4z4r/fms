@@ -74,9 +74,14 @@
                     <p class="small text-muted">Use AI-powered analysis to gain insights into your spending patterns.</p>
                     
                     <hr>
-                    
+
                     <h6><i class="bi bi-pie-chart text-warning"></i> 11. Charts</h6>
                     <p class="small text-muted">Visualize your financial data with various charts including monthly trends, account distribution, and variance analysis.</p>
+
+                    <hr>
+
+                    <h6><i class="bi bi-bar-chart text-warning"></i> 12. Power BI</h6>
+                    <p class="small text-muted">Connect to Power BI for advanced business intelligence and reporting capabilities.</p>
                 </div>
             </div>
         </div>
@@ -87,7 +92,7 @@
                     <i class="bi bi-gear"></i> Configuration
                 </div>
                 <div class="card-body">
-                    <h6><i class="bi bi-gear text-secondary"></i> 12. Settings</h6>
+                    <h6><i class="bi bi-gear text-secondary"></i> 13. Settings</h6>
                     <p class="small text-muted">Manage your profile and change your password. Admins can access additional system settings.</p>
                     
                     <hr>

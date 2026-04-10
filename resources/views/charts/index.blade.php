@@ -100,7 +100,7 @@
                             },
                             yAxis: {
                                 title: {
-                                    text: 'Amount ($)'
+                                    text: 'Amount (£)'
                                 }
                             },
                             series: [{
@@ -180,7 +180,7 @@
                             },
                             yAxis: {
                                 title: {
-                                    text: 'Amount ($)'
+                                    text: 'Amount (£)'
                                 }
                             },
                             series: [{
@@ -283,7 +283,7 @@
                             },
                             yAxis: {
                                 title: {
-                                    text: 'Amount ($)'
+                                    text: 'Amount (£)'
                                 }
                             },
                             series: [{
@@ -367,7 +367,7 @@
                             },
                             yAxis: {
                                 title: {
-                                    text: 'Variance ($)'
+                                    text: 'Variance (£)'
                                 }
                             },
                             series: [{
