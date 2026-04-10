@@ -51,7 +51,7 @@
                 <td>{{ $actual->account?->name }} ({{ $actual->account?->code }})</td>
                 <td>{{ $actual->year }}</td>
                 <td>{{ DateTime::createFromFormat('!m', $actual->month)->format('F') }}</td>
-                <td>${{ number_format($actual->amount, 2) }}</td>
+                <td>£{{ number_format($actual->amount, 2) }}</td>
                 <td>
                     <a href="{{ route('actuals.show', $actual) }}" class="btn btn-sm btn-info">View</a>
                     <a href="{{ route('actuals.edit', $actual) }}" class="btn btn-sm btn-warning">Edit</a>

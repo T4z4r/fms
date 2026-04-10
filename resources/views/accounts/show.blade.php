@@ -29,7 +29,7 @@
             @foreach($account->budgets as $budget)
             <tr>
                 <td>{{ $budget->year }}</td>
-                <td>${{ number_format($budget->annual_budget, 2) }}</td>
+                <td>£{{ number_format($budget->annual_budget, 2) }}</td>
             </tr>
             @endforeach
         </tbody>
@@ -49,7 +49,7 @@
             <tr>
                 <td>{{ $actual->year }}</td>
                 <td>{{ $actual->month }}</td>
-                <td>${{ number_format($actual->amount, 2) }}</td>
+                <td>£{{ number_format($actual->amount, 2) }}</td>
             </tr>
             @endforeach
         </tbody>

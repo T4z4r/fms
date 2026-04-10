@@ -43,7 +43,7 @@
                 <td>{{ $budget->costCentre?->name }}</td>
                 <td>{{ $budget->account?->name }} ({{ $budget->account?->code }})</td>
                 <td>{{ $budget->year }}</td>
-                <td>${{ number_format($budget->annual_budget, 2) }}</td>
+                <td>£{{ number_format($budget->annual_budget, 2) }}</td>
                 <td>
                     <a href="{{ route('budgets.show', $budget) }}" class="btn btn-sm btn-info">View</a>
                     <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#budgetModal" data-mode="edit" data-id="{{ $budget->id }}" data-cost_centre_id="{{ $budget->cost_centre_id }}" data-account_id="{{ $budget->account_id }}" data-annual_budget="{{ $budget->annual_budget }}" data-year="{{ $budget->year }}">Edit</button>

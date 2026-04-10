@@ -14,7 +14,7 @@ class SettingController extends Controller
             'ai_model' => Setting::get('ai_model', 'gpt-4'),
             'ai_endpoint' => Setting::get('ai_endpoint', 'https://api.openai.com/v1'),
             'company_name' => Setting::get('company_name', ''),
-            'company_currency' => Setting::get('company_currency', 'USD'),
+            'company_currency' => Setting::get('company_currency', 'GBP'),
             'company_date_format' => Setting::get('company_date_format', 'Y-m-d'),
             'company_fiscal_year_start' => Setting::get('company_fiscal_year_start', 'January'),
         ];

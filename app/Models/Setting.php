@@ -27,7 +27,7 @@ class Setting extends Model
     {
         return [
             'company_name' => static::get('company_name', ''),
-            'company_currency' => static::get('company_currency', 'USD'),
+            'company_currency' => static::get('company_currency', 'GBP'),
             'company_date_format' => static::get('company_date_format', 'Y-m-d'),
             'company_fiscal_year_start' => static::get('company_fiscal_year_start', 'January'),
         ];
@@ -35,7 +35,7 @@ class Setting extends Model
 
     public static function getCurrencySymbol(?string $currency = null): string
     {
-        $currency = $currency ?? static::get('company_currency', 'USD');
+        $currency = $currency ?? static::get('company_currency', 'GBP');
 
         return match ($currency) {
             'USD' => '$',

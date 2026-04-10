@@ -32,7 +32,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5>Amount</h5>
-                    <p>${{ number_format($actual->amount, 2) }}</p>
+                    <p>£{{ number_format($actual->amount, 2) }}</p>
                 </div>
             </div>
         </div>

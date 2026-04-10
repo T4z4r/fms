@@ -45,13 +45,13 @@
             @forelse($forecasts as $item)
             <tr>
                 <td>{{ $item['account']->name }} ({{ $item['account']->code }})</td>
-                <td>${{ number_format($item['budget'], 2) }}</td>
-                <td>${{ number_format($item['current_spending'], 2) }}</td>
-                <td>${{ number_format($item['monthly_average'], 2) }}</td>
-                <td>${{ number_format($item['forecast'], 2) }}</td>
-                <td>${{ number_format($item['projected_total'], 2) }}</td>
+                <td>£{{ number_format($item['budget'], 2) }}</td>
+                <td>£{{ number_format($item['current_spending'], 2) }}</td>
+                <td>£{{ number_format($item['monthly_average'], 2) }}</td>
+                <td>£{{ number_format($item['forecast'], 2) }}</td>
+                <td>£{{ number_format($item['projected_total'], 2) }}</td>
                 <td class="{{ $item['variance'] >= 0 ? 'text-success' : 'text-danger' }}">
-                    ${{ number_format($item['variance'], 2) }}
+                    £{{ number_format($item['variance'], 2) }}
                     ({{ $item['variance'] >= 0 ? 'Under' : 'Over' }} budget)
                 </td>
             </tr>

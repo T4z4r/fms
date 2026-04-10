@@ -113,7 +113,7 @@
                 <li><strong>Model:</strong> {{ $settings['ai_model'] }}</li>
                 <li><strong>Endpoint:</strong> {{ $settings['ai_endpoint'] }}</li>
                 <li><strong>Company:</strong> {{ $settings['company_name'] ?: 'Not set' }}</li>
-                <li><strong>Currency:</strong> {{ $settings['company_currency'] ?: 'USD' }}</li>
+                <li><strong>Currency:</strong> {{ $settings['company_currency'] ?: 'GBP' }}</li>
             </ul>
         </div>
     </div>

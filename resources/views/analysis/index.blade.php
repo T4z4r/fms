@@ -97,7 +97,7 @@ function parseMarkdown($text) {
             <div class="card">
                 <div class="card-body">
                     <h6>Total Budget</h6>
-                    <h4>${{ number_format($analysis['summary']['total_budget'], 0) }}</h4>
+                    <h4>£{{ number_format($analysis['summary']['total_budget'], 0) }}</h4>
                 </div>
             </div>
         </div>
@@ -105,7 +105,7 @@ function parseMarkdown($text) {
             <div class="card">
                 <div class="card-body">
                     <h6>Total Spent</h6>
-                    <h4>${{ number_format($analysis['summary']['total_actual'], 0) }}</h4>
+                    <h4>£{{ number_format($analysis['summary']['total_actual'], 0) }}</h4>
                 </div>
             </div>
         </div>
@@ -155,10 +155,10 @@ function parseMarkdown($text) {
                             @foreach($analysis['monthly_trend'] as $month)
                             <tr class="{{ $month['variance_percentage'] < -20 ? 'table-danger' : '' }}">
                                 <td>{{ $month['month_name'] }}</td>
-                                <td>${{ number_format($month['budget']) }}</td>
-                                <td>${{ number_format($month['actual']) }}</td>
+                                <td>£{{ number_format($month['budget']) }}</td>
+                                <td>£{{ number_format($month['actual']) }}</td>
                                 <td class="{{ $month['variance'] >= 0 ? 'text-success' : 'text-danger' }}">
-                                    {{ $month['variance'] >= 0 ? '+' : '' }}${{ number_format($month['variance']) }}
+                                    {{ $month['variance'] >= 0 ? '+' : '' }}£{{ number_format($month['variance']) }}
                                 </td>
                             </tr>
                             @endforeach
@@ -187,8 +187,8 @@ function parseMarkdown($text) {
                             @foreach($analysis['account_analysis'] as $account)
                             <tr class="{{ $account['utilization'] > 100 ? 'table-danger' : ($account['utilization'] > 80 ? 'table-warning' : '') }}">
                                 <td>{{ $account['account_name'] }}</td>
-                                <td>${{ number_format($account['budget']) }}</td>
-                                <td>${{ number_format($account['actual']) }}</td>
+                                <td>£{{ number_format($account['budget']) }}</td>
+                                <td>£{{ number_format($account['actual']) }}</td>
                                 <td>
                                     <span class="badge bg-{{ $account['utilization'] > 100 ? 'danger' : ($account['utilization'] > 80 ? 'warning' : 'success') }}">
                                         {{ round($account['utilization']) }}%
@@ -242,13 +242,13 @@ function parseMarkdown($text) {
         <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
-                    <p><strong>Monthly Average:</strong> ${{ number_format($analysis['forecast']['monthly_average'], 2) }}</p>
+                    <p><strong>Monthly Average:</strong> £{{ number_format($analysis['forecast']['monthly_average'], 2) }}</p>
                 </div>
                 <div class="col-md-4">
-                    <p><strong>Projected Remaining:</strong> ${{ number_format($analysis['forecast']['projected_spending'], 2) }}</p>
+                    <p><strong>Projected Remaining:</strong> £{{ number_format($analysis['forecast']['projected_spending'], 2) }}</p>
                 </div>
                 <div class="col-md-4">
-                    <p><strong>Projected Total:</strong> ${{ number_format($analysis['forecast']['projected_total'], 2) }}</p>
+                    <p><strong>Projected Total:</strong> £{{ number_format($analysis['forecast']['projected_total'], 2) }}</p>
                 </div>
             </div>
             <p class="text-muted">Confidence: {{ ucfirst($analysis['forecast']['confidence']) }}</p>

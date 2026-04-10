@@ -35,7 +35,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5>Annual Budget</h5>
-                    <p>${{ number_format($budget->annual_budget, 2) }}</p>
+                    <p>£{{ number_format($budget->annual_budget, 2) }}</p>
                 </div>
             </div>
         </div>

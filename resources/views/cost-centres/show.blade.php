@@ -59,7 +59,7 @@
             <tr>
                 <td>{{ $budget->account->name }}</td>
                 <td>{{ $budget->year }}</td>
-                <td>${{ number_format($budget->annual_budget, 2) }}</td>
+                <td>£{{ number_format($budget->annual_budget, 2) }}</td>
             </tr>
             @endforeach
         </tbody>
