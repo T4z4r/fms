@@ -131,6 +131,11 @@
                                     href="{{ route('settings.index') }}"><i class="bi bi-gear"></i><span>
                                         {{ __('Settings') }}</span></a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('tutorial') ? 'text-primary fw-semibold' : '' }}"
+                                    href="{{ route('tutorial') }}"><i class="bi bi-book"></i><span>
+                                        {{ __('Tutorial') }}</span></a>
+                            </li>
                         </ul>
 
                         <ul class="navbar-nav ms-auto">
