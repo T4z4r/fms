@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4><i class="bi bi-speedometer2"></i> Financial Dashboard</h4>
+            <h4><i class="bi bi-speedometer2 text-primary"></i> Financial Dashboard</h4>
             <form method="GET" class="d-flex gap-2">
                 <select name="year" class="form-select">
                     @for ($y = now()->year; $y >= now()->year - 5; $y--)
@@ -93,7 +93,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-sm table-bordered">
+                            <table class="excel-table table table-striped table-sm">
                                 <thead>
                                     <tr>
                                         <th>Month</th>
@@ -176,7 +176,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover">
+                    <table class="excel-table table table-striped"">
                         <thead>
                             <tr>
                                 <th>Account</th>

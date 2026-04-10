@@ -46,39 +46,51 @@
             </div>
             <div class="col-md-2">
                 <label>View Mode</label>
-                 <select name="view_mode" class="form-select" onchange="this.form.submit()">
-                     <option value="interactive" {{ $viewMode == 'interactive' ? 'selected' : '' }}>Interactive</option>
-                     <option value="comparison" {{ $viewMode == 'comparison' ? 'selected' : '' }}>Comparison</option>
-                     <option value="trend" {{ $viewMode == 'trend' ? 'selected' : '' }}>Trend Analysis</option>
-                     <option value="forecast" {{ $viewMode == 'forecast' ? 'selected' : '' }}>Forecast</option>
-                     <option value="advanced" {{ $viewMode == 'advanced' ? 'selected' : '' }}>Advanced Analytics</option>
-                     <option value="risk" {{ $viewMode == 'risk' ? 'selected' : '' }}>Risk Analysis</option>
-                 </select>
+                <select name="view_mode" class="form-select" onchange="this.form.submit()">
+                    <option value="interactive" {{ $viewMode == 'interactive' ? 'selected' : '' }}>Interactive</option>
+                    <option value="comparison" {{ $viewMode == 'comparison' ? 'selected' : '' }}>Comparison</option>
+                    <option value="trend" {{ $viewMode == 'trend' ? 'selected' : '' }}>Trend Analysis</option>
+                    <option value="forecast" {{ $viewMode == 'forecast' ? 'selected' : '' }}>Forecast</option>
+                    <option value="advanced" {{ $viewMode == 'advanced' ? 'selected' : '' }}>Advanced Analytics</option>
+                    <option value="risk" {{ $viewMode == 'risk' ? 'selected' : '' }}>Risk Analysis</option>
+                </select>
             </div>
 
         </form>
 
         @if ($selectedCostCentreId)
             <div class="d-flex">
-                <div class="nav flex-column nav-pills me-3 bg-light p-2 rounded" id="v-tabs-tab" role="tablist" aria-orientation="vertical" style="min-width: 200px;">
-                    <button class="nav-link active text-start" id="v-tabs-dashboard-tab" data-bs-toggle="pill" data-bs-target="#v-tabs-dashboard" type="button" role="tab" aria-controls="v-tabs-dashboard" aria-selected="true">
+                <div class="nav flex-column nav-pills me-3 bg-light p-2 rounded" id="v-tabs-tab" role="tablist"
+                    aria-orientation="vertical" style="min-width: 200px;">
+                    <button class="nav-link active text-start" id="v-tabs-dashboard-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-tabs-dashboard" type="button" role="tab" aria-controls="v-tabs-dashboard"
+                        aria-selected="true">
                         <i class="bi bi-house-door me-2"></i> Dashboard
                     </button>
-                    <button class="nav-link text-start" id="v-tabs-trends-tab" data-bs-toggle="pill" data-bs-target="#v-tabs-trends" type="button" role="tab" aria-controls="v-tabs-trends" aria-selected="false">
-                        <i class="bi bi-graph-up me-2"></i> Trends & Comparisons
+                    <button class="nav-link text-start" id="v-tabs-trends-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-tabs-trends" type="button" role="tab" aria-controls="v-tabs-trends"
+                        aria-selected="false">
+                        <i class="bi bi-graph-up me-2"></i> Trends
                     </button>
-                    <button class="nav-link text-start" id="v-tabs-advanced-tab" data-bs-toggle="pill" data-bs-target="#v-tabs-advanced" type="button" role="tab" aria-controls="v-tabs-advanced" aria-selected="false">
-                        <i class="bi bi-bar-chart me-2"></i> Advanced Analytics
+                    <button class="nav-link text-start" id="v-tabs-advanced-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-tabs-advanced" type="button" role="tab" aria-controls="v-tabs-advanced"
+                        aria-selected="false">
+                        <i class="bi bi-bar-chart me-2"></i> Analytics
                     </button>
-                    <button class="nav-link text-start" id="v-tabs-forecast-tab" data-bs-toggle="pill" data-bs-target="#v-tabs-forecast" type="button" role="tab" aria-controls="v-tabs-forecast" aria-selected="false">
+                    <button class="nav-link text-start" id="v-tabs-forecast-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-tabs-forecast" type="button" role="tab" aria-controls="v-tabs-forecast"
+                        aria-selected="false">
                         <i class="bi bi-eye me-2"></i> Forecasts
                     </button>
-                    <button class="nav-link text-start" id="v-tabs-anomalies-tab" data-bs-toggle="pill" data-bs-target="#v-tabs-anomalies" type="button" role="tab" aria-controls="v-tabs-anomalies" aria-selected="false">
+                    <button class="nav-link text-start" id="v-tabs-anomalies-tab" data-bs-toggle="pill"
+                        data-bs-target="#v-tabs-anomalies" type="button" role="tab" aria-controls="v-tabs-anomalies"
+                        aria-selected="false">
                         <i class="bi bi-exclamation-triangle me-2"></i> Anomalies
                     </button>
                 </div>
                 <div class="tab-content flex-grow-1" id="v-tabs-tabContent">
-                    <div class="tab-pane fade show active" id="v-tabs-dashboard" role="tabpanel" aria-labelledby="v-tabs-dashboard-tab">
+                    <div class="tab-pane fade show active" id="v-tabs-dashboard" role="tabpanel"
+                        aria-labelledby="v-tabs-dashboard-tab">
                         <!-- Dashboard Content -->
                         <div class="row mb-4">
                             <div class="col-md-3">
@@ -118,8 +130,10 @@
                                 <div class="card text-white bg-warning">
                                     <div class="card-body">
                                         <h6 class="card-title">Daily Velocity</h6>
-                                        <h3 class="mb-0">£{{ number_format($spendingVelocity['avgDailyVelocity'], 2) }}</h3>
-                                        <small>Projected: £{{ number_format($spendingVelocity['projectedYearEnd'], 0) }}</small>
+                                        <h3 class="mb-0">£{{ number_format($spendingVelocity['avgDailyVelocity'], 2) }}
+                                        </h3>
+                                        <small>Projected:
+                                            £{{ number_format($spendingVelocity['projectedYearEnd'], 0) }}</small>
                                     </div>
                                 </div>
                             </div>
@@ -128,7 +142,8 @@
                                     <div class="card-body">
                                         <h6 class="card-title">Budget Accuracy</h6>
                                         <h3 class="mb-0">{{ $budgetPrediction['accuracyScore'] }}%</h3>
-                                        <small>Predicted Variance: £{{ number_format($budgetPrediction['predictedVariance'], 0) }}</small>
+                                        <small>Predicted Variance:
+                                            £{{ number_format($budgetPrediction['predictedVariance'], 0) }}</small>
                                     </div>
                                 </div>
                             </div>
@@ -140,10 +155,14 @@
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="mb-0">Budget vs Actual Trend</h5>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('monthly-trend-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('monthly-trend-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('monthly-trend-chart', 'area')">Area</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('monthly-trend-chart', 'spline')">Spline</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('monthly-trend-chart', 'line')">Line</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('monthly-trend-chart', 'column')">Column</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('monthly-trend-chart', 'area')">Area</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('monthly-trend-chart', 'spline')">Spline</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -156,10 +175,14 @@
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="mb-0">Department Comparison</h5>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('department-chart', 'bar')">Bar</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('department-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('department-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('department-chart', 'area')">Area</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('department-chart', 'bar')">Bar</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('department-chart', 'column')">Column</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('department-chart', 'line')">Line</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('department-chart', 'area')">Area</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -185,10 +208,14 @@
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="mb-0">Yearly Comparison</h5>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('yearly-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('yearly-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('yearly-chart', 'bar')">Bar</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('yearly-chart', 'area')">Area</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('yearly-chart', 'column')">Column</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('yearly-chart', 'line')">Line</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('yearly-chart', 'bar')">Bar</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('yearly-chart', 'area')">Area</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -206,10 +233,14 @@
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="mb-0">Monthly Variance Trend</h5>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('variance-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('variance-chart', 'bar')">Bar</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('variance-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('variance-chart', 'area')">Area</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('variance-chart', 'column')">Column</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('variance-chart', 'bar')">Bar</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('variance-chart', 'line')">Line</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('variance-chart', 'area')">Area</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -225,10 +256,14 @@
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="mb-0">Quarterly Comparison</h5>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('quarterly-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('quarterly-chart', 'bar')">Bar</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('quarterly-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('quarterly-chart', 'area')">Area</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('quarterly-chart', 'column')">Column</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('quarterly-chart', 'bar')">Bar</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('quarterly-chart', 'line')">Line</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('quarterly-chart', 'area')">Area</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -241,10 +276,14 @@
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="mb-0">Top 5 Spending Accounts</h5>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('top-accounts-chart', 'bar')">Bar</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('top-accounts-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('top-accounts-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('top-accounts-chart', 'area')">Area</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('top-accounts-chart', 'bar')">Bar</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('top-accounts-chart', 'column')">Column</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('top-accounts-chart', 'line')">Line</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('top-accounts-chart', 'area')">Area</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -254,39 +293,40 @@
                             </div>
                         </div>
 
-                        @if(count($topAccounts) > 0)
-                        <div class="row mb-4">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="mb-0">Top Spending Accounts Details</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <table class="table table-sm table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Rank</th>
-                                                    <th>Account</th>
-                                                    <th>Actual Spending</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($topAccounts as $index => $account)
-                                                <tr>
-                                                    <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $account['name'] }}</td>
-                                                    <td>£{{ number_format($account['actual'], 2) }}</td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                        @if (count($topAccounts) > 0)
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="mb-0">Top Spending Accounts Details</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <table class="excel-table table table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Rank</th>
+                                                        <th>Account</th>
+                                                        <th>Actual Spending</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($topAccounts as $index => $account)
+                                                        <tr>
+                                                            <td>{{ $index + 1 }}</td>
+                                                            <td>{{ $account['name'] }}</td>
+                                                            <td>£{{ number_format($account['actual'], 2) }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         @endif
                     </div>
-                    <div class="tab-pane fade" id="v-tabs-advanced" role="tabpanel" aria-labelledby="v-tabs-advanced-tab">
+                    <div class="tab-pane fade" id="v-tabs-advanced" role="tabpanel"
+                        aria-labelledby="v-tabs-advanced-tab">
                         <!-- Advanced Analytics Content -->
                         <div class="row mb-4">
                             <div class="col-12">
@@ -300,10 +340,14 @@
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="mb-0">Spending Velocity Analysis</h5>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('spending-velocity-chart', 'area')">Area</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('spending-velocity-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('spending-velocity-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('spending-velocity-chart', 'spline')">Spline</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('spending-velocity-chart', 'area')">Area</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('spending-velocity-chart', 'line')">Line</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('spending-velocity-chart', 'column')">Column</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('spending-velocity-chart', 'spline')">Spline</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -345,16 +389,20 @@
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="mb-0">Budget Utilization Rate per Account</h5>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('budget-utilization-chart', 'bar')">Bar</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('budget-utilization-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('budget-utilization-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('budget-utilization-chart', 'area')">Area</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('budget-utilization-chart', 'bar')">Bar</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('budget-utilization-chart', 'column')">Column</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('budget-utilization-chart', 'line')">Line</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('budget-utilization-chart', 'area')">Area</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <div id="budget-utilization-chart"></div>
-                                        <div class="table-responsive mt-3">
-                                            <table class="table table-sm table-striped">
+                                        <div class="excel-table table-responsive mt-3">
+                                            <table class="excel-table table table-sm">
                                                 <thead>
                                                     <tr>
                                                         <th>Account</th>
@@ -365,22 +413,22 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($budgetUtilization as $util)
-                                                    <tr>
-                                                        <td>{{ $util['account'] }}</td>
-                                                        <td>£{{ number_format($util['budget'], 2) }}</td>
-                                                        <td>£{{ number_format($util['actual'], 2) }}</td>
-                                                        <td>{{ $util['utilizationRate'] }}%</td>
-                                                        <td>
-                                                            @if($util['status'] == 'overspend')
-                                                                <span class="badge bg-danger">Overspend</span>
-                                                            @elseif($util['status'] == 'warning')
-                                                                <span class="badge bg-warning">Warning</span>
-                                                            @else
-                                                                <span class="badge bg-success">Good</span>
-                                                            @endif
-                                                        </td>
-                                                    </tr>
+                                                    @foreach ($budgetUtilization as $util)
+                                                        <tr>
+                                                            <td>{{ $util['account'] }}</td>
+                                                            <td>£{{ number_format($util['budget'], 2) }}</td>
+                                                            <td>£{{ number_format($util['actual'], 2) }}</td>
+                                                            <td>{{ $util['utilizationRate'] }}%</td>
+                                                            <td>
+                                                                @if ($util['status'] == 'overspend')
+                                                                    <span class="badge bg-danger">Overspend</span>
+                                                                @elseif($util['status'] == 'warning')
+                                                                    <span class="badge bg-warning">Warning</span>
+                                                                @else
+                                                                    <span class="badge bg-success">Good</span>
+                                                                @endif
+                                                            </td>
+                                                        </tr>
                                                     @endforeach
                                                 </tbody>
                                             </table>
@@ -396,10 +444,14 @@
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="mb-0">Seasonal Trend Analysis</h5>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('seasonal-trends-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('seasonal-trends-chart', 'bar')">Bar</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('seasonal-trends-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('seasonal-trends-chart', 'area')">Area</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('seasonal-trends-chart', 'column')">Column</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('seasonal-trends-chart', 'bar')">Bar</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('seasonal-trends-chart', 'line')">Line</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('seasonal-trends-chart', 'area')">Area</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -413,8 +465,8 @@
                                         <h5 class="mb-0">Seasonal Indices</h5>
                                     </div>
                                     <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-sm">
+                                        <div class="excel-table table-responsive">
+                                            <table class="excel-table table table-sm">
                                                 <thead>
                                                     <tr>
                                                         <th>Quarter</th>
@@ -424,22 +476,25 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($seasonalTrends['seasonalIndices'] as $index)
-                                                    <tr>
-                                                        <td>{{ $index['quarter'] }}</td>
-                                                        <td>{{ $index['currentIndex'] }}%</td>
-                                                        <td>{{ $index['previousIndex'] }}%</td>
-                                                        <td class="{{ $index['change'] >= 0 ? 'text-success' : 'text-danger' }}">
-                                                            {{ $index['change'] >= 0 ? '+' : '' }}{{ $index['change'] }}%
-                                                        </td>
-                                                    </tr>
+                                                    @foreach ($seasonalTrends['seasonalIndices'] as $index)
+                                                        <tr>
+                                                            <td>{{ $index['quarter'] }}</td>
+                                                            <td>{{ $index['currentIndex'] }}%</td>
+                                                            <td>{{ $index['previousIndex'] }}%</td>
+                                                            <td
+                                                                class="{{ $index['change'] >= 0 ? 'text-success' : 'text-danger' }}">
+                                                                {{ $index['change'] >= 0 ? '+' : '' }}{{ $index['change'] }}%
+                                                            </td>
+                                                        </tr>
                                                     @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
                                         <div class="mt-3">
-                                            <strong>Total Current Year:</strong> £{{ number_format($seasonalTrends['totalCurrentYear'], 0) }}<br>
-                                            <strong>Total Previous Year:</strong> £{{ number_format($seasonalTrends['totalPreviousYear'], 0) }}
+                                            <strong>Total Current Year:</strong>
+                                            £{{ number_format($seasonalTrends['totalCurrentYear'], 0) }}<br>
+                                            <strong>Total Previous Year:</strong>
+                                            £{{ number_format($seasonalTrends['totalPreviousYear'], 0) }}
                                         </div>
                                     </div>
                                 </div>
@@ -452,10 +507,14 @@
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="mb-0">Month-over-Month Growth Analysis</h5>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('mom-growth-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('mom-growth-chart', 'bar')">Bar</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('mom-growth-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('mom-growth-chart', 'area')">Area</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('mom-growth-chart', 'column')">Column</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('mom-growth-chart', 'bar')">Bar</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('mom-growth-chart', 'line')">Line</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('mom-growth-chart', 'area')">Area</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -498,8 +557,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="table-responsive">
-                                            <table class="table table-sm">
+                                        <div class="excel-table table-responsive">
+                                            <table class="excel-table table table-sm">
                                                 <thead>
                                                     <tr>
                                                         <th>Year</th>
@@ -509,13 +568,13 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($budgetPrediction['historicalAccuracy'] as $hist)
-                                                    <tr>
-                                                        <td>{{ $hist['year'] }}</td>
-                                                        <td>£{{ number_format($hist['budget'], 0) }}</td>
-                                                        <td>£{{ number_format($hist['actual'], 0) }}</td>
-                                                        <td>{{ $hist['accuracy'] }}%</td>
-                                                    </tr>
+                                                    @foreach ($budgetPrediction['historicalAccuracy'] as $hist)
+                                                        <tr>
+                                                            <td>{{ $hist['year'] }}</td>
+                                                            <td>£{{ number_format($hist['budget'], 0) }}</td>
+                                                            <td>£{{ number_format($hist['actual'], 0) }}</td>
+                                                            <td>{{ $hist['accuracy'] }}%</td>
+                                                        </tr>
                                                     @endforeach
                                                 </tbody>
                                             </table>
@@ -542,8 +601,8 @@
                                         <h5 class="mb-0">Category Details</h5>
                                     </div>
                                     <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-sm">
+                                        <div class="excel-table table-responsive">
+                                            <table class="excel-table table table-sm">
                                                 <thead>
                                                     <tr>
                                                         <th>Category</th>
@@ -552,12 +611,12 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($categoryBreakdown as $cat)
-                                                    <tr>
-                                                        <td>{{ $cat['category'] }}</td>
-                                                        <td>£{{ number_format($cat['total'], 0) }}</td>
-                                                        <td>{{ $cat['percentage'] }}%</td>
-                                                    </tr>
+                                                    @foreach ($categoryBreakdown as $cat)
+                                                        <tr>
+                                                            <td>{{ $cat['category'] }}</td>
+                                                            <td>£{{ number_format($cat['total'], 0) }}</td>
+                                                            <td>{{ $cat['percentage'] }}%</td>
+                                                        </tr>
                                                     @endforeach
                                                 </tbody>
                                             </table>
@@ -573,10 +632,14 @@
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="mb-0">Rolling Averages Analysis</h5>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('rolling-averages-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('rolling-averages-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('rolling-averages-chart', 'area')">Area</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('rolling-averages-chart', 'spline')">Spline</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('rolling-averages-chart', 'line')">Line</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('rolling-averages-chart', 'column')">Column</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('rolling-averages-chart', 'area')">Area</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('rolling-averages-chart', 'spline')">Spline</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -589,10 +652,14 @@
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="mb-0">Cumulative Spending Analysis</h5>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('cumulative-spending-chart', 'area')">Area</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('cumulative-spending-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('cumulative-spending-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('cumulative-spending-chart', 'spline')">Spline</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('cumulative-spending-chart', 'area')">Area</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('cumulative-spending-chart', 'line')">Line</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('cumulative-spending-chart', 'column')">Column</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('cumulative-spending-chart', 'spline')">Spline</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -602,7 +669,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="v-tabs-forecast" role="tabpanel" aria-labelledby="v-tabs-forecast-tab">
+                    <div class="tab-pane fade" id="v-tabs-forecast" role="tabpanel"
+                        aria-labelledby="v-tabs-forecast-tab">
                         <!-- Forecasts Content -->
                         <div class="row mb-4">
                             <div class="col-md-12">
@@ -610,10 +678,14 @@
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="mb-0">Full Year Forecast (Budget vs Actual vs Projected)</h5>
                                         <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('forecast-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('forecast-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('forecast-chart', 'area')">Area</button>
-                                            <button type="button" class="btn btn-outline-secondary" onclick="changeChartType('forecast-chart', 'spline')">Spline</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('forecast-chart', 'line')">Line</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('forecast-chart', 'column')">Column</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('forecast-chart', 'area')">Area</button>
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeChartType('forecast-chart', 'spline')">Spline</button>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -623,120 +695,133 @@
                             </div>
                         </div>
 
-                        @if(isset($forecastData) && count($forecastData) > 0)
-                        <div class="row mb-4">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="mb-0">Forecast Analysis</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="alert alert-info">
-                                                    <strong>Avg Monthly Spend:</strong><br>
-                                                    £{{ number_format($forecastData['avgMonthlySpend'], 2) }}
+                        @if (isset($forecastData) && count($forecastData) > 0)
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="mb-0">Forecast Analysis</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="alert alert-info">
+                                                        <strong>Avg Monthly Spend:</strong><br>
+                                                        £{{ number_format($forecastData['avgMonthlySpend'], 2) }}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="alert alert-warning">
-                                                    <strong>Remaining Budget:</strong><br>
-                                                    £{{ number_format($forecastData['remainingBudget'], 2) }}
+                                                <div class="col-md-3">
+                                                    <div class="alert alert-warning">
+                                                        <strong>Remaining Budget:</strong><br>
+                                                        £{{ number_format($forecastData['remainingBudget'], 2) }}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="alert alert-primary">
-                                                    <strong>Projected Spend:</strong><br>
-                                                    £{{ number_format($forecastData['projectedSpend'], 2) }}
+                                                <div class="col-md-3">
+                                                    <div class="alert alert-primary">
+                                                        <strong>Projected Spend:</strong><br>
+                                                        £{{ number_format($forecastData['projectedSpend'], 2) }}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="alert alert-{{ $forecastData['projectedVariance'] >= 0 ? 'success' : 'danger' }}">
-                                                    <strong>Projected Variance:</strong><br>
-                                                    £{{ number_format($forecastData['projectedVariance'], 2) }}
+                                                <div class="col-md-3">
+                                                    <div
+                                                        class="alert alert-{{ $forecastData['projectedVariance'] >= 0 ? 'success' : 'danger' }}">
+                                                        <strong>Projected Variance:</strong><br>
+                                                        £{{ number_format($forecastData['projectedVariance'], 2) }}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         @endif
                     </div>
-                    <div class="tab-pane fade" id="v-tabs-anomalies" role="tabpanel" aria-labelledby="v-tabs-anomalies-tab">
+                    <div class="tab-pane fade" id="v-tabs-anomalies" role="tabpanel"
+                        aria-labelledby="v-tabs-anomalies-tab">
                         <!-- Anomalies Content -->
-                        @if(count($riskAnalysis) > 0)
-                        <div class="row mb-4">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="mb-0">Risk Analysis & Overspend Indicators</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        @foreach($riskAnalysis as $risk)
-                                        <div class="alert alert-{{ $risk['riskLevel'] == 'critical' ? 'danger' : ($risk['riskLevel'] == 'high' ? 'warning' : 'info') }} mb-2">
-                                            <strong>{{ ucfirst($risk['riskLevel']) }} Risk:</strong> {{ $risk['description'] }}
-                                            @if(isset($risk['utilization']))
-                                                <br><small>Utilization: {{ $risk['utilization'] }}% | Available Monthly: £{{ number_format($risk['availableMonthly'], 2) }}</small>
-                                            @endif
-                                            @if(isset($risk['account']))
-                                                <br><small>Account: {{ $risk['account'] }}</small>
-                                            @endif
+                        @if (count($riskAnalysis) > 0)
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="mb-0">Risk Analysis & Overspend Indicators</h5>
                                         </div>
-                                        @endforeach
+                                        <div class="card-body">
+                                            @foreach ($riskAnalysis as $risk)
+                                                <div
+                                                    class="alert alert-{{ $risk['riskLevel'] == 'critical' ? 'danger' : ($risk['riskLevel'] == 'high' ? 'warning' : 'info') }} mb-2">
+                                                    <strong>{{ ucfirst($risk['riskLevel']) }} Risk:</strong>
+                                                    {{ $risk['description'] }}
+                                                    @if (isset($risk['utilization']))
+                                                        <br><small>Utilization: {{ $risk['utilization'] }}% | Available
+                                                            Monthly:
+                                                            £{{ number_format($risk['availableMonthly'], 2) }}</small>
+                                                    @endif
+                                                    @if (isset($risk['account']))
+                                                        <br><small>Account: {{ $risk['account'] }}</small>
+                                                    @endif
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         @endif
 
-                        @if(count($anomalyDetection['monthlyAnomalies']) > 0 || count($anomalyDetection['accountAnomalies']) > 0)
-                        <div class="row mb-4">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="mb-0">Anomaly Detection</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <h6>Monthly Anomalies</h6>
-                                                @if(count($anomalyDetection['monthlyAnomalies']) > 0)
-                                                    @foreach($anomalyDetection['monthlyAnomalies'] as $anomaly)
-                                                    <div class="alert alert-{{ $anomaly['severity'] == 'critical' ? 'danger' : 'warning' }} mb-2">
-                                                        <strong>{{ $anomaly['month'] }}:</strong> £{{ number_format($anomaly['amount'], 0) }}
-                                                        <small>(Z-score: {{ $anomaly['zScore'] }})</small>
-                                                    </div>
-                                                    @endforeach
-                                                @else
-                                                    <p class="text-muted">No monthly anomalies detected.</p>
-                                                @endif
-                                            </div>
-                                            <div class="col-md-6">
-                                                <h6>Account Anomalies</h6>
-                                                @if(count($anomalyDetection['accountAnomalies']) > 0)
-                                                    @foreach($anomalyDetection['accountAnomalies'] as $anomaly)
-                                                    <div class="alert alert-{{ $anomaly['severity'] == 'critical' ? 'danger' : 'warning' }} mb-2">
-                                                        <strong>{{ $anomaly['account'] }} - {{ $anomaly['month'] }}:</strong> £{{ number_format($anomaly['amount'], 0) }}
-                                                        <small>(Z-score: {{ $anomaly['zScore'] }})</small>
-                                                    </div>
-                                                    @endforeach
-                                                @else
-                                                    <p class="text-muted">No account anomalies detected.</p>
-                                                @endif
-                                            </div>
+                        @if (count($anomalyDetection['monthlyAnomalies']) > 0 || count($anomalyDetection['accountAnomalies']) > 0)
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="mb-0">Anomaly Detection</h5>
                                         </div>
-                                        <div class="mt-3">
-                                            <small class="text-muted">
-                                                <strong>Statistics:</strong> Mean: £{{ number_format($anomalyDetection['stats']['mean'], 2) }} |
-                                                Std Dev: £{{ number_format($anomalyDetection['stats']['stdDev'], 2) }} |
-                                                Threshold: {{ $anomalyDetection['stats']['threshold'] }}σ
-                                            </small>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h6>Monthly Anomalies</h6>
+                                                    @if (count($anomalyDetection['monthlyAnomalies']) > 0)
+                                                        @foreach ($anomalyDetection['monthlyAnomalies'] as $anomaly)
+                                                            <div
+                                                                class="alert alert-{{ $anomaly['severity'] == 'critical' ? 'danger' : 'warning' }} mb-2">
+                                                                <strong>{{ $anomaly['month'] }}:</strong>
+                                                                £{{ number_format($anomaly['amount'], 0) }}
+                                                                <small>(Z-score: {{ $anomaly['zScore'] }})</small>
+                                                            </div>
+                                                        @endforeach
+                                                    @else
+                                                        <p class="text-muted">No monthly anomalies detected.</p>
+                                                    @endif
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h6>Account Anomalies</h6>
+                                                    @if (count($anomalyDetection['accountAnomalies']) > 0)
+                                                        @foreach ($anomalyDetection['accountAnomalies'] as $anomaly)
+                                                            <div
+                                                                class="alert alert-{{ $anomaly['severity'] == 'critical' ? 'danger' : 'warning' }} mb-2">
+                                                                <strong>{{ $anomaly['account'] }} -
+                                                                    {{ $anomaly['month'] }}:</strong>
+                                                                £{{ number_format($anomaly['amount'], 0) }}
+                                                                <small>(Z-score: {{ $anomaly['zScore'] }})</small>
+                                                            </div>
+                                                        @endforeach
+                                                    @else
+                                                        <p class="text-muted">No account anomalies detected.</p>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="mt-3">
+                                                <small class="text-muted">
+                                                    <strong>Statistics:</strong> Mean:
+                                                    £{{ number_format($anomalyDetection['stats']['mean'], 2) }} |
+                                                    Std Dev: £{{ number_format($anomalyDetection['stats']['stdDev'], 2) }}
+                                                    |
+                                                    Threshold: {{ $anomalyDetection['stats']['threshold'] }}σ
+                                                </small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         @endif
                     </div>
                 </div>
@@ -988,7 +1073,10 @@
                                 name: 'Amount',
                                 colorByPoint: true,
                                 data: accountData.map(function(a, index) {
-                                    var colors = ['#0d6efd', '#198754', '#dc3545', '#ffc107', '#17a2b8', '#6f42c1', '#20c997', '#e83e8c', '#6610f2', '#fd7e14'];
+                                    var colors = ['#0d6efd', '#198754', '#dc3545', '#ffc107',
+                                        '#17a2b8', '#6f42c1', '#20c997', '#e83e8c', '#6610f2',
+                                        '#fd7e14'
+                                    ];
                                     return {
                                         name: a.name,
                                         y: a.budget + a.actual,
@@ -1270,24 +1358,38 @@
                                 menuItems: [{
                                         text: 'Column',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'column' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'column'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Bar',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'bar' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'bar'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Line',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'line' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'line'
+                                                }
+                                            });
                                         }
                                     }
                                 ]
                             },
-                            credits: { enabled: false }
+                            credits: {
+                                enabled: false
+                            }
                         });
 
                         var topAccountsData = @json($topAccounts);
@@ -1332,30 +1434,48 @@
                                 menuItems: [{
                                         text: 'Bar',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'bar' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'bar'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Column',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'column' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'column'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Pie',
                                         onclick: function() {
                                             var pieData = topAccountsData.map(function(a) {
-                                                return { name: a.name, y: a.actual };
+                                                return {
+                                                    name: a.name,
+                                                    y: a.actual
+                                                };
                                             });
                                             this.update({
-                                                chart: { type: 'pie' },
-                                                series: [{ name: 'Amount', data: pieData }]
+                                                chart: {
+                                                    type: 'pie'
+                                                },
+                                                series: [{
+                                                    name: 'Amount',
+                                                    data: pieData
+                                                }]
                                             });
                                         }
                                     }
                                 ]
                             },
-                            credits: { enabled: false }
+                            credits: {
+                                enabled: false
+                            }
                         });
 
                         var forecastData = @json($forecastData);
@@ -1363,12 +1483,12 @@
                         var projectedData = [];
                         var cumulativeActual = 0;
                         var cumulativeBudget = 0;
-                        for(var i = 0; i < 12; i++) {
+                        for (var i = 0; i < 12; i++) {
                             cumulativeActual += monthlyActual[i] || 0;
                             cumulativeBudget += monthlyBudget[i] || 0;
                             projectedData.push(null);
                         }
-                        for(var i = monthlyActual.length; i < 12; i++) {
+                        for (var i = monthlyActual.length; i < 12; i++) {
                             projectedData[i] = (forecastData.avgMonthlySpend || 0);
                         }
                         if (chartInstances['forecast-chart']) {
@@ -1392,27 +1512,33 @@
                                     text: 'Amount (£)'
                                 }
                             },
-                            series: [
-                                {
+                            series: [{
                                     name: 'Budget',
                                     data: monthlyBudget,
                                     color: '#0d6efd',
                                     dashStyle: 'Solid',
-                                    marker: { enabled: true }
+                                    marker: {
+                                        enabled: true
+                                    }
                                 },
                                 {
                                     name: 'Actual',
                                     data: monthlyActual,
                                     color: '#198754',
                                     dashStyle: 'Solid',
-                                    marker: { enabled: true }
+                                    marker: {
+                                        enabled: true
+                                    }
                                 },
                                 {
                                     name: 'Projected',
                                     data: projectedData,
                                     color: '#ffc107',
                                     dashStyle: 'ShortDash',
-                                    marker: { enabled: true, symbol: 'diamond' }
+                                    marker: {
+                                        enabled: true,
+                                        symbol: 'diamond'
+                                    }
                                 }
                             ],
                             plotOptions: {
@@ -1426,30 +1552,48 @@
                                 menuItems: [{
                                         text: 'Line',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'line' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'line'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Column',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'column' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'column'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Area',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'area' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'area'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Spline',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'spline' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'spline'
+                                                }
+                                            });
                                         }
                                     }
                                 ]
                             },
-                            credits: { enabled: false }
+                            credits: {
+                                enabled: false
+                            }
                         });
 
                         // Spending Velocity Chart
@@ -1458,14 +1602,28 @@
                             chartInstances['spending-velocity-chart'].destroy();
                         }
                         chartInstances['spending-velocity-chart'] = Highcharts.chart('spending-velocity-chart', {
-                            chart: { type: 'area' },
-                            title: { text: 'Spending Velocity Trend' },
-                            xAxis: { categories: monthlyCategories },
-                            yAxis: { title: { text: 'Daily Velocity (£)' } },
+                            chart: {
+                                type: 'area'
+                            },
+                            title: {
+                                text: 'Spending Velocity Trend'
+                            },
+                            xAxis: {
+                                categories: monthlyCategories
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Daily Velocity (£)'
+                                }
+                            },
                             series: [{
                                 name: 'Daily Velocity',
-                                data: Array.from({length: monthlyCategories.length}, (_, i) =>
-                                    i < now.getMonth() + 1 ? (monthlyActual[i] / (i === now.getMonth() ? now.getDate() : new Date(now.getFullYear(), i + 1, 0).getDate())) : null
+                                data: Array.from({
+                                        length: monthlyCategories.length
+                                    }, (_, i) =>
+                                    i < now.getMonth() + 1 ? (monthlyActual[i] / (i === now.getMonth() ?
+                                        now.getDate() : new Date(now.getFullYear(), i + 1, 0)
+                                        .getDate())) : null
                                 ).filter(v => v !== null),
                                 color: '#17a2b8'
                             }],
@@ -1473,30 +1631,48 @@
                                 menuItems: [{
                                         text: 'Area',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'area' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'area'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Line',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'line' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'line'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Column',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'column' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'column'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Spline',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'spline' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'spline'
+                                                }
+                                            });
                                         }
                                     }
                                 ]
                             },
-                            credits: { enabled: false }
+                            credits: {
+                                enabled: false
+                            }
                         });
 
                         // Budget Utilization Chart
@@ -1505,48 +1681,83 @@
                             chartInstances['budget-utilization-chart'].destroy();
                         }
                         chartInstances['budget-utilization-chart'] = Highcharts.chart('budget-utilization-chart', {
-                            chart: { type: 'bar' },
-                            title: { text: 'Budget Utilization by Account' },
-                            xAxis: { categories: budgetUtilizationData.map(d => d.account) },
-                            yAxis: { title: { text: 'Utilization Rate (%)' }, max: 150 },
+                            chart: {
+                                type: 'bar'
+                            },
+                            title: {
+                                text: 'Budget Utilization by Account'
+                            },
+                            xAxis: {
+                                categories: budgetUtilizationData.map(d => d.account)
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Utilization Rate (%)'
+                                },
+                                max: 150
+                            },
                             series: [{
                                 name: 'Utilization Rate',
                                 data: budgetUtilizationData.map(d => ({
                                     y: d.utilizationRate,
-                                    color: d.status === 'overspend' ? '#dc3545' : (d.status === 'warning' ? '#ffc107' : '#198754')
+                                    color: d.status === 'overspend' ? '#dc3545' : (d.status ===
+                                        'warning' ? '#ffc107' : '#198754')
                                 }))
                             }],
                             plotOptions: {
-                                bar: { dataLabels: { enabled: true, format: '{y}%' } }
+                                bar: {
+                                    dataLabels: {
+                                        enabled: true,
+                                        format: '{y}%'
+                                    }
+                                }
                             },
                             exporting: {
                                 menuItems: [{
                                         text: 'Bar',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'bar' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'bar'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Column',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'column' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'column'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Line',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'line' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'line'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Area',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'area' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'area'
+                                                }
+                                            });
                                         }
                                     }
                                 ]
                             },
-                            credits: { enabled: false }
+                            credits: {
+                                enabled: false
+                            }
                         });
 
                         // Seasonal Trends Chart
@@ -1555,17 +1766,28 @@
                             chartInstances['seasonal-trends-chart'].destroy();
                         }
                         chartInstances['seasonal-trends-chart'] = Highcharts.chart('seasonal-trends-chart', {
-                            chart: { type: 'column' },
-                            title: { text: 'Seasonal Spending Comparison' },
-                            xAxis: { categories: seasonalData.seasonalData.map(d => d.quarter) },
-                            yAxis: { title: { text: 'Amount ($)' } },
+                            chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: 'Seasonal Spending Comparison'
+                            },
+                            xAxis: {
+                                categories: seasonalData.seasonalData.map(d => d.quarter)
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Amount ($)'
+                                }
+                            },
                             series: [{
                                 name: 'Current Year',
                                 data: seasonalData.seasonalData.map(d => d.amount),
                                 color: '#0d6efd'
                             }, {
                                 name: 'Previous Year',
-                                data: Array(seasonalData.seasonalData.length).fill(seasonalData.totalPreviousYear / 4),
+                                data: Array(seasonalData.seasonalData.length).fill(seasonalData
+                                    .totalPreviousYear / 4),
                                 color: '#6c757d',
                                 dashStyle: 'ShortDash'
                             }],
@@ -1573,30 +1795,48 @@
                                 menuItems: [{
                                         text: 'Column',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'column' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'column'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Bar',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'bar' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'bar'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Line',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'line' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'line'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Area',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'area' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'area'
+                                                }
+                                            });
                                         }
                                     }
                                 ]
                             },
-                            credits: { enabled: false }
+                            credits: {
+                                enabled: false
+                            }
                         });
 
                         // Month-over-Month Growth Chart
@@ -1605,48 +1845,82 @@
                             chartInstances['mom-growth-chart'].destroy();
                         }
                         chartInstances['mom-growth-chart'] = Highcharts.chart('mom-growth-chart', {
-                            chart: { type: 'column' },
-                            title: { text: 'Month-over-Month Growth' },
-                            xAxis: { categories: momGrowthData.map(d => d.month) },
-                            yAxis: { title: { text: 'Growth (%)' } },
+                            chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: 'Month-over-Month Growth'
+                            },
+                            xAxis: {
+                                categories: momGrowthData.map(d => d.month)
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Growth (%)'
+                                }
+                            },
                             series: [{
                                 name: 'Growth Rate',
                                 data: momGrowthData.map(d => ({
                                     y: d.growth,
-                                    color: d.status === 'high_growth' ? '#198754' : (d.status === 'decline' ? '#dc3545' : '#ffc107')
+                                    color: d.status === 'high_growth' ? '#198754' : (d
+                                        .status === 'decline' ? '#dc3545' : '#ffc107')
                                 }))
                             }],
                             plotOptions: {
-                                column: { dataLabels: { enabled: true, format: '{y}%' } }
+                                column: {
+                                    dataLabels: {
+                                        enabled: true,
+                                        format: '{y}%'
+                                    }
+                                }
                             },
                             exporting: {
                                 menuItems: [{
                                         text: 'Column',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'column' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'column'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Bar',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'bar' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'bar'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Line',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'line' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'line'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Area',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'area' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'area'
+                                                }
+                                            });
                                         }
                                     }
                                 ]
                             },
-                            credits: { enabled: false }
+                            credits: {
+                                enabled: false
+                            }
                         });
 
                         // Category Breakdown Chart
@@ -1655,13 +1929,20 @@
                             chartInstances['category-breakdown-chart'].destroy();
                         }
                         chartInstances['category-breakdown-chart'] = Highcharts.chart('category-breakdown-chart', {
-                            chart: { type: 'pie' },
-                            title: { text: 'Spending by Category' },
+                            chart: {
+                                type: 'pie'
+                            },
+                            title: {
+                                text: 'Spending by Category'
+                            },
                             plotOptions: {
                                 pie: {
                                     allowPointSelect: true,
                                     cursor: 'pointer',
-                                    dataLabels: { enabled: true, format: '<b>{point.name}</b>: {point.percentage:.1f}%' }
+                                    dataLabels: {
+                                        enabled: true,
+                                        format: '<b>{point.name}</b>: {point.percentage:.1f}%'
+                                    }
                                 }
                             },
                             series: [{
@@ -1670,14 +1951,20 @@
                                 data: categoryData.map((cat, index) => ({
                                     name: cat.category,
                                     y: cat.total,
-                                    color: ['#0d6efd', '#198754', '#dc3545', '#ffc107', '#17a2b8'][index % 5]
+                                    color: ['#0d6efd', '#198754', '#dc3545', '#ffc107',
+                                        '#17a2b8'
+                                    ][index % 5]
                                 }))
                             }],
                             exporting: {
                                 menuItems: [{
                                         text: 'Pie',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'pie' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'pie'
+                                                }
+                                            });
                                         }
                                     },
                                     {
@@ -1686,9 +1973,16 @@
                                             var columnData = categoryData.map(cat => cat.total);
                                             var categories = categoryData.map(cat => cat.category);
                                             this.update({
-                                                chart: { type: 'column' },
-                                                xAxis: { categories: categories },
-                                                series: [{ name: 'Amount', data: columnData }]
+                                                chart: {
+                                                    type: 'column'
+                                                },
+                                                xAxis: {
+                                                    categories: categories
+                                                },
+                                                series: [{
+                                                    name: 'Amount',
+                                                    data: columnData
+                                                }]
                                             });
                                         }
                                     },
@@ -1698,15 +1992,24 @@
                                             var barData = categoryData.map(cat => cat.total);
                                             var categories = categoryData.map(cat => cat.category);
                                             this.update({
-                                                chart: { type: 'bar' },
-                                                xAxis: { categories: categories },
-                                                series: [{ name: 'Amount', data: barData }]
+                                                chart: {
+                                                    type: 'bar'
+                                                },
+                                                xAxis: {
+                                                    categories: categories
+                                                },
+                                                series: [{
+                                                    name: 'Amount',
+                                                    data: barData
+                                                }]
                                             });
                                         }
                                     }
                                 ]
                             },
-                            credits: { enabled: false }
+                            credits: {
+                                enabled: false
+                            }
                         });
 
                         // Rolling Averages Chart
@@ -1715,10 +2018,20 @@
                             chartInstances['rolling-averages-chart'].destroy();
                         }
                         chartInstances['rolling-averages-chart'] = Highcharts.chart('rolling-averages-chart', {
-                            chart: { type: 'line' },
-                            title: { text: 'Rolling Averages Analysis' },
-                            xAxis: { categories: monthlyCategories },
-                            yAxis: { title: { text: 'Amount ($)' } },
+                            chart: {
+                                type: 'line'
+                            },
+                            title: {
+                                text: 'Rolling Averages Analysis'
+                            },
+                            xAxis: {
+                                categories: monthlyCategories
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Amount ($)'
+                                }
+                            },
                             series: [{
                                 name: 'Monthly Data',
                                 data: rollingData.monthlyData,
@@ -1739,30 +2052,48 @@
                                 menuItems: [{
                                         text: 'Line',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'line' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'line'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Column',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'column' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'column'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Area',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'area' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'area'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Spline',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'spline' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'spline'
+                                                }
+                                            });
                                         }
                                     }
                                 ]
                             },
-                            credits: { enabled: false }
+                            credits: {
+                                enabled: false
+                            }
                         });
 
                         // Cumulative Spending Chart
@@ -1771,10 +2102,20 @@
                             chartInstances['cumulative-spending-chart'].destroy();
                         }
                         chartInstances['cumulative-spending-chart'] = Highcharts.chart('cumulative-spending-chart', {
-                            chart: { type: 'area' },
-                            title: { text: 'Cumulative Spending vs Budget' },
-                            xAxis: { categories: cumulativeData.map(d => d.month) },
-                            yAxis: { title: { text: 'Amount ($)' } },
+                            chart: {
+                                type: 'area'
+                            },
+                            title: {
+                                text: 'Cumulative Spending vs Budget'
+                            },
+                            xAxis: {
+                                categories: cumulativeData.map(d => d.month)
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Amount ($)'
+                                }
+                            },
                             series: [{
                                 name: 'Cumulative Budget',
                                 data: cumulativeData.map(d => d.cumulativeBudget),
@@ -1787,36 +2128,56 @@
                                 fillOpacity: 0.3
                             }],
                             plotOptions: {
-                                area: { stacking: 'normal' }
+                                area: {
+                                    stacking: 'normal'
+                                }
                             },
                             exporting: {
                                 menuItems: [{
                                         text: 'Area',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'area' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'area'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Line',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'line' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'line'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Column',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'column' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'column'
+                                                }
+                                            });
                                         }
                                     },
                                     {
                                         text: 'Spline',
                                         onclick: function() {
-                                            this.update({ chart: { type: 'spline' } });
+                                            this.update({
+                                                chart: {
+                                                    type: 'spline'
+                                                }
+                                            });
                                         }
                                     }
                                 ]
                             },
-                            credits: { enabled: false }
+                            credits: {
+                                enabled: false
+                            }
                         });
                     };
 
@@ -1852,7 +2213,8 @@
                         // Basic Data
                         csvContent += "Month,Budget,Actual\n";
                         monthlyData.categories.forEach(function(month, index) {
-                            csvContent += month + "," + monthlyData.budget[index] + "," + monthlyData.actual[index] + "\n";
+                            csvContent += month + "," + monthlyData.budget[index] + "," + monthlyData.actual[index] +
+                                "\n";
                         });
 
                         csvContent += "\nYear,Budget,Actual\n";
@@ -1868,7 +2230,8 @@
                         // Budget Utilization
                         csvContent += "\nAccount,Budget,Actual,Utilization Rate,Status\n";
                         budgetUtilizationData.forEach(function(row) {
-                            csvContent += '"' + row.account + '",' + row.budget + "," + row.actual + "," + row.utilizationRate + "," + row.status + "\n";
+                            csvContent += '"' + row.account + '",' + row.budget + "," + row.actual + "," + row
+                                .utilizationRate + "," + row.status + "\n";
                         });
 
                         // Seasonal Data
@@ -1883,7 +2246,8 @@
                         // Month-over-Month Growth
                         csvContent += "\nMonth,Current,Previous,Growth,Status\n";
                         momGrowthData.forEach(function(row) {
-                            csvContent += row.month + "," + row.current + "," + row.previous + "," + row.growth + "," + row.status + "\n";
+                            csvContent += row.month + "," + row.current + "," + row.previous + "," + row.growth + "," +
+                                row.status + "\n";
                         });
 
                         // Category Breakdown
@@ -1919,7 +2283,8 @@
                         if (anomalyData.accountAnomalies.length > 0) {
                             csvContent += "\nAccount Anomalies\nAccount,Month,Amount,Z-Score,Type,Severity\n";
                             anomalyData.accountAnomalies.forEach(function(row) {
-                                csvContent += '"' + row.account + '",' + row.month + "," + row.amount + "," + row.zScore + "," +
+                                csvContent += '"' + row.account + '",' + row.month + "," + row.amount + "," + row
+                                    .zScore + "," +
                                     row.type + "," + row.severity + "\n";
                             });
                         }
@@ -1944,7 +2309,9 @@
                                     };
                                 });
                                 chart.update({
-                                    chart: { type: 'pie' },
+                                    chart: {
+                                        type: 'pie'
+                                    },
                                     series: [{
                                         name: 'Amount',
                                         data: pieData
@@ -1952,7 +2319,9 @@
                                 });
                             } else {
                                 chartInstances[chartId].update({
-                                    chart: { type: type }
+                                    chart: {
+                                        type: type
+                                    }
                                 });
                             }
                         }

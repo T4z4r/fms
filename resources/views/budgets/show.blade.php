@@ -44,7 +44,7 @@
     <h3>Monthly Breakdown</h3>
     <form action="{{ route('budgets.lines', $budget) }}" method="POST">
         @csrf
-        <table class="table table-bordered">
+        <table class="excel-table table table-bordered">
             <thead>
                 <tr>
                     <th>Month</th>

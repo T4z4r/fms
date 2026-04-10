@@ -112,7 +112,7 @@
         }
     </style>
     <div class="container">
-        <h4 class="mb-4"><i class="bi bi-cpu"></i> AI Financial Analysis</h4>
+        <h4 class="mb-4"><i class="bi bi-cpu" text-primary></i> AI Financial Analysis</h4>
 
         <form method="GET" class="row g-3 mb-4">
             <div class="col-md-4">
@@ -215,7 +215,7 @@
                             <h5>Monthly Trend</h5>
                         </div>
                         <div class="card-body">
-                            <table class="table table-sm">
+                            <table class="excel-table table table-sm table-striped table-hover">
                                 <thead>
                                     <tr>
                                         <th>Month</th>
@@ -247,7 +247,7 @@
                             <h5>Account Analysis</h5>
                         </div>
                         <div class="card-body">
-                            <table class="table table-sm">
+                            <table class="excel-table table table-sm table-striped table-hover">
                                 <thead>
                                     <tr>
                                         <th>Account</th>

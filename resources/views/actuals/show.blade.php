@@ -54,7 +54,7 @@
         </div>
     </form>
 
-    <table class="table">
+    <table class="excel-table table">
         <thead>
             <tr>
                 <th>Description</th>

@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h4><i class="bi bi-file-earmark-ruled"></i> Reports</h4>
+        <h4><i class="bi bi-file-earmark-ruled text-primary"></i> Reports</h4>
 
         <form method="GET" class="mb-4 d-flex gap-2">
             <select name="year" class="form-select">
@@ -13,7 +13,7 @@
             <button type="submit" class="btn btn-primary">Filter</button>
         </form>
 
-        <table class="table table-striped">
+        <table class="excel-table table table-striped table-hover table-sm  ">
             <thead>
                 <tr>
                     <th>Cost Centre</th>

@@ -3,8 +3,8 @@
 @section('content')
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4><i class="bi bi-upload"></i> Import Actuals</h4>
-            <a href="{{ route('import.template') }}" class="btn btn-outline-primary">
+            <h4><i class="bi bi-upload text-primary"></i> Import Actuals</h4>
+            <a href="{{ route('import.template') }}" class="btn btn-primary">
                 <i class="bi bi-download"></i> Download Template
             </a>
         </div>
@@ -13,7 +13,7 @@
         <div class="card mb-4">
             <div class="card-body">
                 <h5>Example Format:</h5>
-                <table class="table table-sm">
+                <table class="excel-table table table-sm table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>code</th>
@@ -40,23 +40,28 @@
             </div>
         </div>
 
-        <form action="{{ route('import.actuals') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="mb-3">
-                <label>Cost Centre</label>
-                <select name="cost_centre_id" class="form-control" required>
-                    <option value="">Select Cost Centre</option>
-                    @foreach ($costCentres as $cc)
-                        <option value="{{ $cc->id }}">{{ $cc->name }}</option>
-                    @endforeach
-                </select>
+        <div class="card mb-4">
+            <div class="card-body">
+
+                <form action="{{ route('import.actuals') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-3">
+                        <label>Cost Centre</label>
+                        <select name="cost_centre_id" class="form-control" required>
+                            <option value="">Select Cost Centre</option>
+                            @foreach ($costCentres as $cc)
+                                <option value="{{ $cc->id }}">{{ $cc->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label>File (Excel or CSV)</label>
+                        <input type="file" name="file" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Import</button>
+                </form>
             </div>
-            <div class="mb-3">
-                <label>File (Excel or CSV)</label>
-                <input type="file" name="file" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Import</button>
-        </form>
+        </div>
 
         @if (session('success'))
             <div class="alert alert-success mt-3">{{ session('success') }}</div>

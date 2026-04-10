@@ -18,7 +18,7 @@
     </div>
 
     <h3>Budgets ({{ $account->budgets->count() }})</h3>
-    <table class="table">
+    <table class="excel-table table">
         <thead>
             <tr>
                 <th>Year</th>
@@ -36,7 +36,7 @@
     </table>
 
     <h3>Actuals ({{ $account->actuals->count() }})</h3>
-    <table class="table">
+    <table class="excel-table table">
         <thead>
             <tr>
                 <th>Year</th>

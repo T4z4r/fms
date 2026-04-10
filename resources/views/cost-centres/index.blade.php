@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4><i class="bi bi-diagram-3"></i> Cost Centres</h4>
+            <h4><i class="bi bi-diagram-3 text-primary"></i> Cost Centres</h4>
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#costCentreModal" data-mode="create">Add Cost
                 Centre</button>
         </div>
@@ -12,10 +12,10 @@
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <table class="table table-striped">
+        <table class="excel-table table table-striped table-hover table-sm">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>#</th>
                     <th>Name</th>
                     <th>Owner</th>
                     <th>Status</th>
@@ -25,7 +25,7 @@
             <tbody>
                 @foreach ($costCentres as $cc)
                     <tr>
-                        <td>{{ $cc->id }}</td>
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $cc->name }}</td>
                         <td>{{ $cc->owner?->name ?? 'N/A' }}</td>
                         <td>

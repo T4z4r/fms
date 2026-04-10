@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4><i class="bi bi-receipt"></i> Actuals</h4>
+            <h4><i class="bi bi-receipt text-primary"></i> Actuals</h4>
             <a href="{{ route('actuals.create') }}" class="btn btn-primary">Add Actual</a>
         </div>
 
@@ -33,7 +33,7 @@
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <table class="table table-striped">
+        <table class="excel-table table table-striped table-hover table-sm  ">
             <thead>
                 <tr>
                     <th>Cost Centre</th>

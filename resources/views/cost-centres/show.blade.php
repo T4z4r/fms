@@ -28,7 +28,7 @@
     </div>
 
     <h3>Accounts ({{ $costCentre->accounts->count() }})</h3>
-    <table class="table">
+    <table class="excel-table table">
         <thead>
             <tr>
                 <th>Code</th>
@@ -46,7 +46,7 @@
     </table>
 
     <h3>Budgets ({{ $costCentre->budgets->count() }})</h3>
-    <table class="table">
+    <table class="excel-table table">
         <thead>
             <tr>
                 <th>Account</th>

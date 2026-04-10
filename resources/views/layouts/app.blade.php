@@ -76,6 +76,7 @@
             .nav-scroll-container {
                 overflow: visible;
             }
+
             .nav-scroll-container .nav {
                 flex-wrap: wrap;
                 white-space: normal;
@@ -87,24 +88,32 @@
                 margin: 0.5rem;
                 max-width: calc(100% - 1rem);
             }
+
             .auth-body {
                 padding: 1.25rem;
             }
-            h4, .h4 {
+
+            h4,
+            .h4 {
                 font-size: 1rem;
             }
+
             .btn {
                 padding: 0.375rem 0.75rem;
                 font-size: 0.875rem;
             }
+
             .btn-sm {
                 padding: 0.25rem 0.5rem;
                 font-size: 0.75rem;
             }
+
             .card-body {
                 padding: 0.75rem;
             }
-            .form-select, .form-control {
+
+            .form-select,
+            .form-control {
                 font-size: 0.875rem;
             }
         }
@@ -130,13 +139,45 @@
         }
 
         @media (min-width: 576px) {
+
             .filter-form-mobile .form-select,
             .filter-form-mobile .form-control {
                 flex: 1 1 auto;
             }
+
             .filter-form-mobile .btn {
                 flex: 0 0 auto;
             }
+        }
+
+        /* Excel-like table styles with blue theme */
+        .excel-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color: #fff;
+        }
+
+        .excel-table th,
+        .excel-table td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .excel-table thead th {
+            background-color: #4a90e2;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .excel-table tbody tr:nth-child(even) {
+            background-color: #b5dffe;
+        }
+
+        .excel-table tbody tr:hover {
+            background-color: #b3d9ff;
         }
     </style>
 </head>
@@ -163,72 +204,72 @@
                                 <li class="nav-item">
                                     <a class="nav-link {{ request()->routeIs('dashboard') ? 'text-primary fw-semibold' : '' }}"
                                         href="{{ route('dashboard') }}"><i class="bi bi-speedometer2"></i><span>
-                                        {{ __('Dashboard') }}</span></a>
+                                            {{ __('Dashboard') }}</span></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link {{ request()->routeIs('cost-centres.*') ? 'text-primary fw-semibold' : '' }}"
                                         href="{{ route('cost-centres.index') }}"><i class="bi bi-diagram-3"></i><span>
-                                        {{ __('Cost Centres') }}</span></a>
+                                            {{ __('Cost Centres') }}</span></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link {{ request()->routeIs('accounts.*') ? 'text-primary fw-semibold' : '' }}"
                                         href="{{ route('accounts.index') }}"><i class="bi bi-wallet2"></i><span>
-                                        {{ __('Accounts') }}</span></a>
+                                            {{ __('Accounts') }}</span></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link {{ request()->routeIs('budgets.*') ? 'text-primary fw-semibold' : '' }}"
                                         href="{{ route('budgets.index') }}"><i class="bi bi-calculator"></i><span>
-                                        {{ __('Budgets') }}</span></a>
+                                            {{ __('Budgets') }}</span></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link {{ request()->routeIs('actuals.*') ? 'text-primary fw-semibold' : '' }}"
                                         href="{{ route('actuals.index') }}"><i class="bi bi-receipt"></i><span>
-                                        {{ __('Actuals') }}</span></a>
+                                            {{ __('Actuals') }}</span></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link {{ request()->routeIs('reports') ? 'text-primary fw-semibold' : '' }}"
                                         href="{{ route('reports') }}"><i class="bi bi-file-earmark-ruled"></i><span>
-                                        {{ __('Reports') }}</span></a>
+                                            {{ __('Reports') }}</span></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link {{ request()->routeIs('forecast') ? 'text-primary fw-semibold' : '' }}"
                                         href="{{ route('forecast') }}"><i class="bi bi-graph-up-arrow"></i><span>
-                                        {{ __('Forecast') }}</span></a>
+                                            {{ __('Forecast') }}</span></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link {{ request()->routeIs('import.*') ? 'text-primary fw-semibold' : '' }}"
                                         href="{{ route('import.actuals') }}"><i class="bi bi-upload"></i><span>
-                                        {{ __('Import') }}</span></a>
+                                            {{ __('Import') }}</span></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link {{ request()->routeIs('alerts') ? 'text-primary fw-semibold' : '' }}"
                                         href="{{ route('alerts') }}"><i class="bi bi-bell"></i><span>
-                                        {{ __('Alerts') }}</span></a>
+                                            {{ __('Alerts') }}</span></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link {{ request()->routeIs('analysis') ? 'text-primary fw-semibold' : '' }}"
                                         href="{{ route('analysis') }}"><i class="bi bi-cpu"></i><span>
-                                        {{ __('AI Analysis') }}</span></a>
+                                            {{ __('AI Analysis') }}</span></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link {{ request()->routeIs('charts') ? 'text-primary fw-semibold' : '' }}"
                                         href="{{ route('charts') }}"><i class="bi bi-pie-chart"></i><span>
-                                        {{ __('Charts') }}</span></a>
+                                            {{ __('Charts') }}</span></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link {{ request()->routeIs('powerbi') ? 'text-primary fw-semibold' : '' }}"
                                         href="{{ route('powerbi') }}"><i class="bi bi-bar-chart-fill"></i><span>
-                                        {{ __('Power BI') }}</span></a>
+                                            {{ __('Power BI') }}</span></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link {{ request()->routeIs('settings.*') ? 'text-primary fw-semibold' : '' }}"
                                         href="{{ route('settings.index') }}"><i class="bi bi-gear"></i><span>
-                                        {{ __('Settings') }}</span></a>
+                                            {{ __('Settings') }}</span></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link {{ request()->routeIs('tutorial') ? 'text-primary fw-semibold' : '' }}"
                                         href="{{ route('tutorial') }}"><i class="bi bi-book"></i><span>
-                                        {{ __('Tutorial') }}</span></a>
+                                            {{ __('Tutorial') }}</span></a>
                                 </li>
                             </ul>
                         </div>
@@ -244,11 +285,13 @@
                                     <a class="dropdown-item" href="{{ route('settings.profile.page') }}">
                                         <i class="bi bi-person"></i> {{ __('Profile') }}
                                     </a>
-                                    <a class="dropdown-item" href="#" data-confirm="Are you sure you want to logout?">
+                                    <a class="dropdown-item" href="#"
+                                        data-confirm="Are you sure you want to logout?">
                                         <i class="bi bi-box-arrow-right"></i> {{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        class="d-none">
                                         @csrf
                                     </form>
                                 </div>
@@ -269,76 +312,78 @@
             </div>
         </footer>
     </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('form[data-confirm]').forEach(function(form) {
-            form.addEventListener('submit', function(e) {
-                var message = this.getAttribute('data-confirm') || 'Are you sure you want to delete this item?';
-                e.preventDefault();
-                var formToSubmit = this;
-                Swal.fire({
-                    title: 'Confirm Delete',
-                    text: message,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#dc3545',
-                    cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Delete',
-                    cancelButtonText: 'Cancel'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        formToSubmit.submit();
-                    }
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('form[data-confirm]').forEach(function(form) {
+                form.addEventListener('submit', function(e) {
+                    var message = this.getAttribute('data-confirm') ||
+                        'Are you sure you want to delete this item?';
+                    e.preventDefault();
+                    var formToSubmit = this;
+                    Swal.fire({
+                        title: 'Confirm Delete',
+                        text: message,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#dc3545',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Delete',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            formToSubmit.submit();
+                        }
+                    });
                 });
             });
-        });
 
-        document.querySelectorAll('button[data-confirm]').forEach(function(button) {
-            button.addEventListener('click', function(e) {
-                var message = this.getAttribute('data-confirm') || 'Are you sure you want to delete this item?';
-                var form = this.closest('form');
-                if (!form) return;
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Confirm Delete',
-                    text: message,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#dc3545',
-                    cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Delete',
-                    cancelButtonText: 'Cancel'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
+            document.querySelectorAll('button[data-confirm]').forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    var message = this.getAttribute('data-confirm') ||
+                        'Are you sure you want to delete this item?';
+                    var form = this.closest('form');
+                    if (!form) return;
+                    e.preventDefault();
+                    Swal.fire({
+                        title: 'Confirm Delete',
+                        text: message,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#dc3545',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Delete',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
                 });
             });
-        });
 
-        document.querySelectorAll('a[data-confirm]').forEach(function(link) {
-            link.addEventListener('click', function(e) {
-                var message = this.getAttribute('data-confirm') || 'Are you sure?';
-                e.preventDefault();
-                var href = this.getAttribute('href');
-                Swal.fire({
-                    title: 'Confirm Action',
-                    text: message,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#dc3545',
-                    cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Confirm',
-                    cancelButtonText: 'Cancel'
-                }).then((result) => {
-                    if (result.isConfirmed && href) {
-                        window.location.href = href;
-                    }
+            document.querySelectorAll('a[data-confirm]').forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    var message = this.getAttribute('data-confirm') || 'Are you sure?';
+                    e.preventDefault();
+                    var href = this.getAttribute('href');
+                    Swal.fire({
+                        title: 'Confirm Action',
+                        text: message,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#dc3545',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Confirm',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed && href) {
+                            window.location.href = href;
+                        }
+                    });
                 });
             });
         });
-    });
-</script>
+    </script>
 </body>
 
 </html>
