@@ -171,23 +171,46 @@
     </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('form[data-confirm], button[data-confirm]').forEach(function(element) {
-            element.addEventListener('submit', function(e) {
+        document.querySelectorAll('form[data-confirm]').forEach(function(form) {
+            form.addEventListener('submit', function(e) {
                 var message = this.getAttribute('data-confirm') || 'Are you sure you want to delete this item?';
                 e.preventDefault();
-                var elementToSubmit = this;
+                var formToSubmit = this;
                 Swal.fire({
-                    title: 'Confirm Action',
+                    title: 'Confirm Delete',
                     text: message,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#dc3545',
                     cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Confirm',
+                    confirmButtonText: 'Delete',
                     cancelButtonText: 'Cancel'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        elementToSubmit.submit();
+                        formToSubmit.submit();
+                    }
+                });
+            });
+        });
+
+        document.querySelectorAll('button[data-confirm]').forEach(function(button) {
+            button.addEventListener('click', function(e) {
+                var message = this.getAttribute('data-confirm') || 'Are you sure you want to delete this item?';
+                var form = this.closest('form');
+                if (!form) return;
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Confirm Delete',
+                    text: message,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Delete',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
                     }
                 });
             });
