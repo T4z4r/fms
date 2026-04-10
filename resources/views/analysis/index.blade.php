@@ -27,6 +27,16 @@
     </form>
 
     @if($selectedCostCentre && isset($analysis))
+    
+    @if(isset($aiCommentary))
+    <div class="card mb-4 border-primary">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">AI Financial Commentary</h5>
+        </div>
+        <div class="card-body" style="white-space: pre-line;">{!! nl2br(e($aiCommentary['full_commentary'])) !!}</div>
+    </div>
+    @endif
+
     <div class="row mb-4">
         <div class="col-md-3">
             <div class="card bg-{{ $analysis['summary']['status'] === 'over_budget' ? 'danger' : ($analysis['summary']['status'] === 'near_limit' ? 'warning' : 'success') }} text-white">

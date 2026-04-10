@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\CostCentre;
+use App\Services\AiCommentaryService;
 use App\Services\FinancialAnalysisService;
 use Illuminate\Http\Request;
 
 class AnalysisController extends Controller
 {
     public function __construct(
-        private FinancialAnalysisService $analysis
+        private FinancialAnalysisService $analysis,
+        private AiCommentaryService $commentary
     ) {}
 
     public function index(Request $request)
@@ -32,11 +34,14 @@ class AnalysisController extends Controller
 
         $analysis = $this->analysis->analyzeCostCentre($selectedCostCentre->id, $year);
 
+        $aiCommentary = $this->commentary->generateVarianceCommentary($selectedCostCentre->id, $year);
+
         return view('analysis.index', [
             'costCentres' => $costCentres,
             'selectedCostCentre' => $selectedCostCentre,
             'year' => $year,
             'analysis' => $analysis,
+            'aiCommentary' => $aiCommentary,
         ]);
     }
 

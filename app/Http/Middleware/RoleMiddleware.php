@@ -16,15 +16,15 @@ class RoleMiddleware
 
         $userRole = $request->user()->role;
 
-        if ($role === 'admin' && $userRole !== 'admin') {
+        if ($role === 'admin' && ! in_array($userRole, ['super_admin', 'admin'])) {
             abort(403, 'Admin access required.');
         }
 
-        if ($role === 'finance' && ! in_array($userRole, ['admin', 'finance'])) {
+        if ($role === 'finance' && ! in_array($userRole, ['super_admin', 'admin', 'finance'])) {
             abort(403, 'Finance access required.');
         }
 
-        if ($role === 'manager' && ! in_array($userRole, ['admin', 'finance', 'manager'])) {
+        if ($role === 'manager' && ! in_array($userRole, ['super_admin', 'admin', 'finance', 'manager'])) {
             abort(403, 'Manager access required.');
         }
 
