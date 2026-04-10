@@ -31,6 +31,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
     });
 
+    Route::post('/settings/profile', [SettingController::class, 'updateProfile'])->name('settings.profile');
+    Route::post('/settings/password', [SettingController::class, 'updatePassword'])->name('settings.password');
+    Route::get('/settings/profile', [SettingController::class, 'profile'])->name('settings.profile.page');
+
     Route::middleware(['role:admin,finance'])->group(function () {
         Route::resource('accounts', AccountController::class);
         Route::resource('budgets', BudgetController::class);

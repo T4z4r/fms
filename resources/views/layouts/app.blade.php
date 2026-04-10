@@ -141,10 +141,11 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                                 document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                    <a class="dropdown-item" href="{{ route('settings.profile.page') }}">
+                                        <i class="bi bi-person"></i> {{ __('Profile') }}
+                                    </a>
+                                    <a class="dropdown-item" href="#" data-confirm="Are you sure you want to logout?">
+                                        <i class="bi bi-box-arrow-right"></i> {{ __('Logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -174,23 +175,41 @@
             element.addEventListener('submit', function(e) {
                 var message = this.getAttribute('data-confirm') || 'Are you sure you want to delete this item?';
                 e.preventDefault();
+                var elementToSubmit = this;
                 Swal.fire({
-                    title: 'Confirm Delete',
+                    title: 'Confirm Action',
                     text: message,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#dc3545',
                     cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Delete',
+                    confirmButtonText: 'Confirm',
                     cancelButtonText: 'Cancel'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        if (this.tagName === 'FORM') {
-                            this.submit();
-                        } else {
-                            var form = this.closest('form');
-                            if (form) form.submit();
-                        }
+                        elementToSubmit.submit();
+                    }
+                });
+            });
+        });
+
+        document.querySelectorAll('a[data-confirm]').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                var message = this.getAttribute('data-confirm') || 'Are you sure?';
+                e.preventDefault();
+                var href = this.getAttribute('href');
+                Swal.fire({
+                    title: 'Confirm Action',
+                    text: message,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Confirm',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed && href) {
+                        window.location.href = href;
                     }
                 });
             });

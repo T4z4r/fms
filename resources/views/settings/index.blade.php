@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h4 class="mb-4"><i class="bi bi-gear"></i> Settings</h4>
+    <h4 class="mb-4"><i class="bi bi-gear"></i> System Settings</h4>
 
     @if(session('success'))
     <div class="alert alert-success">
