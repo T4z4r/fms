@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="mb-0"><i class="bi bi-bar-chart-fill"></i> Power BI Analytics</h4>
+            <h4 class="mb-0"><i class="bi bi-bar-chart-fill text-primary"></i> Power BI Analytics</h4>
             <div>
                 <button class="btn btn-outline-primary btn-sm" onclick="exportToPDF()">
                     <i class="bi bi-file-pdf"></i> PDF
