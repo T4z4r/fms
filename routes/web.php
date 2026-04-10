@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:admin'])->delete('/actuals/{actual}', [ActualController::class, 'destroy'])->name('actuals.destroy');
 
     Route::get('/alerts', [AlertController::class, 'index'])->name('alerts');
+    Route::post('/alerts/generate', [AlertController::class, 'generate'])->name('alerts.generate');
     Route::post('/alerts/{alert}/mark-read', [AlertController::class, 'markRead'])->name('alerts.markRead');
 
     Route::get('/analysis', [AnalysisController::class, 'index'])->name('analysis');

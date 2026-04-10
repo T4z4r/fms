@@ -5,10 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Actual;
 use App\Models\Alert;
 use App\Models\Budget;
+use App\Services\AlertService;
 use Illuminate\Http\Request;
 
 class AlertController extends Controller
 {
+    protected AlertService $alertService;
+
+    public function __construct(AlertService $alertService)
+    {
+        $this->alertService = $alertService;
+    }
+
     public function index(Request $request)
     {
         $query = Alert::with(['costCentre', 'account'])
@@ -28,6 +36,16 @@ class AlertController extends Controller
         $alert->update(['is_read' => true]);
 
         return back()->with('success', 'Alert marked as read.');
+    }
+
+    public function generate(Request $request)
+    {
+        $year = $request->year ?? now()->year;
+        $costCentreId = $request->cost_centre_id;
+
+        $this->alertService->generateAlerts($year, $costCentreId);
+
+        return back()->with('success', 'Alerts generated successfully.');
     }
 
     public static function generateBudgetAlerts(): void
