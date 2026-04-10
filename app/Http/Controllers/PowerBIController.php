@@ -10,6 +10,22 @@ use Illuminate\Support\Facades\DB;
 
 class PowerBIController extends Controller
 {
+    private function getQuarterMonths($quarter)
+    {
+        if ($quarter === 'all') {
+            return range(1, 12);
+        }
+
+        $quarters = [
+            'Q1' => [1, 2, 3],
+            'Q2' => [4, 5, 6],
+            'Q3' => [7, 8, 9],
+            'Q4' => [10, 11, 12],
+        ];
+
+        return $quarters[$quarter] ?? range(1, 12);
+    }
+
     public function index(Request $request)
     {
         $year = $request->year ?? now()->year;
@@ -39,27 +55,29 @@ class PowerBIController extends Controller
             ]);
         }
 
-        $kpiData = $this->getKPIData($selectedCostCentreId, $year);
-        $monthlyData = $this->getMonthlyTrend($selectedCostCentreId, $year);
-        $accountData = $this->getAccountDistribution($selectedCostCentreId, $year);
+        $quarterMonths = $this->getQuarterMonths($quarter);
+
+        $kpiData = $this->getKPIData($selectedCostCentreId, $year, $quarterMonths);
+        $monthlyData = $this->getMonthlyTrend($selectedCostCentreId, $year, $quarterMonths);
+        $accountData = $this->getAccountDistribution($selectedCostCentreId, $year, $quarterMonths);
         $yearlyComparison = $this->getYearlyComparison($selectedCostCentreId, $year);
-        $varianceData = $this->getVarianceTrend($selectedCostCentreId, $year);
-        $departmentComparison = $this->getDepartmentComparison($year);
+        $varianceData = $this->getVarianceTrend($selectedCostCentreId, $year, $quarterMonths);
+        $departmentComparison = $this->getDepartmentComparison($year, $quarterMonths);
         $quarterlyData = $this->getQuarterlyData($selectedCostCentreId, $year);
-        $topAccounts = $this->getTopSpendingAccounts($selectedCostCentreId, $year);
-        $forecastData = $this->getForecastData($selectedCostCentreId, $year);
+        $topAccounts = $this->getTopSpendingAccounts($selectedCostCentreId, $year, $quarterMonths);
+        $forecastData = $this->getForecastData($selectedCostCentreId, $year, $quarterMonths);
 
         // Advanced Analytics
-        $spendingVelocity = $this->getSpendingVelocity($selectedCostCentreId, $year);
-        $budgetUtilization = $this->getBudgetUtilizationRate($selectedCostCentreId, $year);
+        $spendingVelocity = $this->getSpendingVelocity($selectedCostCentreId, $year, $quarterMonths);
+        $budgetUtilization = $this->getBudgetUtilizationRate($selectedCostCentreId, $year, $quarterMonths);
         $seasonalTrends = $this->getSeasonalTrendAnalysis($selectedCostCentreId, $year);
-        $momGrowth = $this->getMonthOverMonthGrowth($selectedCostCentreId, $year);
+        $momGrowth = $this->getMonthOverMonthGrowth($selectedCostCentreId, $year, $quarterMonths);
         $budgetPrediction = $this->getBudgetAccuracyPrediction($selectedCostCentreId, $year);
-        $riskAnalysis = $this->getRiskAnalysis($selectedCostCentreId, $year);
-        $categoryBreakdown = $this->getCategoryBreakdown($selectedCostCentreId, $year);
-        $rollingAverages = $this->getRollingAverages($selectedCostCentreId, $year);
-        $cumulativeSpending = $this->getCumulativeSpending($selectedCostCentreId, $year);
-        $anomalyDetection = $this->getAnomalyDetection($selectedCostCentreId, $year);
+        $riskAnalysis = $this->getRiskAnalysis($selectedCostCentreId, $year, $quarterMonths);
+        $categoryBreakdown = $this->getCategoryBreakdown($selectedCostCentreId, $year, $quarterMonths);
+        $rollingAverages = $this->getRollingAverages($selectedCostCentreId, $year, $quarterMonths);
+        $cumulativeSpending = $this->getCumulativeSpending($selectedCostCentreId, $year, $quarterMonths);
+        $anomalyDetection = $this->getAnomalyDetection($selectedCostCentreId, $year, $quarterMonths);
 
         return view('powerbi.index', [
             'costCentres' => $costCentres,
@@ -91,16 +109,20 @@ class PowerBIController extends Controller
         ]);
     }
 
-    private function getKPIData($costCentreId, $year)
+    private function getKPIData($costCentreId, $year, $quarterMonths = null)
     {
+        $quarterMonths = $quarterMonths ?? range(1, 12);
+
         $totalBudget = DB::table('budget_lines')
             ->join('budgets', 'budget_lines.budget_id', '=', 'budgets.id')
             ->where('budgets.cost_centre_id', $costCentreId)
             ->where('budgets.year', $year)
+            ->whereIn('budget_lines.month', $quarterMonths)
             ->sum('budget_lines.amount');
 
         $totalActual = Actual::where('cost_centre_id', $costCentreId)
             ->where('year', $year)
+            ->whereIn('month', $quarterMonths)
             ->sum('amount');
 
         $prevYear = $year - 1;
@@ -137,13 +159,14 @@ class PowerBIController extends Controller
         ];
     }
 
-    private function getMonthlyTrend($costCentreId, $year)
+    private function getMonthlyTrend($costCentreId, $year, $quarterMonths = null)
     {
+        $quarterMonths = $quarterMonths ?? range(1, 12);
         $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         $budgetData = [];
         $actualData = [];
 
-        for ($m = 1; $m <= 12; $m++) {
+        foreach ($quarterMonths as $m) {
             $budget = DB::table('budget_lines')
                 ->join('budgets', 'budget_lines.budget_id', '=', 'budgets.id')
                 ->where('budgets.cost_centre_id', $costCentreId)
@@ -160,15 +183,20 @@ class PowerBIController extends Controller
             $actualData[] = (float) $actual;
         }
 
+        $filteredMonths = array_map(function ($m) use ($months) {
+            return $months[$m - 1];
+        }, $quarterMonths);
+
         return [
-            'categories' => $months,
+            'categories' => $filteredMonths,
             'budget' => $budgetData,
             'actual' => $actualData,
         ];
     }
 
-    private function getAccountDistribution($costCentreId, $year)
+    private function getAccountDistribution($costCentreId, $year, $quarterMonths = null)
     {
+        $quarterMonths = $quarterMonths ?? range(1, 12);
         $accounts = Account::where('cost_centre_id', $costCentreId)->get();
         $data = [];
 
@@ -178,11 +206,13 @@ class PowerBIController extends Controller
                 ->where('budgets.cost_centre_id', $costCentreId)
                 ->where('budgets.account_id', $account->id)
                 ->where('budgets.year', $year)
+                ->whereIn('budget_lines.month', $quarterMonths)
                 ->sum('budget_lines.amount');
 
             $actual = Actual::where('cost_centre_id', $costCentreId)
                 ->where('account_id', $account->id)
                 ->where('year', $year)
+                ->whereIn('month', $quarterMonths)
                 ->sum('amount');
 
             if ($budget > 0 || $actual > 0) {
@@ -222,12 +252,13 @@ class PowerBIController extends Controller
         return $data;
     }
 
-    private function getVarianceTrend($costCentreId, $year)
+    private function getVarianceTrend($costCentreId, $year, $quarterMonths = null)
     {
+        $quarterMonths = $quarterMonths ?? range(1, 12);
         $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         $data = [];
 
-        for ($m = 1; $m <= 12; $m++) {
+        foreach ($quarterMonths as $m) {
             $budget = DB::table('budget_lines')
                 ->join('budgets', 'budget_lines.budget_id', '=', 'budgets.id')
                 ->where('budgets.cost_centre_id', $costCentreId)
@@ -252,8 +283,9 @@ class PowerBIController extends Controller
         return $data;
     }
 
-    private function getDepartmentComparison($year)
+    private function getDepartmentComparison($year, $quarterMonths = null)
     {
+        $quarterMonths = $quarterMonths ?? range(1, 12);
         $costCentres = CostCentre::active()->get();
         $data = [];
 
@@ -262,10 +294,12 @@ class PowerBIController extends Controller
                 ->join('budgets', 'budget_lines.budget_id', '=', 'budgets.id')
                 ->where('budgets.cost_centre_id', $cc->id)
                 ->where('budgets.year', $year)
+                ->whereIn('budget_lines.month', $quarterMonths)
                 ->sum('budget_lines.amount');
 
             $actual = Actual::where('cost_centre_id', $cc->id)
                 ->where('year', $year)
+                ->whereIn('month', $quarterMonths)
                 ->sum('amount');
 
             if ($budget > 0 || $actual > 0) {
@@ -313,8 +347,9 @@ class PowerBIController extends Controller
         return $data;
     }
 
-    private function getTopSpendingAccounts($costCentreId, $year)
+    private function getTopSpendingAccounts($costCentreId, $year, $quarterMonths = null)
     {
+        $quarterMonths = $quarterMonths ?? range(1, 12);
         $accounts = Account::where('cost_centre_id', $costCentreId)->get();
         $data = [];
 
@@ -322,6 +357,7 @@ class PowerBIController extends Controller
             $actual = Actual::where('cost_centre_id', $costCentreId)
                 ->where('account_id', $account->id)
                 ->where('year', $year)
+                ->whereIn('month', $quarterMonths)
                 ->sum('amount');
 
             if ($actual > 0) {
@@ -339,7 +375,7 @@ class PowerBIController extends Controller
         return array_slice($data, 0, 5);
     }
 
-    private function getForecastData($costCentreId, $year)
+    private function getForecastData($costCentreId, $year, $quarterMonths = null)
     {
         $remainingMonths = range(now()->month + 1, 12);
         $forecastData = [];
@@ -366,10 +402,15 @@ class PowerBIController extends Controller
         ];
     }
 
-    private function getSpendingVelocity($costCentreId, $year)
+    private function getSpendingVelocity($costCentreId, $year, $quarterMonths = null)
     {
+        $quarterMonths = $quarterMonths ?? range(1, 12);
         $monthlySpend = [];
-        for ($m = 1; $m <= now()->month; $m++) {
+        $currentMonth = now()->month;
+        $filteredMonths = array_filter($quarterMonths, function ($m) use ($currentMonth) {
+            return $m <= $currentMonth;
+        });
+        foreach ($filteredMonths as $m) {
             $spend = Actual::where('cost_centre_id', $costCentreId)
                 ->where('year', $year)
                 ->where('month', $m)

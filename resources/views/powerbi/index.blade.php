@@ -69,592 +69,615 @@
         </form>
 
         @if ($selectedCostCentreId)
-            <div class="row mb-4">
-                <div class="col-md-3">
-                    <div class="card text-white bg-primary">
-                        <div class="card-body">
-                            <h6 class="card-title">Total Budget</h6>
-                            <h3 class="mb-0">£{{ number_format($kpiData['totalBudget'], 0) }}</h3>
-                        </div>
-                    </div>
+            <div class="d-flex">
+                <div class="nav flex-column nav-pills me-3 bg-light p-2 rounded" id="v-tabs-tab" role="tablist" aria-orientation="vertical" style="min-width: 200px;">
+                    <button class="nav-link active text-start" id="v-tabs-dashboard-tab" data-bs-toggle="pill" data-bs-target="#v-tabs-dashboard" type="button" role="tab" aria-controls="v-tabs-dashboard" aria-selected="true">
+                        <i class="bi bi-house-door me-2"></i> Dashboard
+                    </button>
+                    <button class="nav-link text-start" id="v-tabs-trends-tab" data-bs-toggle="pill" data-bs-target="#v-tabs-trends" type="button" role="tab" aria-controls="v-tabs-trends" aria-selected="false">
+                        <i class="bi bi-graph-up me-2"></i> Trends & Comparisons
+                    </button>
+                    <button class="nav-link text-start" id="v-tabs-advanced-tab" data-bs-toggle="pill" data-bs-target="#v-tabs-advanced" type="button" role="tab" aria-controls="v-tabs-advanced" aria-selected="false">
+                        <i class="bi bi-bar-chart me-2"></i> Advanced Analytics
+                    </button>
+                    <button class="nav-link text-start" id="v-tabs-forecast-tab" data-bs-toggle="pill" data-bs-target="#v-tabs-forecast" type="button" role="tab" aria-controls="v-tabs-forecast" aria-selected="false">
+                        <i class="bi bi-eye me-2"></i> Forecasts
+                    </button>
+                    <button class="nav-link text-start" id="v-tabs-anomalies-tab" data-bs-toggle="pill" data-bs-target="#v-tabs-anomalies" type="button" role="tab" aria-controls="v-tabs-anomalies" aria-selected="false">
+                        <i class="bi bi-exclamation-triangle me-2"></i> Anomalies
+                    </button>
                 </div>
-                <div class="col-md-3">
-                    <div class="card text-white bg-success">
-                        <div class="card-body">
-                            <h6 class="card-title">Total Actual</h6>
-                            <h3 class="mb-0">£{{ number_format($kpiData['totalActual'], 0) }}</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card text-white {{ $kpiData['variance'] >= 0 ? 'bg-success' : 'bg-danger' }}">
-                        <div class="card-body">
-                            <h6 class="card-title">Variance</h6>
-                            <h3 class="mb-0">£{{ number_format($kpiData['variance'], 0) }}</h3>
-                            <small>{{ $kpiData['variancePercentage'] }}%</small>
-                        </div>
-                    </div>
-                </div>
-            <div class="col-md-3">
-                <div class="card text-white bg-info">
-                    <div class="card-body">
-                        <h6 class="card-title">YoY Growth</h6>
-                        <h3 class="mb-0">{{ $kpiData['yoyGrowth'] }}%</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-white bg-warning">
-                    <div class="card-body">
-                        <h6 class="card-title">Daily Velocity</h6>
-                        <h3 class="mb-0">£{{ number_format($spendingVelocity['avgDailyVelocity'], 2) }}</h3>
-                        <small>Projected: £{{ number_format($spendingVelocity['projectedYearEnd'], 0) }}</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-white bg-secondary">
-                    <div class="card-body">
-                        <h6 class="card-title">Budget Accuracy</h6>
-                        <h3 class="mb-0">{{ $budgetPrediction['accuracyScore'] }}%</h3>
-                        <small>Predicted Variance: £{{ number_format($budgetPrediction['predictedVariance'], 0) }}</small>
-                    </div>
-                </div>
-            </div>
-            </div>
-
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Budget vs Actual Trend</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="monthly-trend-chart"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Department Comparison</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="department-chart"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Account Distribution</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="account-chart"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Yearly Comparison</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="yearly-chart"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mb-4">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Monthly Variance Trend</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="variance-chart"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Quarterly Comparison</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="quarterly-chart"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Top 5 Spending Accounts</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="top-accounts-chart"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mb-4">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Full Year Forecast (Budget vs Actual vs Projected)</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="forecast-chart"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            @if(count($topAccounts) > 0)
-            <div class="row mb-4">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Top Spending Accounts Details</h5>
-                        </div>
-                        <div class="card-body">
-                            <table class="table table-sm table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Rank</th>
-                                        <th>Account</th>
-                                        <th>Actual Spending</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($topAccounts as $index => $account)
-                                    <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ $account['name'] }}</td>
-                                        <td>£{{ number_format($account['actual'], 2) }}</td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endif
-
-            @if(isset($forecastData) && count($forecastData) > 0)
-            <div class="row mb-4">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Forecast Analysis</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="alert alert-info">
-                                        <strong>Avg Monthly Spend:</strong><br>
-                                        £{{ number_format($forecastData['avgMonthlySpend'], 2) }}
+                <div class="tab-content flex-grow-1" id="v-tabs-tabContent">
+                    <div class="tab-pane fade show active" id="v-tabs-dashboard" role="tabpanel" aria-labelledby="v-tabs-dashboard-tab">
+                        <!-- Dashboard Content -->
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="card text-white bg-primary">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Total Budget</h6>
+                                        <h3 class="mb-0">£{{ number_format($kpiData['totalBudget'], 0) }}</h3>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="alert alert-warning">
-                                        <strong>Remaining Budget:</strong><br>
-                                        £{{ number_format($forecastData['remainingBudget'], 2) }}
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card text-white bg-success">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Total Actual</h6>
+                                        <h3 class="mb-0">£{{ number_format($kpiData['totalActual'], 0) }}</h3>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="alert alert-primary">
-                                        <strong>Projected Spend:</strong><br>
-                                        £{{ number_format($forecastData['projectedSpend'], 2) }}
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card text-white {{ $kpiData['variance'] >= 0 ? 'bg-success' : 'bg-danger' }}">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Variance</h6>
+                                        <h3 class="mb-0">£{{ number_format($kpiData['variance'], 0) }}</h3>
+                                        <small>{{ $kpiData['variancePercentage'] }}%</small>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="alert alert-{{ $forecastData['projectedVariance'] >= 0 ? 'success' : 'danger' }}">
-                                        <strong>Projected Variance:</strong><br>
-                                        £{{ number_format($forecastData['projectedVariance'], 2) }}
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card text-white bg-info">
+                                    <div class="card-body">
+                                        <h6 class="card-title">YoY Growth</h6>
+                                        <h3 class="mb-0">{{ $kpiData['yoyGrowth'] }}%</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card text-white bg-warning">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Daily Velocity</h6>
+                                        <h3 class="mb-0">£{{ number_format($spendingVelocity['avgDailyVelocity'], 2) }}</h3>
+                                        <small>Projected: £{{ number_format($spendingVelocity['projectedYearEnd'], 0) }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card text-white bg-secondary">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Budget Accuracy</h6>
+                                        <h3 class="mb-0">{{ $budgetPrediction['accuracyScore'] }}%</h3>
+                                        <small>Predicted Variance: £{{ number_format($budgetPrediction['predictedVariance'], 0) }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Budget vs Actual Trend</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="monthly-trend-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Department Comparison</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="department-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Account Distribution</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="account-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Yearly Comparison</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="yearly-chart"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            @endif
-
-            <!-- Advanced Analytics Sections -->
-            <div class="row mb-4">
-                <div class="col-12">
-                    <h4 class="mb-3"><i class="bi bi-graph-up"></i> Advanced Business Analytics</h4>
-                </div>
-            </div>
-
-            <!-- Spending Velocity Analysis -->
-            <div class="row mb-4">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Spending Velocity Analysis</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row mb-3">
-                                <div class="col-md-3">
-                                    <div class="alert alert-success">
-                                        <strong>Average Daily Velocity:</strong><br>
-                                        £{{ number_format($spendingVelocity['avgDailyVelocity'], 2) }}
+                    <div class="tab-pane fade" id="v-tabs-trends" role="tabpanel" aria-labelledby="v-tabs-trends-tab">
+                        <!-- Trends & Comparisons Content -->
+                        <div class="row mb-4">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Monthly Variance Trend</h5>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="alert alert-info">
-                                        <strong>Days Analyzed:</strong><br>
-                                        {{ $spendingVelocity['totalDaysAnalyzed'] }}
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="alert alert-warning">
-                                        <strong>Projected Year End:</strong><br>
-                                        £{{ number_format($spendingVelocity['projectedYearEnd'], 0) }}
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="alert alert-secondary">
-                                        <strong>Acceleration:</strong><br>
-                                        {{ $spendingVelocity['acceleration'] }}%
+                                    <div class="card-body">
+                                        <div id="variance-chart"></div>
                                     </div>
                                 </div>
                             </div>
-                            <div id="spending-velocity-chart"></div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Quarterly Comparison</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="quarterly-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Top 5 Spending Accounts</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="top-accounts-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if(count($topAccounts) > 0)
+                        <div class="row mb-4">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Top Spending Accounts Details</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-sm table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Rank</th>
+                                                    <th>Account</th>
+                                                    <th>Actual Spending</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($topAccounts as $index => $account)
+                                                <tr>
+                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>{{ $account['name'] }}</td>
+                                                    <td>£{{ number_format($account['actual'], 2) }}</td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+                    <div class="tab-pane fade" id="v-tabs-advanced" role="tabpanel" aria-labelledby="v-tabs-advanced-tab">
+                        <!-- Advanced Analytics Content -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h4 class="mb-3"><i class="bi bi-graph-up"></i> Advanced Business Analytics</h4>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Spending Velocity Analysis</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row mb-3">
+                                            <div class="col-md-3">
+                                                <div class="alert alert-success">
+                                                    <strong>Average Daily Velocity:</strong><br>
+                                                    £{{ number_format($spendingVelocity['avgDailyVelocity'], 2) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="alert alert-info">
+                                                    <strong>Days Analyzed:</strong><br>
+                                                    {{ $spendingVelocity['totalDaysAnalyzed'] }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="alert alert-warning">
+                                                    <strong>Projected Year End:</strong><br>
+                                                    £{{ number_format($spendingVelocity['projectedYearEnd'], 0) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="alert alert-secondary">
+                                                    <strong>Acceleration:</strong><br>
+                                                    {{ $spendingVelocity['acceleration'] }}%
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="spending-velocity-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Budget Utilization Rate per Account</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="budget-utilization-chart"></div>
+                                        <div class="table-responsive mt-3">
+                                            <table class="table table-sm table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Account</th>
+                                                        <th>Budget</th>
+                                                        <th>Actual</th>
+                                                        <th>Utilization Rate</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($budgetUtilization as $util)
+                                                    <tr>
+                                                        <td>{{ $util['account'] }}</td>
+                                                        <td>£{{ number_format($util['budget'], 2) }}</td>
+                                                        <td>£{{ number_format($util['actual'], 2) }}</td>
+                                                        <td>{{ $util['utilizationRate'] }}%</td>
+                                                        <td>
+                                                            @if($util['status'] == 'overspend')
+                                                                <span class="badge bg-danger">Overspend</span>
+                                                            @elseif($util['status'] == 'warning')
+                                                                <span class="badge bg-warning">Warning</span>
+                                                            @else
+                                                                <span class="badge bg-success">Good</span>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Seasonal Trend Analysis</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="seasonal-trends-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Seasonal Indices</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Quarter</th>
+                                                        <th>Current Index</th>
+                                                        <th>Previous Index</th>
+                                                        <th>Change</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($seasonalTrends['seasonalIndices'] as $index)
+                                                    <tr>
+                                                        <td>{{ $index['quarter'] }}</td>
+                                                        <td>{{ $index['currentIndex'] }}%</td>
+                                                        <td>{{ $index['previousIndex'] }}%</td>
+                                                        <td class="{{ $index['change'] >= 0 ? 'text-success' : 'text-danger' }}">
+                                                            {{ $index['change'] >= 0 ? '+' : '' }}{{ $index['change'] }}%
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="mt-3">
+                                            <strong>Total Current Year:</strong> £{{ number_format($seasonalTrends['totalCurrentYear'], 0) }}<br>
+                                            <strong>Total Previous Year:</strong> £{{ number_format($seasonalTrends['totalPreviousYear'], 0) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Month-over-Month Growth Analysis</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="mom-growth-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Budget Accuracy Prediction</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row mb-3">
+                                            <div class="col-md-3">
+                                                <div class="alert alert-primary">
+                                                    <strong>Current Budget:</strong><br>
+                                                    £{{ number_format($budgetPrediction['currentBudget'], 0) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="alert alert-success">
+                                                    <strong>Current Actual:</strong><br>
+                                                    £{{ number_format($budgetPrediction['currentActual'], 0) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="alert alert-warning">
+                                                    <strong>Predicted Actual:</strong><br>
+                                                    £{{ number_format($budgetPrediction['predictedActual'], 0) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="alert alert-info">
+                                                    <strong>Accuracy Score:</strong><br>
+                                                    {{ $budgetPrediction['accuracyScore'] }}%
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="table table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Year</th>
+                                                        <th>Budget</th>
+                                                        <th>Actual</th>
+                                                        <th>Accuracy</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($budgetPrediction['historicalAccuracy'] as $hist)
+                                                    <tr>
+                                                        <td>{{ $hist['year'] }}</td>
+                                                        <td>£{{ number_format($hist['budget'], 0) }}</td>
+                                                        <td>£{{ number_format($hist['actual'], 0) }}</td>
+                                                        <td>{{ $hist['accuracy'] }}%</td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Category Breakdown</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="category-breakdown-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Category Details</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Category</th>
+                                                        <th>Total</th>
+                                                        <th>Percentage</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($categoryBreakdown as $cat)
+                                                    <tr>
+                                                        <td>{{ $cat['category'] }}</td>
+                                                        <td>£{{ number_format($cat['total'], 0) }}</td>
+                                                        <td>{{ $cat['percentage'] }}%</td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Rolling Averages Analysis</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="rolling-averages-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Cumulative Spending Analysis</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="cumulative-spending-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Budget Utilization Analysis -->
-            <div class="row mb-4">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Budget Utilization Rate per Account</h5>
+                    <div class="tab-pane fade" id="v-tabs-forecast" role="tabpanel" aria-labelledby="v-tabs-forecast-tab">
+                        <!-- Forecasts Content -->
+                        <div class="row mb-4">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Full Year Forecast (Budget vs Actual vs Projected)</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="forecast-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div id="budget-utilization-chart"></div>
-                            <div class="table-responsive mt-3">
-                                <table class="table table-sm table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Account</th>
-                                            <th>Budget</th>
-                                            <th>Actual</th>
-                                            <th>Utilization Rate</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($budgetUtilization as $util)
-                                        <tr>
-                                            <td>{{ $util['account'] }}</td>
-                                            <td>£{{ number_format($util['budget'], 2) }}</td>
-                                            <td>£{{ number_format($util['actual'], 2) }}</td>
-                                            <td>{{ $util['utilizationRate'] }}%</td>
-                                            <td>
-                                                @if($util['status'] == 'overspend')
-                                                    <span class="badge bg-danger">Overspend</span>
-                                                @elseif($util['status'] == 'warning')
-                                                    <span class="badge bg-warning">Warning</span>
+
+                        @if(isset($forecastData) && count($forecastData) > 0)
+                        <div class="row mb-4">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Forecast Analysis</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="alert alert-info">
+                                                    <strong>Avg Monthly Spend:</strong><br>
+                                                    £{{ number_format($forecastData['avgMonthlySpend'], 2) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="alert alert-warning">
+                                                    <strong>Remaining Budget:</strong><br>
+                                                    £{{ number_format($forecastData['remainingBudget'], 2) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="alert alert-primary">
+                                                    <strong>Projected Spend:</strong><br>
+                                                    £{{ number_format($forecastData['projectedSpend'], 2) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="alert alert-{{ $forecastData['projectedVariance'] >= 0 ? 'success' : 'danger' }}">
+                                                    <strong>Projected Variance:</strong><br>
+                                                    £{{ number_format($forecastData['projectedVariance'], 2) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+                    <div class="tab-pane fade" id="v-tabs-anomalies" role="tabpanel" aria-labelledby="v-tabs-anomalies-tab">
+                        <!-- Anomalies Content -->
+                        @if(count($riskAnalysis) > 0)
+                        <div class="row mb-4">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Risk Analysis & Overspend Indicators</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        @foreach($riskAnalysis as $risk)
+                                        <div class="alert alert-{{ $risk['riskLevel'] == 'critical' ? 'danger' : ($risk['riskLevel'] == 'high' ? 'warning' : 'info') }} mb-2">
+                                            <strong>{{ ucfirst($risk['riskLevel']) }} Risk:</strong> {{ $risk['description'] }}
+                                            @if(isset($risk['utilization']))
+                                                <br><small>Utilization: {{ $risk['utilization'] }}% | Available Monthly: £{{ number_format($risk['availableMonthly'], 2) }}</small>
+                                            @endif
+                                            @if(isset($risk['account']))
+                                                <br><small>Account: {{ $risk['account'] }}</small>
+                                            @endif
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
+                        @if(count($anomalyDetection['monthlyAnomalies']) > 0 || count($anomalyDetection['accountAnomalies']) > 0)
+                        <div class="row mb-4">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Anomaly Detection</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h6>Monthly Anomalies</h6>
+                                                @if(count($anomalyDetection['monthlyAnomalies']) > 0)
+                                                    @foreach($anomalyDetection['monthlyAnomalies'] as $anomaly)
+                                                    <div class="alert alert-{{ $anomaly['severity'] == 'critical' ? 'danger' : 'warning' }} mb-2">
+                                                        <strong>{{ $anomaly['month'] }}:</strong> £{{ number_format($anomaly['amount'], 0) }}
+                                                        <small>(Z-score: {{ $anomaly['zScore'] }})</small>
+                                                    </div>
+                                                    @endforeach
                                                 @else
-                                                    <span class="badge bg-success">Good</span>
+                                                    <p class="text-muted">No monthly anomalies detected.</p>
                                                 @endif
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Seasonal Trend Analysis -->
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Seasonal Trend Analysis</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="seasonal-trends-chart"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Seasonal Indices</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-sm">
-                                    <thead>
-                                        <tr>
-                                            <th>Quarter</th>
-                                            <th>Current Index</th>
-                                            <th>Previous Index</th>
-                                            <th>Change</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($seasonalTrends['seasonalIndices'] as $index)
-                                        <tr>
-                                            <td>{{ $index['quarter'] }}</td>
-                                            <td>{{ $index['currentIndex'] }}%</td>
-                                            <td>{{ $index['previousIndex'] }}%</td>
-                                            <td class="{{ $index['change'] >= 0 ? 'text-success' : 'text-danger' }}">
-                                                {{ $index['change'] >= 0 ? '+' : '' }}{{ $index['change'] }}%
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="mt-3">
-                                <strong>Total Current Year:</strong> £{{ number_format($seasonalTrends['totalCurrentYear'], 0) }}<br>
-                                <strong>Total Previous Year:</strong> £{{ number_format($seasonalTrends['totalPreviousYear'], 0) }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Month-over-Month Growth -->
-            <div class="row mb-4">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Month-over-Month Growth Analysis</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="mom-growth-chart"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Budget Accuracy Prediction -->
-            <div class="row mb-4">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Budget Accuracy Prediction</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row mb-3">
-                                <div class="col-md-3">
-                                    <div class="alert alert-primary">
-                                        <strong>Current Budget:</strong><br>
-                                        £{{ number_format($budgetPrediction['currentBudget'], 0) }}
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="alert alert-success">
-                                        <strong>Current Actual:</strong><br>
-                                        £{{ number_format($budgetPrediction['currentActual'], 0) }}
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="alert alert-warning">
-                                        <strong>Predicted Actual:</strong><br>
-                                        £{{ number_format($budgetPrediction['predictedActual'], 0) }}
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="alert alert-info">
-                                        <strong>Accuracy Score:</strong><br>
-                                        {{ $budgetPrediction['accuracyScore'] }}%
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table table-sm">
-                                    <thead>
-                                        <tr>
-                                            <th>Year</th>
-                                            <th>Budget</th>
-                                            <th>Actual</th>
-                                            <th>Accuracy</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($budgetPrediction['historicalAccuracy'] as $hist)
-                                        <tr>
-                                            <td>{{ $hist['year'] }}</td>
-                                            <td>£{{ number_format($hist['budget'], 0) }}</td>
-                                            <td>£{{ number_format($hist['actual'], 0) }}</td>
-                                            <td>{{ $hist['accuracy'] }}%</td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Risk Analysis -->
-            @if(count($riskAnalysis) > 0)
-            <div class="row mb-4">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Risk Analysis & Overspend Indicators</h5>
-                        </div>
-                        <div class="card-body">
-                            @foreach($riskAnalysis as $risk)
-                            <div class="alert alert-{{ $risk['riskLevel'] == 'critical' ? 'danger' : ($risk['riskLevel'] == 'high' ? 'warning' : 'info') }} mb-2">
-                                <strong>{{ ucfirst($risk['riskLevel']) }} Risk:</strong> {{ $risk['description'] }}
-                                @if(isset($risk['utilization']))
-                                    <br><small>Utilization: {{ $risk['utilization'] }}% | Available Monthly: £{{ number_format($risk['availableMonthly'], 2) }}</small>
-                                @endif
-                                @if(isset($risk['account']))
-                                    <br><small>Account: {{ $risk['account'] }}</small>
-                                @endif
-                            </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endif
-
-            <!-- Category Breakdown -->
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Category Breakdown</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="category-breakdown-chart"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Category Details</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-sm">
-                                    <thead>
-                                        <tr>
-                                            <th>Category</th>
-                                            <th>Total</th>
-                                            <th>Percentage</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($categoryBreakdown as $cat)
-                                        <tr>
-                                            <td>{{ $cat['category'] }}</td>
-                                            <td>£{{ number_format($cat['total'], 0) }}</td>
-                                            <td>{{ $cat['percentage'] }}%</td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Rolling Averages & Cumulative Spending -->
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Rolling Averages Analysis</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="rolling-averages-chart"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Cumulative Spending Analysis</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="cumulative-spending-chart"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Anomaly Detection -->
-            @if(count($anomalyDetection['monthlyAnomalies']) > 0 || count($anomalyDetection['accountAnomalies']) > 0)
-            <div class="row mb-4">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Anomaly Detection</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h6>Monthly Anomalies</h6>
-                                    @if(count($anomalyDetection['monthlyAnomalies']) > 0)
-                                        @foreach($anomalyDetection['monthlyAnomalies'] as $anomaly)
-                                        <div class="alert alert-{{ $anomaly['severity'] == 'critical' ? 'danger' : 'warning' }} mb-2">
-                                            <strong>{{ $anomaly['month'] }}:</strong> £{{ number_format($anomaly['amount'], 0) }}
-                                            <small>(Z-score: {{ $anomaly['zScore'] }})</small>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6>Account Anomalies</h6>
+                                                @if(count($anomalyDetection['accountAnomalies']) > 0)
+                                                    @foreach($anomalyDetection['accountAnomalies'] as $anomaly)
+                                                    <div class="alert alert-{{ $anomaly['severity'] == 'critical' ? 'danger' : 'warning' }} mb-2">
+                                                        <strong>{{ $anomaly['account'] }} - {{ $anomaly['month'] }}:</strong> £{{ number_format($anomaly['amount'], 0) }}
+                                                        <small>(Z-score: {{ $anomaly['zScore'] }})</small>
+                                                    </div>
+                                                    @endforeach
+                                                @else
+                                                    <p class="text-muted">No account anomalies detected.</p>
+                                                @endif
+                                            </div>
                                         </div>
-                                        @endforeach
-                                    @else
-                                        <p class="text-muted">No monthly anomalies detected.</p>
-                                    @endif
-                                </div>
-                                <div class="col-md-6">
-                                    <h6>Account Anomalies</h6>
-                                    @if(count($anomalyDetection['accountAnomalies']) > 0)
-                                        @foreach($anomalyDetection['accountAnomalies'] as $anomaly)
-                                        <div class="alert alert-{{ $anomaly['severity'] == 'critical' ? 'danger' : 'warning' }} mb-2">
-                                            <strong>{{ $anomaly['account'] }} - {{ $anomaly['month'] }}:</strong> £{{ number_format($anomaly['amount'], 0) }}
-                                            <small>(Z-score: {{ $anomaly['zScore'] }})</small>
+                                        <div class="mt-3">
+                                            <small class="text-muted">
+                                                <strong>Statistics:</strong> Mean: £{{ number_format($anomalyDetection['stats']['mean'], 2) }} |
+                                                Std Dev: £{{ number_format($anomalyDetection['stats']['stdDev'], 2) }} |
+                                                Threshold: {{ $anomalyDetection['stats']['threshold'] }}σ
+                                            </small>
                                         </div>
-                                        @endforeach
-                                    @else
-                                        <p class="text-muted">No account anomalies detected.</p>
-                                    @endif
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="mt-3">
-                                <small class="text-muted">
-                                    <strong>Statistics:</strong> Mean: £{{ number_format($anomalyDetection['stats']['mean'], 2) }} |
-                                    Std Dev: £{{ number_format($anomalyDetection['stats']['stdDev'], 2) }} |
-                                    Threshold: {{ $anomalyDetection['stats']['threshold'] }}σ
-                                </small>
                             </div>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
-            @endif
 
             <script>
                 (function() {
                     var chartInstances = {};
+                    var defaultChartType = '{{ $chartType }}';
 
                     window.renderPowerBICharts = function() {
                         var monthlyCategories = @json($monthlyData['categories']);
