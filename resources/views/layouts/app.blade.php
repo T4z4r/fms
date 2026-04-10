@@ -51,6 +51,93 @@
         .navbar .nav-link span {
             font-size: 0.75rem;
         }
+
+        .nav-scroll-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+        }
+
+        .nav-scroll-container::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .nav-scroll-container::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 2px;
+        }
+
+        .nav-scroll-container .nav {
+            flex-wrap: nowrap;
+            white-space: nowrap;
+        }
+
+        @media (min-width: 768px) {
+            .nav-scroll-container {
+                overflow: visible;
+            }
+            .nav-scroll-container .nav {
+                flex-wrap: wrap;
+                white-space: normal;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .auth-card {
+                margin: 0.5rem;
+                max-width: calc(100% - 1rem);
+            }
+            .auth-body {
+                padding: 1.25rem;
+            }
+            h4, .h4 {
+                font-size: 1rem;
+            }
+            .btn {
+                padding: 0.375rem 0.75rem;
+                font-size: 0.875rem;
+            }
+            .btn-sm {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.75rem;
+            }
+            .card-body {
+                padding: 0.75rem;
+            }
+            .form-select, .form-control {
+                font-size: 0.875rem;
+            }
+        }
+
+        .filter-form-mobile {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        @media (min-width: 576px) {
+            .filter-form-mobile {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+        }
+
+        .filter-form-mobile .form-select,
+        .filter-form-mobile .form-control,
+        .filter-form-mobile .btn {
+            flex: 1 1 100%;
+            min-width: 120px;
+        }
+
+        @media (min-width: 576px) {
+            .filter-form-mobile .form-select,
+            .filter-form-mobile .form-control {
+                flex: 1 1 auto;
+            }
+            .filter-form-mobile .btn {
+                flex: 0 0 auto;
+            }
+        }
     </style>
 </head>
 
@@ -61,7 +148,8 @@
                 <div class="container">
                     <a class="navbar-brand fw-bold text-primary d-flex align-items-center" href="{{ url('/') }}">
                         <i class="bi bi-speedometer2 me-2"></i>
-                        {{ config('app.name', 'FMS') }}
+                        <span class="d-none d-sm-inline">{{ config('app.name', 'FMS') }}</span>
+                        <span class="d-sm-none">FMS</span>
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -70,73 +158,75 @@
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto">
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('dashboard') ? 'text-primary fw-semibold' : '' }}"
-                                    href="{{ route('dashboard') }}"><i class="bi bi-speedometer2"></i><span>
+                        <div class="nav-scroll-container">
+                            <ul class="navbar-nav me-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('dashboard') ? 'text-primary fw-semibold' : '' }}"
+                                        href="{{ route('dashboard') }}"><i class="bi bi-speedometer2"></i><span>
                                         {{ __('Dashboard') }}</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('cost-centres.*') ? 'text-primary fw-semibold' : '' }}"
-                                    href="{{ route('cost-centres.index') }}"><i class="bi bi-diagram-3"></i><span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('cost-centres.*') ? 'text-primary fw-semibold' : '' }}"
+                                        href="{{ route('cost-centres.index') }}"><i class="bi bi-diagram-3"></i><span>
                                         {{ __('Cost Centres') }}</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('accounts.*') ? 'text-primary fw-semibold' : '' }}"
-                                    href="{{ route('accounts.index') }}"><i class="bi bi-wallet2"></i><span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('accounts.*') ? 'text-primary fw-semibold' : '' }}"
+                                        href="{{ route('accounts.index') }}"><i class="bi bi-wallet2"></i><span>
                                         {{ __('Accounts') }}</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('budgets.*') ? 'text-primary fw-semibold' : '' }}"
-                                    href="{{ route('budgets.index') }}"><i class="bi bi-calculator"></i><span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('budgets.*') ? 'text-primary fw-semibold' : '' }}"
+                                        href="{{ route('budgets.index') }}"><i class="bi bi-calculator"></i><span>
                                         {{ __('Budgets') }}</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('actuals.*') ? 'text-primary fw-semibold' : '' }}"
-                                    href="{{ route('actuals.index') }}"><i class="bi bi-receipt"></i><span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('actuals.*') ? 'text-primary fw-semibold' : '' }}"
+                                        href="{{ route('actuals.index') }}"><i class="bi bi-receipt"></i><span>
                                         {{ __('Actuals') }}</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('reports') ? 'text-primary fw-semibold' : '' }}"
-                                    href="{{ route('reports') }}"><i class="bi bi-file-earmark-ruled"></i><span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('reports') ? 'text-primary fw-semibold' : '' }}"
+                                        href="{{ route('reports') }}"><i class="bi bi-file-earmark-ruled"></i><span>
                                         {{ __('Reports') }}</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('forecast') ? 'text-primary fw-semibold' : '' }}"
-                                    href="{{ route('forecast') }}"><i class="bi bi-graph-up-arrow"></i><span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('forecast') ? 'text-primary fw-semibold' : '' }}"
+                                        href="{{ route('forecast') }}"><i class="bi bi-graph-up-arrow"></i><span>
                                         {{ __('Forecast') }}</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('import.*') ? 'text-primary fw-semibold' : '' }}"
-                                    href="{{ route('import.actuals') }}"><i class="bi bi-upload"></i><span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('import.*') ? 'text-primary fw-semibold' : '' }}"
+                                        href="{{ route('import.actuals') }}"><i class="bi bi-upload"></i><span>
                                         {{ __('Import') }}</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('alerts') ? 'text-primary fw-semibold' : '' }}"
-                                    href="{{ route('alerts') }}"><i class="bi bi-bell"></i><span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('alerts') ? 'text-primary fw-semibold' : '' }}"
+                                        href="{{ route('alerts') }}"><i class="bi bi-bell"></i><span>
                                         {{ __('Alerts') }}</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('analysis') ? 'text-primary fw-semibold' : '' }}"
-                                    href="{{ route('analysis') }}"><i class="bi bi-cpu"></i><span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('analysis') ? 'text-primary fw-semibold' : '' }}"
+                                        href="{{ route('analysis') }}"><i class="bi bi-cpu"></i><span>
                                         {{ __('AI Analysis') }}</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('charts') ? 'text-primary fw-semibold' : '' }}"
-                                    href="{{ route('charts') }}"><i class="bi bi-pie-chart"></i><span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('charts') ? 'text-primary fw-semibold' : '' }}"
+                                        href="{{ route('charts') }}"><i class="bi bi-pie-chart"></i><span>
                                         {{ __('Charts') }}</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('settings.*') ? 'text-primary fw-semibold' : '' }}"
-                                    href="{{ route('settings.index') }}"><i class="bi bi-gear"></i><span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('settings.*') ? 'text-primary fw-semibold' : '' }}"
+                                        href="{{ route('settings.index') }}"><i class="bi bi-gear"></i><span>
                                         {{ __('Settings') }}</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('tutorial') ? 'text-primary fw-semibold' : '' }}"
-                                    href="{{ route('tutorial') }}"><i class="bi bi-book"></i><span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('tutorial') ? 'text-primary fw-semibold' : '' }}"
+                                        href="{{ route('tutorial') }}"><i class="bi bi-book"></i><span>
                                         {{ __('Tutorial') }}</span></a>
-                            </li>
-                        </ul>
+                                </li>
+                            </ul>
+                        </div>
 
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item dropdown">

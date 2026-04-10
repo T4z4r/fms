@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4><i class="bi bi-upload"></i> Import Actuals</h4>
+<div class="container-fluid px-3">
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <h4 class="mb-0"><i class="bi bi-upload"></i> Import Actuals</h4>
         <a href="{{ route('import.template') }}" class="btn btn-outline-primary">
             <i class="bi bi-download"></i> Download Template
         </a>
@@ -13,30 +13,32 @@
     <div class="card mb-4">
         <div class="card-body">
             <h5>Example Format:</h5>
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th>code</th>
-                        <th>month</th>
-                        <th>year</th>
-                        <th>amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>ACC-001</td>
-                        <td>1</td>
-                        <td>2026</td>
-                        <td>1500.00</td>
-                    </tr>
-                    <tr>
-                        <td>ACC-001</td>
-                        <td>2</td>
-                        <td>2026</td>
-                        <td>2000.00</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive-mobile">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>code</th>
+                            <th>month</th>
+                            <th>year</th>
+                            <th>amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ACC-001</td>
+                            <td>1</td>
+                            <td>2026</td>
+                            <td>1500.00</td>
+                        </tr>
+                        <tr>
+                            <td>ACC-001</td>
+                            <td>2</td>
+                            <td>2026</td>
+                            <td>2000.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

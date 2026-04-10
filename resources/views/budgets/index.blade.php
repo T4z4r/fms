@@ -55,7 +55,8 @@
             </tr>
             @endforeach
         </tbody>
-    </table>
+        </table>
+    </div>
     {{ $budgets->links() }}
 </div>
 

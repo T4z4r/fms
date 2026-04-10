@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid px-3">
     <h4 class="mb-4"><i class="bi bi-pie-chart"></i> Financial Charts</h4>
 
-    <form method="GET" class="row g-3 mb-4">
-        <div class="col-md-4">
-            <label>Cost Centre</label>
+    <form method="GET" class="row g-2 mb-4 filter-form-mobile">
+        <div class="col-12 col-md-4">
+            <label class="small">Cost Centre</label>
             <select name="cost_centre_id" class="form-select" onchange="this.form.submit()">
                 <option value="">Select Cost Centre</option>
                 @foreach($costCentres as $cc)
@@ -16,8 +16,8 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-md-3">
-            <label>Year</label>
+        <div class="col-6 col-md-3">
+            <label class="small">Year</label>
             <select name="year" class="form-select" onchange="this.form.submit()">
                 @for($y = now()->year; $y >= now()->year - 5; $y--)
                     <option value="{{ $y }}" {{ $year == $y ? 'selected' : '' }}>{{ $y }}</option>
@@ -27,8 +27,8 @@
     </form>
 
     @if($selectedCostCentreId)
-    <div class="row mb-4">
-        <div class="col-md-12">
+    <div class="row mb-4 g-3">
+        <div class="col-12">
             <div class="card">
                 <div class="card-header">
                     <h5 class="mb-0">Monthly Budget vs Actual Trend</h5>
@@ -40,9 +40,9 @@
         </div>
     </div>
 
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="card">
+    <div class="row mb-4 g-3">
+        <div class="col-12 col-md-6">
+            <div class="card h-100">
                 <div class="card-header">
                     <h5 class="mb-0">Account Distribution</h5>
                 </div>
@@ -51,8 +51,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card">
+        <div class="col-12 col-md-6">
+            <div class="card h-100">
                 <div class="card-header">
                     <h5 class="mb-0">Yearly Comparison</h5>
                 </div>
@@ -64,7 +64,7 @@
     </div>
 
     <div class="row mb-4">
-        <div class="col-md-12">
+        <div class="col-12">
             <div class="card">
                 <div class="card-header">
                     <h5 class="mb-0">Monthly Variance Trend</h5>

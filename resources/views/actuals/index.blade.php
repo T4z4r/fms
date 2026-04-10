@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4><i class="bi bi-receipt"></i> Actuals</h4>
+<div class="container-fluid px-3">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <h4 class="mb-0"><i class="bi bi-receipt"></i> Actuals</h4>
         <a href="{{ route('actuals.create') }}" class="btn btn-primary">Add Actual</a>
     </div>
 
-    <form method="GET" class="mb-4 d-flex gap-2">
+    <form method="GET" class="mb-4 filter-form-mobile">
         <select name="cost_centre_id" class="form-select">
             <option value="">All Cost Centres</option>
             @foreach($costCentres as $cc)
