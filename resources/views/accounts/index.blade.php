@@ -41,7 +41,7 @@
                     <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#accountModal" data-mode="edit" data-id="{{ $account->id }}" data-code="{{ $account->code }}" data-name="{{ $account->name }}" data-cost_centre_id="{{ $account->cost_centre_id }}">Edit</button>
                     <form action="{{ route('accounts.destroy', $account) }}" method="POST" class="d-inline">
                         @csrf @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete?')">Delete</button>
+                        <button type="submit" class="btn btn-sm btn-danger" data-confirm="Are you sure you want to delete this account?">Delete</button>
                     </form>
                 </td>
             </tr>

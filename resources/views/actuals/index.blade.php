@@ -57,7 +57,7 @@
                     <a href="{{ route('actuals.edit', $actual) }}" class="btn btn-sm btn-warning">Edit</a>
                     <form action="{{ route('actuals.destroy', $actual) }}" method="POST" class="d-inline">
                         @csrf @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete?')">Delete</button>
+                        <button type="submit" class="btn btn-sm btn-danger" data-confirm="Are you sure you want to delete this actual?">Delete</button>
                     </form>
                 </td>
             </tr>

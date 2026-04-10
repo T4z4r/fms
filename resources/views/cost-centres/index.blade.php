@@ -37,7 +37,7 @@
                     <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#costCentreModal" data-mode="edit" data-id="{{ $cc->id }}" data-name="{{ $cc->name }}" data-owner="{{ $cc->owner }}" data-status="{{ $cc->status }}">Edit</button>
                     <form action="{{ route('cost-centres.destroy', $cc) }}" method="POST" class="d-inline">
                         @csrf @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete?')">Delete</button>
+                        <button type="submit" class="btn btn-sm btn-danger" data-confirm="Are you sure you want to delete this cost centre?">Delete</button>
                     </form>
                 </td>
             </tr>

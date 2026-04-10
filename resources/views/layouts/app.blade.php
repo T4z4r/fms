@@ -26,6 +26,7 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
@@ -167,6 +168,35 @@
             </div>
         </footer>
     </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('form[data-confirm], button[data-confirm]').forEach(function(element) {
+            element.addEventListener('submit', function(e) {
+                var message = this.getAttribute('data-confirm') || 'Are you sure you want to delete this item?';
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Confirm Delete',
+                    text: message,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Delete',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        if (this.tagName === 'FORM') {
+                            this.submit();
+                        } else {
+                            var form = this.closest('form');
+                            if (form) form.submit();
+                        }
+                    }
+                });
+            });
+        });
+    });
+</script>
 </body>
 
 </html>

@@ -49,7 +49,7 @@
                     <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#budgetModal" data-mode="edit" data-id="{{ $budget->id }}" data-cost_centre_id="{{ $budget->cost_centre_id }}" data-account_id="{{ $budget->account_id }}" data-annual_budget="{{ $budget->annual_budget }}" data-year="{{ $budget->year }}">Edit</button>
                     <form action="{{ route('budgets.destroy', $budget) }}" method="POST" class="d-inline">
                         @csrf @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete?')">Delete</button>
+                        <button type="submit" class="btn btn-sm btn-danger" data-confirm="Are you sure you want to delete this budget?">Delete</button>
                     </form>
                 </td>
             </tr>
