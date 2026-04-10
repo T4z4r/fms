@@ -31,7 +31,6 @@ class PowerBIController extends Controller
         $year = $request->year ?? now()->year;
         $quarter = $request->quarter ?? 'all';
         $viewMode = $request->view_mode ?? 'interactive';
-        $chartType = $request->chart_type ?? 'line';
         $costCentres = CostCentre::active()->get();
         $selectedCostCentreId = $request->cost_centre_id ?? $costCentres->first()?->id;
 
@@ -42,7 +41,6 @@ class PowerBIController extends Controller
                 'year' => $year,
                 'quarter' => $quarter,
                 'viewMode' => $viewMode,
-                'chartType' => $chartType,
                 'kpiData' => [],
                 'monthlyData' => ['categories' => [], 'budget' => [], 'actual' => []],
                 'accountData' => [],
@@ -85,7 +83,6 @@ class PowerBIController extends Controller
             'year' => $year,
             'quarter' => $quarter,
             'viewMode' => $viewMode,
-            'chartType' => $chartType,
             'kpiData' => $kpiData,
             'monthlyData' => $monthlyData,
             'accountData' => $accountData,
