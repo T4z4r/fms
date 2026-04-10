@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>Reports</h1>
+    <h4><i class="bi bi-file-earmark-ruled"></i> Reports</h4>
     
     <form method="GET" class="mb-4 d-flex gap-2">
         <select name="year" class="form-select">

@@ -13,6 +13,10 @@ class SettingController extends Controller
             'ai_api_key' => Setting::get('ai_api_key'),
             'ai_model' => Setting::get('ai_model', 'gpt-4'),
             'ai_endpoint' => Setting::get('ai_endpoint', 'https://api.openai.com/v1'),
+            'company_name' => Setting::get('company_name', ''),
+            'company_currency' => Setting::get('company_currency', 'USD'),
+            'company_date_format' => Setting::get('company_date_format', 'Y-m-d'),
+            'company_fiscal_year_start' => Setting::get('company_fiscal_year_start', 'January'),
         ];
 
         return view('settings.index', compact('settings'));
@@ -24,6 +28,10 @@ class SettingController extends Controller
             'ai_api_key' => 'nullable|string',
             'ai_model' => 'nullable|string',
             'ai_endpoint' => 'nullable|url',
+            'company_name' => 'nullable|string|max:255',
+            'company_currency' => 'nullable|string|max:10',
+            'company_date_format' => 'nullable|string|max:20',
+            'company_fiscal_year_start' => 'nullable|string|max:20',
         ]);
 
         if ($request->filled('ai_api_key')) {
@@ -36,6 +44,22 @@ class SettingController extends Controller
 
         if ($request->filled('ai_endpoint')) {
             Setting::set('ai_endpoint', $request->ai_endpoint);
+        }
+
+        if ($request->filled('company_name')) {
+            Setting::set('company_name', $request->company_name);
+        }
+
+        if ($request->filled('company_currency')) {
+            Setting::set('company_currency', $request->company_currency);
+        }
+
+        if ($request->filled('company_date_format')) {
+            Setting::set('company_date_format', $request->company_date_format);
+        }
+
+        if ($request->filled('company_fiscal_year_start')) {
+            Setting::set('company_fiscal_year_start', $request->company_fiscal_year_start);
         }
 
         return redirect()->back()->with('success', 'Settings updated successfully.');

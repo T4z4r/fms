@@ -40,7 +40,7 @@ function parseMarkdown($text) {
 .ai-commentary strong { font-weight: 600; }
 </style>
 <div class="container">
-    <h1 class="mb-4">AI Financial Analysis</h1>
+    <h4 class="mb-4"><i class="bi bi-cpu"></i> AI Financial Analysis</h4>
 
     <form method="GET" class="row g-3 mb-4">
         <div class="col-md-4">

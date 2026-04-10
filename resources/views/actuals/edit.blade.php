@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>Edit Actual</h1>
+    <h4><i class="bi bi-pencil"></i> Edit Actual</h4>
     <form action="{{ route('actuals.update', $actual) }}" method="POST">
         @csrf @method('PUT')
         <div class="mb-3">

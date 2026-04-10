@@ -2,7 +2,10 @@
 
 @section('content')
 <div class="container">
-    <h1>{{ $account->name }} ({{ $account->code }})</h1>
+    <div class="d-flex justify-content-end mb-3">
+        <a href="{{ route('accounts.index') }}" class="btn btn-danger"><i class="bi bi-arrow-left"></i> Back</a>
+    </div>
+    <h4><i class="bi bi-wallet2"></i> {{ $account->name }} ({{ $account->code }})</h4>
     <div class="row mb-4">
         <div class="col-md-4">
             <div class="card">

@@ -23,8 +23,9 @@ class BudgetController extends Controller
 
         $budgets = $query->paginate(10);
         $costCentres = CostCentre::active()->get();
+        $accounts = Account::with('costCentre')->get();
 
-        return view('budgets.index', compact('budgets', 'costCentres'));
+        return view('budgets.index', compact('budgets', 'costCentres', 'accounts'));
     }
 
     public function create()

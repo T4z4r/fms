@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4">Financial Charts</h1>
+    <h4 class="mb-4"><i class="bi bi-pie-chart"></i> Financial Charts</h4>
 
     <form method="GET" class="row g-3 mb-4">
         <div class="col-md-4">

@@ -37,6 +37,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/budgets/{budget}/lines', [BudgetController::class, 'lines'])->name('budgets.lines');
         Route::get('/import/actuals', [ImportController::class, 'showImportForm'])->name('import.actuals');
         Route::post('/import/actuals', [ImportController::class, 'importActuals']);
+        Route::get('/import/actuals/template', [ImportController::class, 'downloadTemplate'])->name('import.template');
     });
 
     Route::resource('actuals', ActualController::class)->except(['destroy']);

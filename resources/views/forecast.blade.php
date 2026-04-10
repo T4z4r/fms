@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Spending Forecast</h1>
+        <h4><i class="bi bi-graph-up-arrow"></i> Spending Forecast</h4>
         <form method="GET" class="d-flex gap-2">
             <select name="year" class="form-select">
                 @for($y = now()->year; $y >= now()->year - 3; $y--)

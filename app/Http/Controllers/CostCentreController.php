@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CostCentre;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CostCentreController extends Controller
@@ -10,8 +11,9 @@ class CostCentreController extends Controller
     public function index()
     {
         $costCentres = CostCentre::with('owner')->paginate(10);
+        $users = User::all();
 
-        return view('cost-centres.index', compact('costCentres'));
+        return view('cost-centres.index', compact('costCentres', 'users'));
     }
 
     public function create()

@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Actuals</h1>
+        <h4><i class="bi bi-receipt"></i> Actuals</h4>
         <a href="{{ route('actuals.create') }}" class="btn btn-primary">Add Actual</a>
     </div>
 
@@ -64,6 +64,13 @@
             @endforeach
         </tbody>
     </table>
-    {{ $actuals->links() }}
+
+    @if($actuals->isEmpty())
+        <div class="text-center text-muted py-4">No actuals found.</div>
+    @endif
+
+    <div class="d-flex justify-content-center">
+        {{ $actuals->links() }}
+    </div>
 </div>
 @endsection

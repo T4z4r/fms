@@ -101,7 +101,7 @@
         <div class="auth-card">
             <div class="auth-header bg-primary text-white">
                 <i class="bi bi-speedometer2 d-block"></i>
-                <h1>{{ __('FAMS') }}</h1>
+                <h1>{{ __('FMS') }}</h1>
                 <p class="mb-0 small opacity-75">{{ __('Financial Analysis Management System') }}</p>
             </div>
             <div class="auth-body">

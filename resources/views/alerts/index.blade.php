@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Alerts</h1>
+        <h4><i class="bi bi-bell"></i> Alerts</h4>
         <form method="GET" class="d-flex gap-2">
             <label class="d-flex align-items-center">
                 <input type="checkbox" name="unread" value="1" {{ request('unread') ? 'checked' : '' }} class="me-2">

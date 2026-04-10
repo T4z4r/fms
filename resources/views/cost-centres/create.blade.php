@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>New Cost Centre</h1>
+    <h4><i class="bi bi-plus-circle"></i> New Cost Centre</h4>
     <form action="{{ route('cost-centres.store') }}" method="POST">
         @csrf
         <div class="mb-3">

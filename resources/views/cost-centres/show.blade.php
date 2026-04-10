@@ -2,7 +2,10 @@
 
 @section('content')
 <div class="container">
-    <h1>{{ $costCentre->name }}</h1>
+    <div class="d-flex justify-content-end mb-3">
+        <a href="{{ route('cost-centres.index') }}" class="btn btn-danger"><i class="bi bi-arrow-left"></i> Back</a>
+    </div>
+    <h4><i class="bi bi-diagram-3"></i> {{ $costCentre->name }}</h4>
     <div class="row mb-4">
         <div class="col-md-4">
             <div class="card">

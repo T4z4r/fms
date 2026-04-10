@@ -2,7 +2,12 @@
 
 @section('content')
 <div class="container">
-    <h1>Import Actuals</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4><i class="bi bi-upload"></i> Import Actuals</h4>
+        <a href="{{ route('import.template') }}" class="btn btn-outline-primary">
+            <i class="bi bi-download"></i> Download Template
+        </a>
+    </div>
     <p class="text-muted">Upload an Excel or CSV file with columns: code, month, year (optional), amount</p>
 
     <div class="card mb-4">

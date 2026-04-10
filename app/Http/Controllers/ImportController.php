@@ -8,6 +8,8 @@ use App\Models\CostCentre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ImportController extends Controller
 {
@@ -16,6 +18,41 @@ class ImportController extends Controller
         $costCentres = CostCentre::active()->get();
 
         return view('import.actuals', compact('costCentres'));
+    }
+
+    public function downloadTemplate()
+    {
+        $spreadsheet = new Spreadsheet;
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setTitle('Actuals Import');
+        $sheet->setCellValue('A1', 'code');
+        $sheet->setCellValue('B1', 'month');
+        $sheet->setCellValue('C1', 'year');
+        $sheet->setCellValue('D1', 'amount');
+
+        $sheet->setCellValue('A2', 'ACC001');
+        $sheet->setCellValue('B2', '1');
+        $sheet->setCellValue('C2', '2024');
+        $sheet->setCellValue('D2', '1000.00');
+
+        $sheet->setCellValue('A3', 'ACC001');
+        $sheet->setCellValue('B3', '2');
+        $sheet->setCellValue('C3', '2024');
+        $sheet->setCellValue('D3', '1500.50');
+
+        foreach (range('A', 'D') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        $writer = new Xlsx($spreadsheet);
+
+        return response()->stream(function () use ($writer) {
+            $writer->save('php://output');
+        }, 200, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Content-Disposition' => 'attachment; filename="actuals_import_template.xlsx"',
+        ]);
     }
 
     public function importActuals(Request $request)

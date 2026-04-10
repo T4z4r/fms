@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'FMS') }}</title>
 
     <!-- Bootstrap Icons CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -34,85 +34,127 @@
             });
         });
     </script>
+    <style>
+        .navbar .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.5rem;
+        }
+
+        .navbar .nav-link i {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .navbar .nav-link span {
+            font-size: 0.75rem;
+        }
+    </style>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
     <div id="app" class="d-flex flex-column flex-grow-1">
         @auth
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'FMS') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+                <div class="container">
+                    <a class="navbar-brand fw-bold text-primary d-flex align-items-center" href="{{ url('/') }}">
+                        <i class="bi bi-speedometer2 me-2"></i>
+                        {{ config('app.name', 'FMS') }}
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}"><i class="bi bi-speedometer2"></i> {{ __('Dashboard') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('cost-centres.*') ? 'active' : '' }}" href="{{ route('cost-centres.index') }}"><i class="bi bi-diagram-3"></i> {{ __('Cost Centres') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('accounts.*') ? 'active' : '' }}" href="{{ route('accounts.index') }}"><i class="bi bi-wallet2"></i> {{ __('Accounts') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('budgets.*') ? 'active' : '' }}" href="{{ route('budgets.index') }}"><i class="bi bi-calculator"></i> {{ __('Budgets') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('actuals.*') ? 'active' : '' }}" href="{{ route('actuals.index') }}"><i class="bi bi-receipt"></i> {{ __('Actuals') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('reports') ? 'active' : '' }}" href="{{ route('reports') }}"><i class="bi bi-file-earmark-ruled"></i> {{ __('Reports') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('forecast') ? 'active' : '' }}" href="{{ route('forecast') }}"><i class="bi bi-graph-up-arrow"></i> {{ __('Forecast') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('import.*') ? 'active' : '' }}" href="{{ route('import.actuals') }}"><i class="bi bi-upload"></i> {{ __('Import') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('alerts') ? 'active' : '' }}" href="{{ route('alerts') }}"><i class="bi bi-bell"></i> {{ __('Alerts') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('analysis') ? 'active' : '' }}" href="{{ route('analysis') }}"><i class="bi bi-cpu"></i> {{ __('AI Analysis') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('charts') ? 'active' : '' }}" href="{{ route('charts') }}"><i class="bi bi-pie-chart"></i> {{ __('Charts') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('settings.*') ? 'active' : '' }}" href="{{ route('settings.index') }}"><i class="bi bi-gear"></i> {{ __('Settings') }}</a>
-                        </li>
-                    </ul>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('dashboard') ? 'text-primary fw-semibold' : '' }}"
+                                    href="{{ route('dashboard') }}"><i class="bi bi-speedometer2"></i><span>
+                                        {{ __('Dashboard') }}</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('cost-centres.*') ? 'text-primary fw-semibold' : '' }}"
+                                    href="{{ route('cost-centres.index') }}"><i class="bi bi-diagram-3"></i><span>
+                                        {{ __('Cost Centres') }}</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('accounts.*') ? 'text-primary fw-semibold' : '' }}"
+                                    href="{{ route('accounts.index') }}"><i class="bi bi-wallet2"></i><span>
+                                        {{ __('Accounts') }}</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('budgets.*') ? 'text-primary fw-semibold' : '' }}"
+                                    href="{{ route('budgets.index') }}"><i class="bi bi-calculator"></i><span>
+                                        {{ __('Budgets') }}</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('actuals.*') ? 'text-primary fw-semibold' : '' }}"
+                                    href="{{ route('actuals.index') }}"><i class="bi bi-receipt"></i><span>
+                                        {{ __('Actuals') }}</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('reports') ? 'text-primary fw-semibold' : '' }}"
+                                    href="{{ route('reports') }}"><i class="bi bi-file-earmark-ruled"></i><span>
+                                        {{ __('Reports') }}</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('forecast') ? 'text-primary fw-semibold' : '' }}"
+                                    href="{{ route('forecast') }}"><i class="bi bi-graph-up-arrow"></i><span>
+                                        {{ __('Forecast') }}</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('import.*') ? 'text-primary fw-semibold' : '' }}"
+                                    href="{{ route('import.actuals') }}"><i class="bi bi-upload"></i><span>
+                                        {{ __('Import') }}</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('alerts') ? 'text-primary fw-semibold' : '' }}"
+                                    href="{{ route('alerts') }}"><i class="bi bi-bell"></i><span>
+                                        {{ __('Alerts') }}</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('analysis') ? 'text-primary fw-semibold' : '' }}"
+                                    href="{{ route('analysis') }}"><i class="bi bi-cpu"></i><span>
+                                        {{ __('AI Analysis') }}</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('charts') ? 'text-primary fw-semibold' : '' }}"
+                                    href="{{ route('charts') }}"><i class="bi bi-pie-chart"></i><span>
+                                        {{ __('Charts') }}</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('settings.*') ? 'text-primary fw-semibold' : '' }}"
+                                    href="{{ route('settings.index') }}"><i class="bi bi-gear"></i><span>
+                                        {{ __('Settings') }}</span></a>
+                            </li>
+                        </ul>
 
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }}
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                                 document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }}
                                 </a>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </div>
-                        </li>
-                    </ul>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                                 document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
         @endauth
 
         <main class="py-4">

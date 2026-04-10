@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>Actual Details</h1>
+    <h4><i class="bi bi-info-circle"></i> Actual Details</h4>
     <div class="row mb-4">
         <div class="col-md-3">
             <div class="card">
