@@ -1,0 +1,67 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Alerts</h1>
+        <form method="GET" class="d-flex gap-2">
+            <label class="d-flex align-items-center">
+                <input type="checkbox" name="unread" value="1" {{ request('unread') ? 'checked' : '' }} class="me-2">
+                Unread only
+            </label>
+            <button type="submit" class="btn btn-sm btn-primary">Filter</button>
+        </form>
+    </div>
+
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Message</th>
+                <th>Cost Centre</th>
+                <th>Account</th>
+                <th>Period</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($alerts as $alert)
+            <tr class="{{ $alert->is_read ? '' : 'table-warning' }}">
+                <td>
+                    <span class="badge bg-danger">{{ str_replace('_', ' ', $alert->type) }}</span>
+                </td>
+                <td>{{ $alert->message }}</td>
+                <td>{{ $alert->costCentre?->name ?? 'N/A' }}</td>
+                <td>{{ $alert->account?->name ?? 'N/A' }}</td>
+                <td>{{ $alert->month }}/{{ $alert->year }}</td>
+                <td>
+                    @if($alert->is_read)
+                        <span class="badge bg-secondary">Read</span>
+                    @else
+                        <span class="badge bg-warning">New</span>
+                    @endif
+                </td>
+                <td>
+                    @unless($alert->is_read)
+                        <form action="{{ route('alerts.markRead', $alert) }}" method="POST" class="d-inline">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-outline-primary">Mark Read</button>
+                        </form>
+                    @endunless
+                </td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="7" class="text-center">No alerts found.</td>
+            </tr>
+            @endforelse
+        </tbody>
+    </table>
+    {{ $alerts->links() }}
+</div>
+@endsection

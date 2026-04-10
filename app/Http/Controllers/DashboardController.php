@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Actual;
+use App\Models\Alert;
 use App\Models\Budget;
 use App\Models\CostCentre;
 use Illuminate\Http\Request;
@@ -65,7 +66,12 @@ class DashboardController extends Controller
             ->orderBy('budget_lines.month')
             ->pluck('total', 'month');
 
-        return view('dashboard', compact('summary', 'costCentres', 'year', 'costCentreId', 'monthlyData', 'budgetMonthly'));
+        $alerts = Alert::where('is_read', false)
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
+
+        return view('dashboard', compact('summary', 'costCentres', 'year', 'costCentreId', 'monthlyData', 'budgetMonthly', 'alerts'));
     }
 
     public function reports(Request $request)
@@ -81,5 +87,43 @@ class DashboardController extends Controller
             ->groupBy('cost_centre_id');
 
         return view('reports.index', compact('costCentres', 'actuals', 'year'));
+    }
+
+    public function forecast(Request $request)
+    {
+        $year = $request->year ?? now()->year;
+        $costCentreId = $request->cost_centre_id;
+
+        $costCentres = CostCentre::active()->get();
+
+        $accounts = Budget::where('year', $year)
+            ->when($costCentreId, fn ($q) => $q->where('cost_centre_id', $costCentreId))
+            ->with('account')
+            ->get()
+            ->groupBy('account_id');
+
+        $forecasts = [];
+        foreach ($accounts as $accountId => $budgetGroup) {
+            $lastThreeMonths = Actual::where('account_id', $accountId)
+                ->where('year', $year)
+                ->whereIn('month', [now()->month - 2, now()->month - 1, now()->month])
+                ->sum('amount');
+
+            $monthlyAverage = $lastThreeMonths / 3;
+            $remainingMonths = 12 - now()->month;
+            $forecast = $monthlyAverage * $remainingMonths;
+
+            $forecasts[] = [
+                'account' => $budgetGroup->first()->account,
+                'budget' => $budgetGroup->first()->annual_budget,
+                'current_spending' => $lastThreeMonths,
+                'monthly_average' => $monthlyAverage,
+                'forecast' => $forecast,
+                'projected_total' => $lastThreeMonths + $forecast,
+                'variance' => $budgetGroup->first()->annual_budget - ($lastThreeMonths + $forecast),
+            ];
+        }
+
+        return view('forecast', compact('forecasts', 'costCentres', 'year', 'costCentreId'));
     }
 }

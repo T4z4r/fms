@@ -49,6 +49,18 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('reports') }}">{{ __('Reports') }}</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('forecast') }}">{{ __('Forecast') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('import.actuals') }}">{{ __('Import') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('alerts') }}">{{ __('Alerts') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('analysis') }}">{{ __('AI Analysis') }}</a>
+                            </li>
                         @endauth
                     </ul>
 

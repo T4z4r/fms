@@ -49,6 +49,27 @@
         </div>
     </div>
 
+    @if($alerts->count() > 0)
+    <div class="card mb-4 border-warning">
+        <div class="card-header bg-warning text-dark">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Active Alerts</h5>
+                <a href="{{ route('alerts') }}" class="btn btn-sm btn-dark">View All</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                @foreach($alerts as $alert)
+                <li class="list-group-item list-group-item-warning d-flex justify-content-between align-items-center">
+                    <span>{{ $alert->message }}</span>
+                    <small class="text-muted">{{ $alert->created_at->diffForHumans() }}</small>
+                </li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+    @endif
+
     <div class="card mb-4">
         <div class="card-header">
             <h5>Budget vs Actuals by Account</h5>
