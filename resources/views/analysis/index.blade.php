@@ -1,6 +1,44 @@
 @extends('layouts.app')
 
+@php
+function parseMarkdown($text) {
+    $html = e($text);
+    $html = preg_replace('/^### (.+)$/m', '<h3>$1</h3>', $html);
+    $html = preg_replace('/^## (.+)$/m', '<h2>$1</h2>', $html);
+    $html = preg_replace('/^# (.+)$/m', '<h1>$1</h1>', $html);
+    $html = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $html);
+    $html = preg_replace('/\*(.+?)\*/', '<em>$1</em>', $html);
+    $html = preg_replace('/^- (.+)$/m', '<li>$1</li>', $html);
+    $html = preg_replace('/(<\/li>\n<li>)/', '$1', $html);
+    $html = preg_replace('/(<li>.*<\/li>)/s', '<ul>$1</ul>', $html);
+    $html = preg_replace('/\n\n/', '</p><p>', $html);
+    $html = '<p>' . $html . '</p>';
+    $html = preg_replace('/<p><\/p>/', '', $html);
+    $html = preg_replace('/<p>(<h[123]>)/', '$1', $html);
+    $html = preg_replace('/(<\/h[123]>)<\/p>/', '$1', $html);
+    return $html;
+}
+@endphp
+
 @section('content')
+<style>
+.ai-commentary h1, .ai-commentary h2, .ai-commentary h3 { margin-top: 1rem; margin-bottom: 0.5rem; font-weight: 600; }
+.ai-commentary h1 { font-size: 1.5rem; }
+.ai-commentary h2 { font-size: 1.25rem; }
+.ai-commentary h3 { font-size: 1.1rem; }
+.ai-commentary p { margin-bottom: 0.75rem; }
+.ai-commentary ul, .ai-commentary ol { margin-bottom: 0.75rem; padding-left: 1.5rem; }
+.ai-commentary li { margin-bottom: 0.25rem; }
+.ai-commentary code { background: #f4f4f4; padding: 0.125rem 0.25rem; border-radius: 3px; font-size: 0.9em; }
+.ai-commentary pre { background: #f4f4f4; padding: 0.75rem; border-radius: 5px; overflow-x: auto; margin-bottom: 0.75rem; }
+.ai-commentary pre code { background: none; padding: 0; }
+.ai-commentary blockquote { border-left: 3px solid #ddd; padding-left: 0.75rem; margin-left: 0; color: #666; }
+.ai-commentary table { width: 100%; margin-bottom: 0.75rem; border-collapse: collapse; }
+.ai-commentary th, .ai-commentary td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
+.ai-commentary th { background: #f4f4f4; }
+.ai-commentary hr { border: none; border-top: 1px solid #ddd; margin: 1rem 0; }
+.ai-commentary strong { font-weight: 600; }
+</style>
 <div class="container">
     <h1 class="mb-4">AI Financial Analysis</h1>
 
@@ -30,11 +68,20 @@
     
     @if(isset($aiCommentary))
     <div class="card mb-4 border-primary">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0">AI Financial Commentary</h5>
+            <button class="btn btn-sm btn-light" onclick="copyCommentary()">Copy</button>
         </div>
-        <div class="card-body" style="white-space: pre-line;">{!! nl2br(e($aiCommentary['full_commentary'])) !!}</div>
+        <div class="card-body ai-commentary">
+            {!! parseMarkdown($aiCommentary['full_commentary']) !!}
+        </div>
     </div>
+    <script>
+        function copyCommentary() {
+            const text = document.querySelector('.ai-commentary').innerText;
+            navigator.clipboard.writeText(text);
+        }
+    </script>
     @endif
 
     <div class="row mb-4">
