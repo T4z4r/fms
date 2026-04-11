@@ -8,7 +8,8 @@
                 <button class="btn btn-outline-primary btn-sm" onclick="exportToPDF()">
                     <i class="bi bi-file-pdf"></i> PDF
                 </button>
-                <a href="{{ route('powerbi.export.excel', request()->query()) }}" class="btn btn-outline-success btn-sm">
+                <a href="{{ route('powerbi.export.excel', array_merge(request()->query(), ['cost_centre_id' => $selectedCostCentreId])) }}"
+                    class="btn btn-outline-success btn-sm">
                     <i class="bi bi-file-excel"></i> Excel
                 </a>
             </div>
@@ -19,8 +20,12 @@
                 <label>Cost Centre</label>
                 <select name="cost_centre_id" class="form-select" onchange="this.form.submit()">
                     <option value="">Select Cost Centre</option>
+
+                    <option value="all" {{ (string) $selectedCostCentreId === 'all' ? 'selected' : '' }}>All Cost Centers
+                    </option>
                     @foreach ($costCentres as $cc)
-                        <option value="{{ $cc->id }}" {{ $selectedCostCentreId == $cc->id ? 'selected' : '' }}>
+                        <option value="{{ $cc->id }}"
+                            {{ (string) $selectedCostCentreId === (string) $cc->id ? 'selected' : '' }}>
                             {{ $cc->name }}
                         </option>
                     @endforeach
@@ -152,7 +157,8 @@
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <div class="card">
-                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                                    <div
+                                        class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Budget vs Actual Trend</h5>
                                         <div class="btn-group btn-group-sm flex-wrap" role="group">
                                             <button type="button" class="btn btn-outline-primary active"
@@ -172,7 +178,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="card">
-                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                                    <div
+                                        class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Department Comparison</h5>
                                         <div class="btn-group btn-group-sm flex-wrap" role="group">
                                             <button type="button" class="btn btn-outline-primary active"
@@ -205,7 +212,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="card">
-                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                                    <div
+                                        class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Yearly Comparison</h5>
                                         <div class="btn-group btn-group-sm flex-wrap" role="group">
                                             <button type="button" class="btn btn-outline-primary active"
@@ -230,7 +238,8 @@
                         <div class="row mb-4">
                             <div class="col-md-12">
                                 <div class="card">
-                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                                    <div
+                                        class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Monthly Variance Trend</h5>
                                         <div class="btn-group btn-group-sm flex-wrap" role="group">
                                             <button type="button" class="btn btn-outline-primary active"
@@ -253,7 +262,8 @@
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <div class="card">
-                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                                    <div
+                                        class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Quarterly Comparison</h5>
                                         <div class="btn-group btn-group-sm flex-wrap" role="group">
                                             <button type="button" class="btn btn-outline-primary active"
@@ -273,7 +283,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="card">
-                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                                    <div
+                                        class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Top 5 Spending Accounts</h5>
                                         <div class="btn-group btn-group-sm flex-wrap" role="group">
                                             <button type="button" class="btn btn-outline-primary active"
@@ -337,7 +348,8 @@
                         <div class="row mb-4">
                             <div class="col-md-12">
                                 <div class="card">
-                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                                    <div
+                                        class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Spending Velocity Analysis</h5>
                                         <div class="btn-group btn-group-sm flex-wrap" role="group">
                                             <button type="button" class="btn btn-outline-primary active"
@@ -386,7 +398,8 @@
                         <div class="row mb-4">
                             <div class="col-md-12">
                                 <div class="card">
-                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                                    <div
+                                        class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Budget Utilization Rate per Account</h5>
                                         <div class="btn-group btn-group-sm flex-wrap" role="group">
                                             <button type="button" class="btn btn-outline-primary active"
@@ -439,7 +452,7 @@
                         </div>
 
                         <div class="row mb-4">
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <div class="card">
                                     <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Seasonal Trend Analysis</h5>
@@ -458,8 +471,8 @@
                                         <div id="seasonal-trends-chart"></div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
+                            </div> --}}
+                            <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header">
                                         <h5 class="mb-0">Seasonal Indices</h5>
@@ -504,7 +517,8 @@
                         <div class="row mb-4">
                             <div class="col-md-12">
                                 <div class="card">
-                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                                    <div
+                                        class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Month-over-Month Growth Analysis</h5>
                                         <div class="btn-group btn-group-sm flex-wrap" role="group">
                                             <button type="button" class="btn btn-outline-primary active"
@@ -629,7 +643,8 @@
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <div class="card">
-                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                                    <div
+                                        class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Rolling Averages Analysis</h5>
                                         <div class="btn-group btn-group-sm flex-wrap" role="group">
                                             <button type="button" class="btn btn-outline-primary active"
@@ -649,7 +664,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="card">
-                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                                    <div
+                                        class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Cumulative Spending Analysis</h5>
                                         <div class="btn-group btn-group-sm flex-wrap" role="group">
                                             <button type="button" class="btn btn-outline-primary active"
@@ -675,7 +691,8 @@
                         <div class="row mb-4">
                             <div class="col-md-12">
                                 <div class="card">
-                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                                    <div
+                                        class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Full Year Forecast (Budget vs Actual vs Projected)</h5>
                                         <div class="btn-group btn-group-sm flex-wrap" role="group">
                                             <button type="button" class="btn btn-outline-primary active"

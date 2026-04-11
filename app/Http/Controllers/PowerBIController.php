@@ -13,6 +13,8 @@ class PowerBIController extends Controller
 {
     public function __construct(private PowerBiExcelExportService $excelExportService) {}
 
+    private const ALL_COST_CENTRES = 'all';
+
     private function getQuarterMonths($quarter)
     {
         if ($quarter === 'all') {
@@ -27,6 +29,45 @@ class PowerBIController extends Controller
         ];
 
         return $quarters[$quarter] ?? range(1, 12);
+    }
+
+    private function isAllCostCentresSelection($costCentreId): bool
+    {
+        return $costCentreId === self::ALL_COST_CENTRES;
+    }
+
+    private function budgetLinesQuery($costCentreId)
+    {
+        $query = DB::table('budget_lines')
+            ->join('budgets', 'budget_lines.budget_id', '=', 'budgets.id');
+
+        if (! $this->isAllCostCentresSelection($costCentreId)) {
+            $query->where('budgets.cost_centre_id', $costCentreId);
+        }
+
+        return $query;
+    }
+
+    private function actualsQuery($costCentreId)
+    {
+        $query = Actual::query();
+
+        if (! $this->isAllCostCentresSelection($costCentreId)) {
+            $query->where('cost_centre_id', $costCentreId);
+        }
+
+        return $query;
+    }
+
+    private function accountsQuery($costCentreId)
+    {
+        $query = Account::query();
+
+        if (! $this->isAllCostCentresSelection($costCentreId)) {
+            $query->where('cost_centre_id', $costCentreId);
+        }
+
+        return $query;
     }
 
     public function index(Request $request)
@@ -50,8 +91,9 @@ class PowerBIController extends Controller
         $year = (int) ($request->year ?? now()->year);
         $quarter = (string) ($request->quarter ?? 'all');
         $viewMode = (string) ($request->view_mode ?? 'interactive');
-        $costCentres = CostCentre::active()->get();
-        $selectedCostCentreId = $request->cost_centre_id ?? $costCentres->first()?->id;
+        $costCentres = CostCentre::orderBy('name')->get();
+        $requestedCostCentreId = $request->cost_centre_id;
+        $selectedCostCentreId = $requestedCostCentreId ?: self::ALL_COST_CENTRES;
 
         if (! $selectedCostCentreId) {
             return [
@@ -84,8 +126,14 @@ class PowerBIController extends Controller
             ];
         }
 
-        $selectedCostCentreId = (int) $selectedCostCentreId;
-        $selectedCostCentre = $costCentres->firstWhere('id', $selectedCostCentreId) ?? CostCentre::find($selectedCostCentreId);
+        $selectedCostCentreName = 'All Cost Centers';
+
+        if (! $this->isAllCostCentresSelection($selectedCostCentreId)) {
+            $selectedCostCentreId = (int) $selectedCostCentreId;
+            $selectedCostCentre = $costCentres->firstWhere('id', $selectedCostCentreId) ?? CostCentre::find($selectedCostCentreId);
+            $selectedCostCentreName = $selectedCostCentre?->name;
+        }
+
         $quarterMonths = $this->getQuarterMonths($quarter);
 
         $kpiData = $this->getKPIData($selectedCostCentreId, $year, $quarterMonths);
@@ -111,7 +159,7 @@ class PowerBIController extends Controller
         return [
             'costCentres' => $costCentres,
             'selectedCostCentreId' => $selectedCostCentreId,
-            'selectedCostCentreName' => $selectedCostCentre?->name,
+            'selectedCostCentreName' => $selectedCostCentreName,
             'year' => $year,
             'quarter' => $quarter,
             'quarterLabel' => strtoupper($quarter) === 'ALL' ? 'All Quarters' : $quarter,
@@ -142,20 +190,18 @@ class PowerBIController extends Controller
     {
         $quarterMonths = $quarterMonths ?? range(1, 12);
 
-        $totalBudget = DB::table('budget_lines')
-            ->join('budgets', 'budget_lines.budget_id', '=', 'budgets.id')
-            ->where('budgets.cost_centre_id', $costCentreId)
+        $totalBudget = $this->budgetLinesQuery($costCentreId)
             ->where('budgets.year', $year)
             ->whereIn('budget_lines.month', $quarterMonths)
             ->sum('budget_lines.amount');
 
-        $totalActual = Actual::where('cost_centre_id', $costCentreId)
+        $totalActual = $this->actualsQuery($costCentreId)
             ->where('year', $year)
             ->whereIn('month', $quarterMonths)
             ->sum('amount');
 
         $prevYear = $year - 1;
-        $prevYearActual = Actual::where('cost_centre_id', $costCentreId)
+        $prevYearActual = $this->actualsQuery($costCentreId)
             ->where('year', $prevYear)
             ->sum('amount');
 
@@ -164,14 +210,12 @@ class PowerBIController extends Controller
         $yoyGrowth = $prevYearActual > 0 ? round((($totalActual - $prevYearActual) / $prevYearActual) * 100, 1) : 0;
 
         $months = range(1, now()->month);
-        $spentToDate = Actual::where('cost_centre_id', $costCentreId)
+        $spentToDate = $this->actualsQuery($costCentreId)
             ->where('year', $year)
             ->whereIn('month', $months)
             ->sum('amount');
 
-        $budgetToDate = DB::table('budget_lines')
-            ->join('budgets', 'budget_lines.budget_id', '=', 'budgets.id')
-            ->where('budgets.cost_centre_id', $costCentreId)
+        $budgetToDate = $this->budgetLinesQuery($costCentreId)
             ->where('budgets.year', $year)
             ->whereIn('budget_lines.month', $months)
             ->sum('budget_lines.amount');
@@ -196,14 +240,12 @@ class PowerBIController extends Controller
         $actualData = [];
 
         foreach ($quarterMonths as $m) {
-            $budget = DB::table('budget_lines')
-                ->join('budgets', 'budget_lines.budget_id', '=', 'budgets.id')
-                ->where('budgets.cost_centre_id', $costCentreId)
+            $budget = $this->budgetLinesQuery($costCentreId)
                 ->where('budgets.year', $year)
                 ->where('budget_lines.month', $m)
                 ->sum('budget_lines.amount');
 
-            $actual = Actual::where('cost_centre_id', $costCentreId)
+            $actual = $this->actualsQuery($costCentreId)
                 ->where('year', $year)
                 ->where('month', $m)
                 ->sum('amount');
@@ -226,19 +268,17 @@ class PowerBIController extends Controller
     private function getAccountDistribution($costCentreId, $year, $quarterMonths = null)
     {
         $quarterMonths = $quarterMonths ?? range(1, 12);
-        $accounts = Account::where('cost_centre_id', $costCentreId)->get();
+        $accounts = $this->accountsQuery($costCentreId)->get();
         $data = [];
 
         foreach ($accounts as $account) {
-            $budget = DB::table('budget_lines')
-                ->join('budgets', 'budget_lines.budget_id', '=', 'budgets.id')
-                ->where('budgets.cost_centre_id', $costCentreId)
+            $budget = $this->budgetLinesQuery($costCentreId)
                 ->where('budgets.account_id', $account->id)
                 ->where('budgets.year', $year)
                 ->whereIn('budget_lines.month', $quarterMonths)
                 ->sum('budget_lines.amount');
 
-            $actual = Actual::where('cost_centre_id', $costCentreId)
+            $actual = $this->actualsQuery($costCentreId)
                 ->where('account_id', $account->id)
                 ->where('year', $year)
                 ->whereIn('month', $quarterMonths)
@@ -261,13 +301,11 @@ class PowerBIController extends Controller
         $data = [];
 
         for ($y = $year - 4; $y <= $year; $y++) {
-            $budget = DB::table('budget_lines')
-                ->join('budgets', 'budget_lines.budget_id', '=', 'budgets.id')
-                ->where('budgets.cost_centre_id', $costCentreId)
+            $budget = $this->budgetLinesQuery($costCentreId)
                 ->where('budgets.year', $y)
                 ->sum('budget_lines.amount');
 
-            $actual = Actual::where('cost_centre_id', $costCentreId)
+            $actual = $this->actualsQuery($costCentreId)
                 ->where('year', $y)
                 ->sum('amount');
 
@@ -288,14 +326,12 @@ class PowerBIController extends Controller
         $data = [];
 
         foreach ($quarterMonths as $m) {
-            $budget = DB::table('budget_lines')
-                ->join('budgets', 'budget_lines.budget_id', '=', 'budgets.id')
-                ->where('budgets.cost_centre_id', $costCentreId)
+            $budget = $this->budgetLinesQuery($costCentreId)
                 ->where('budgets.year', $year)
                 ->where('budget_lines.month', $m)
                 ->sum('budget_lines.amount');
 
-            $actual = Actual::where('cost_centre_id', $costCentreId)
+            $actual = $this->actualsQuery($costCentreId)
                 ->where('year', $year)
                 ->where('month', $m)
                 ->sum('amount');
@@ -315,7 +351,7 @@ class PowerBIController extends Controller
     private function getDepartmentComparison($year, $quarterMonths = null)
     {
         $quarterMonths = $quarterMonths ?? range(1, 12);
-        $costCentres = CostCentre::active()->get();
+        $costCentres = CostCentre::orderBy('name')->get();
         $data = [];
 
         foreach ($costCentres as $cc) {
@@ -354,14 +390,12 @@ class PowerBIController extends Controller
         $data = [];
 
         foreach ($quarters as $q) {
-            $budget = DB::table('budget_lines')
-                ->join('budgets', 'budget_lines.budget_id', '=', 'budgets.id')
-                ->where('budgets.cost_centre_id', $costCentreId)
+            $budget = $this->budgetLinesQuery($costCentreId)
                 ->where('budgets.year', $year)
                 ->whereIn('budget_lines.month', $q['months'])
                 ->sum('budget_lines.amount');
 
-            $actual = Actual::where('cost_centre_id', $costCentreId)
+            $actual = $this->actualsQuery($costCentreId)
                 ->where('year', $year)
                 ->whereIn('month', $q['months'])
                 ->sum('amount');
@@ -379,11 +413,11 @@ class PowerBIController extends Controller
     private function getTopSpendingAccounts($costCentreId, $year, $quarterMonths = null)
     {
         $quarterMonths = $quarterMonths ?? range(1, 12);
-        $accounts = Account::where('cost_centre_id', $costCentreId)->get();
+        $accounts = $this->accountsQuery($costCentreId)->get();
         $data = [];
 
         foreach ($accounts as $account) {
-            $actual = Actual::where('cost_centre_id', $costCentreId)
+            $actual = $this->actualsQuery($costCentreId)
                 ->where('account_id', $account->id)
                 ->where('year', $year)
                 ->whereIn('month', $quarterMonths)
@@ -409,13 +443,11 @@ class PowerBIController extends Controller
         $remainingMonths = range(now()->month + 1, 12);
         $forecastData = [];
 
-        $avgMonthlySpend = Actual::where('cost_centre_id', $costCentreId)
+        $avgMonthlySpend = $this->actualsQuery($costCentreId)
             ->where('year', $year - 1)
             ->sum('amount') / 12;
 
-        $remainingBudget = DB::table('budget_lines')
-            ->join('budgets', 'budget_lines.budget_id', '=', 'budgets.id')
-            ->where('budgets.cost_centre_id', $costCentreId)
+        $remainingBudget = $this->budgetLinesQuery($costCentreId)
             ->where('budgets.year', $year)
             ->whereIn('budget_lines.month', $remainingMonths)
             ->sum('budget_lines.amount');
@@ -440,7 +472,7 @@ class PowerBIController extends Controller
             return $m <= $currentMonth;
         });
         foreach ($filteredMonths as $m) {
-            $spend = Actual::where('cost_centre_id', $costCentreId)
+            $spend = $this->actualsQuery($costCentreId)
                 ->where('year', $year)
                 ->where('month', $m)
                 ->sum('amount');
@@ -493,18 +525,16 @@ class PowerBIController extends Controller
 
     private function getBudgetUtilizationRate($costCentreId, $year)
     {
-        $accounts = Account::where('cost_centre_id', $costCentreId)->get();
+        $accounts = $this->accountsQuery($costCentreId)->get();
         $data = [];
 
         foreach ($accounts as $account) {
-            $budget = DB::table('budget_lines')
-                ->join('budgets', 'budget_lines.budget_id', '=', 'budgets.id')
-                ->where('budgets.cost_centre_id', $costCentreId)
+            $budget = $this->budgetLinesQuery($costCentreId)
                 ->where('budgets.account_id', $account->id)
                 ->where('budgets.year', $year)
                 ->sum('budget_lines.amount');
 
-            $actual = Actual::where('cost_centre_id', $costCentreId)
+            $actual = $this->actualsQuery($costCentreId)
                 ->where('account_id', $account->id)
                 ->where('year', $year)
                 ->sum('amount');
@@ -542,7 +572,7 @@ class PowerBIController extends Controller
 
         // Get current year seasonal data
         foreach ($quarters as $q) {
-            $spend = Actual::where('cost_centre_id', $costCentreId)
+            $spend = $this->actualsQuery($costCentreId)
                 ->where('year', $year)
                 ->whereIn('month', $q['months'])
                 ->sum('amount');
@@ -555,7 +585,7 @@ class PowerBIController extends Controller
 
         // Get previous year for comparison
         foreach ($quarters as $q) {
-            $spend = Actual::where('cost_centre_id', $costCentreId)
+            $spend = $this->actualsQuery($costCentreId)
                 ->where('year', $year - 1)
                 ->whereIn('month', $q['months'])
                 ->sum('amount');
@@ -597,7 +627,7 @@ class PowerBIController extends Controller
         $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
         for ($m = 1; $m <= 12; $m++) {
-            $currentSpend = Actual::where('cost_centre_id', $costCentreId)
+            $currentSpend = $this->actualsQuery($costCentreId)
                 ->where('year', $year)
                 ->where('month', $m)
                 ->sum('amount');
@@ -609,7 +639,7 @@ class PowerBIController extends Controller
                 $prevYear = $year - 1;
             }
 
-            $prevSpend = Actual::where('cost_centre_id', $costCentreId)
+            $prevSpend = $this->actualsQuery($costCentreId)
                 ->where('year', $prevYear)
                 ->where('month', $prevMonth)
                 ->sum('amount');
@@ -633,13 +663,11 @@ class PowerBIController extends Controller
         // Get historical data for the last 3 years
         $historicalData = [];
         for ($y = $year - 3; $y < $year; $y++) {
-            $budget = DB::table('budget_lines')
-                ->join('budgets', 'budget_lines.budget_id', '=', 'budgets.id')
-                ->where('budgets.cost_centre_id', $costCentreId)
+            $budget = $this->budgetLinesQuery($costCentreId)
                 ->where('budgets.year', $y)
                 ->sum('budget_lines.amount');
 
-            $actual = Actual::where('cost_centre_id', $costCentreId)
+            $actual = $this->actualsQuery($costCentreId)
                 ->where('year', $y)
                 ->sum('amount');
 
@@ -651,13 +679,11 @@ class PowerBIController extends Controller
             ];
         }
 
-        $currentBudget = DB::table('budget_lines')
-            ->join('budgets', 'budget_lines.budget_id', '=', 'budgets.id')
-            ->where('budgets.cost_centre_id', $costCentreId)
+        $currentBudget = $this->budgetLinesQuery($costCentreId)
             ->where('budgets.year', $year)
             ->sum('budget_lines.amount');
 
-        $currentActual = Actual::where('cost_centre_id', $costCentreId)
+        $currentActual = $this->actualsQuery($costCentreId)
             ->where('year', $year)
             ->sum('amount');
 
@@ -685,16 +711,14 @@ class PowerBIController extends Controller
         $currentMonth = now()->month;
 
         // Overspend risk by account
-        $accounts = Account::where('cost_centre_id', $costCentreId)->get();
+        $accounts = $this->accountsQuery($costCentreId)->get();
         foreach ($accounts as $account) {
-            $budget = DB::table('budget_lines')
-                ->join('budgets', 'budget_lines.budget_id', '=', 'budgets.id')
-                ->where('budgets.cost_centre_id', $costCentreId)
+            $budget = $this->budgetLinesQuery($costCentreId)
                 ->where('budgets.account_id', $account->id)
                 ->where('budgets.year', $year)
                 ->sum('budget_lines.amount');
 
-            $actual = Actual::where('cost_centre_id', $costCentreId)
+            $actual = $this->actualsQuery($costCentreId)
                 ->where('account_id', $account->id)
                 ->where('year', $year)
                 ->sum('amount');
@@ -765,7 +789,7 @@ class PowerBIController extends Controller
     {
         // Assuming accounts can be categorized by their names or we need to add category field
         // For now, we'll categorize by account name patterns
-        $accounts = Account::where('cost_centre_id', $costCentreId)->get();
+        $accounts = $this->accountsQuery($costCentreId)->get();
         $categories = [
             'Personnel' => [],
             'Facilities' => [],
@@ -775,7 +799,7 @@ class PowerBIController extends Controller
         ];
 
         foreach ($accounts as $account) {
-            $actual = Actual::where('cost_centre_id', $costCentreId)
+            $actual = $this->actualsQuery($costCentreId)
                 ->where('account_id', $account->id)
                 ->where('year', $year)
                 ->sum('amount');
@@ -835,7 +859,7 @@ class PowerBIController extends Controller
     {
         $monthlyData = [];
         for ($m = 1; $m <= 12; $m++) {
-            $spend = Actual::where('cost_centre_id', $costCentreId)
+            $spend = $this->actualsQuery($costCentreId)
                 ->where('year', $year)
                 ->where('month', $m)
                 ->sum('amount');
@@ -873,34 +897,28 @@ class PowerBIController extends Controller
         $cumulative = [];
         $runningTotal = 0;
 
-        $budgetTotal = DB::table('budget_lines')
-            ->join('budgets', 'budget_lines.budget_id', '=', 'budgets.id')
-            ->where('budgets.cost_centre_id', $costCentreId)
+        $budgetTotal = $this->budgetLinesQuery($costCentreId)
             ->where('budgets.year', $year)
             ->sum('budget_lines.amount');
 
         $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
         for ($m = 1; $m <= 12; $m++) {
-            $monthlySpend = Actual::where('cost_centre_id', $costCentreId)
+            $monthlySpend = $this->actualsQuery($costCentreId)
                 ->where('year', $year)
                 ->where('month', $m)
                 ->sum('amount');
 
             $runningTotal += $monthlySpend;
 
-            $monthlyBudget = DB::table('budget_lines')
-                ->join('budgets', 'budget_lines.budget_id', '=', 'budgets.id')
-                ->where('budgets.cost_centre_id', $costCentreId)
+            $monthlyBudget = $this->budgetLinesQuery($costCentreId)
                 ->where('budgets.year', $year)
                 ->where('budget_lines.month', $m)
                 ->sum('budget_lines.amount');
 
             $cumulativeBudget = 0;
             for ($bm = 1; $bm <= $m; $bm++) {
-                $cumulativeBudget += DB::table('budget_lines')
-                    ->join('budgets', 'budget_lines.budget_id', '=', 'budgets.id')
-                    ->where('budgets.cost_centre_id', $costCentreId)
+                $cumulativeBudget += $this->budgetLinesQuery($costCentreId)
                     ->where('budgets.year', $year)
                     ->where('budget_lines.month', $bm)
                     ->sum('budget_lines.amount');
@@ -923,7 +941,7 @@ class PowerBIController extends Controller
     {
         $monthlyData = [];
         for ($m = 1; $m <= 12; $m++) {
-            $spend = Actual::where('cost_centre_id', $costCentreId)
+            $spend = $this->actualsQuery($costCentreId)
                 ->where('year', $year)
                 ->where('month', $m)
                 ->sum('amount');
@@ -959,11 +977,11 @@ class PowerBIController extends Controller
         }
 
         // Account-level anomalies
-        $accounts = Account::where('cost_centre_id', $costCentreId)->get();
+        $accounts = $this->accountsQuery($costCentreId)->get();
         foreach ($accounts as $account) {
             $accountSpend = [];
             for ($m = 1; $m <= 12; $m++) {
-                $spend = Actual::where('cost_centre_id', $costCentreId)
+                $spend = $this->actualsQuery($costCentreId)
                     ->where('account_id', $account->id)
                     ->where('year', $year)
                     ->where('month', $m)
