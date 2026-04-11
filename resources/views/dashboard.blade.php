@@ -93,7 +93,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="excel-table table table-striped table-sm">
+                            <table class="excel-table table table-sm">
                                 <thead>
                                     <tr>
                                         <th>Month</th>
@@ -176,7 +176,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="excel-table table table-striped"">
+                    <table class="excel-table table">
                         <thead>
                             <tr>
                                 <th>Account</th>

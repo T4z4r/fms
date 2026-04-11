@@ -167,17 +167,17 @@
         }
 
         .excel-table thead th {
-            background-color: #4a90e2;
+            background-color: var(--bs-primary, #0d6efd);
             font-weight: bold;
             color: #fff;
         }
 
-        .excel-table tbody tr:nth-child(even) {
-            background-color: #b5dffe;
+        .excel-table tbody tr:nth-child(even)>* {
+            background-color: #d9e8f7 !important;
         }
 
-        .excel-table tbody tr:hover {
-            background-color: #b3d9ff;
+        .excel-table tbody tr:hover>* {
+            background-color: #6fb6ff;
         }
     </style>
 </head>

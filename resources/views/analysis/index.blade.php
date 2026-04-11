@@ -215,7 +215,7 @@
                             <h5>Monthly Trend</h5>
                         </div>
                         <div class="card-body">
-                            <table class="excel-table table table-sm table-striped table-hover">
+                            <table class="excel-table table table-sm table-hover">
                                 <thead>
                                     <tr>
                                         <th>Month</th>
@@ -247,7 +247,7 @@
                             <h5>Account Analysis</h5>
                         </div>
                         <div class="card-body">
-                            <table class="excel-table table table-sm table-striped table-hover">
+                            <table class="excel-table table table-sm table-hover">
                                 <thead>
                                     <tr>
                                         <th>Account</th>

@@ -12,7 +12,7 @@
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <table class="excel-table table table-striped table-hover table-sm">
+        <table class="excel-table table table-hover table-sm">
             <thead>
                 <tr>
                     <th>#</th>
@@ -34,7 +34,7 @@
                             </span>
                         </td>
                         <td>
-                            <a href="{{ route('cost-centres.show', $cc) }}" class="btn btn-sm btn-info">View</a>
+                            <a href="{{ route('cost-centres.show', $cc) }}" class="btn btn-sm btn-primary">View</a>
                             <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#costCentreModal"
                                 data-mode="edit" data-id="{{ $cc->id }}" data-name="{{ $cc->name }}"
                                 data-owner="{{ $cc->owner }}" data-status="{{ $cc->status }}">Edit</button>

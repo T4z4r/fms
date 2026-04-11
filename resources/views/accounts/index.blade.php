@@ -22,7 +22,7 @@
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <table class="excel-table table table-striped table-hover table-sm ">
+        <table class="excel-table table table-hover table-sm ">
             <thead>
                 <tr>
                     <th>Code</th>
@@ -38,7 +38,7 @@
                         <td>{{ $account->name }}</td>
                         <td>{{ $account->costCentre?->name ?? 'N/A' }}</td>
                         <td>
-                            <a href="{{ route('accounts.show', $account) }}" class="btn btn-sm btn-info">View</a>
+                            <a href="{{ route('accounts.show', $account) }}" class="btn btn-sm btn-primary">View</a>
                             <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#accountModal"
                                 data-mode="edit" data-id="{{ $account->id }}" data-code="{{ $account->code }}"
                                 data-name="{{ $account->name }}"

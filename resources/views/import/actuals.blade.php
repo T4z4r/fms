@@ -13,7 +13,7 @@
         <div class="card mb-4">
             <div class="card-body">
                 <h5>Example Format:</h5>
-                <table class="excel-table table table-sm table-bordered table-striped">
+                <table class="excel-table table table-sm table-bordered">
                     <thead>
                         <tr>
                             <th>code</th>

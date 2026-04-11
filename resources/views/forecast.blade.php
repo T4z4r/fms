@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <table class="excel-table table table-striped table-hover table-sm ">
+        <table class="excel-table table table-hover table-sm ">
             <thead>
                 <tr>
                     <th>Account</th>

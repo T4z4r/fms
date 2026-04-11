@@ -33,7 +33,7 @@
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <table class="excel-table table table-striped table-hover table-sm  ">
+        <table class="excel-table table table-hover table-sm  ">
             <thead>
                 <tr>
                     <th>Cost Centre</th>
@@ -53,7 +53,7 @@
                         <td>{{ DateTime::createFromFormat('!m', $actual->month)->format('F') }}</td>
                         <td>£{{ number_format($actual->amount, 2) }}</td>
                         <td>
-                            <a href="{{ route('actuals.show', $actual) }}" class="btn btn-sm btn-info">View</a>
+                            <a href="{{ route('actuals.show', $actual) }}" class="btn btn-sm btn-primary">View</a>
                             <a href="{{ route('actuals.edit', $actual) }}" class="btn btn-sm btn-warning">Edit</a>
                             <form action="{{ route('actuals.destroy', $actual) }}" method="POST" class="d-inline">
                                 @csrf @method('DELETE')

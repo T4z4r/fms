@@ -28,7 +28,7 @@
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <table class="excel-table table table-striped table-hover table-sm">
+        <table class="excel-table table  table-hover table-sm">
             <thead>
                 <tr>
                     <th>Cost Centre</th>
@@ -46,7 +46,7 @@
                         <td>{{ $budget->year }}</td>
                         <td>£{{ number_format($budget->annual_budget, 2) }}</td>
                         <td>
-                            <a href="{{ route('budgets.show', $budget) }}" class="btn btn-sm btn-info">View</a>
+                            <a href="{{ route('budgets.show', $budget) }}" class="btn btn-sm btn-primary">View</a>
                             <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#budgetModal"
                                 data-mode="edit" data-id="{{ $budget->id }}"
                                 data-cost_centre_id="{{ $budget->cost_centre_id }}"
