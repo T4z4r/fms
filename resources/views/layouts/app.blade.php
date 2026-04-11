@@ -242,11 +242,56 @@
             flex-wrap: nowrap;
         }
 
+        .app-navbar {
+            padding-block: 0.75rem;
+        }
+
+        .app-navbar .container {
+            gap: 0.75rem;
+        }
+
+        .app-navbar .navbar-brand {
+            gap: 0.65rem;
+            min-width: 0;
+            margin-right: 0;
+        }
+
+        .app-navbar .navbar-brand i {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.35rem;
+            height: 2.35rem;
+            border-radius: 0.85rem;
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.18), rgba(124, 181, 255, 0.32));
+            font-size: 1.1rem;
+        }
+
+        .app-navbar .navbar-toggler {
+            border: 1px solid rgba(13, 110, 253, 0.18);
+            padding: 0.45rem 0.65rem;
+            border-radius: 0.85rem;
+            box-shadow: none;
+        }
+
+        .app-navbar .navbar-toggler:focus {
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.16);
+        }
+
+        .app-navbar .navbar-collapse {
+            gap: 1rem;
+        }
+
+        .app-navbar .navbar-nav {
+            gap: 0.25rem;
+        }
+
         .navbar .nav-link {
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 0.5rem;
+            border-radius: 0.85rem;
         }
 
         .navbar .nav-link i {
@@ -303,14 +348,10 @@
                 flex-wrap: wrap;
                 white-space: normal;
             }
-        }
 
-        .navbar .navbar-collapse {
-            gap: 1rem;
-        }
-
-        .navbar .navbar-nav {
-            gap: 0.25rem;
+            .app-navbar .navbar-collapse {
+                align-items: center;
+            }
         }
 
         @media (max-width: 575.98px) {
@@ -459,11 +500,66 @@
         }
 
         @media (max-width: 767.98px) {
+            .app-navbar {
+                padding-block: 0.6rem;
+            }
+
+            .app-navbar .container {
+                row-gap: 0.6rem;
+            }
+
+            .app-navbar .navbar-brand {
+                flex: 1 1 auto;
+            }
+
+            .app-navbar .navbar-brand span {
+                max-width: 12rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .app-navbar .navbar-collapse {
+                width: 100%;
+                margin-top: 0.35rem;
+                padding: 0.75rem;
+                border: 1px solid rgba(13, 110, 253, 0.1);
+                border-radius: 1rem;
+                background: #fff;
+                box-shadow: 0 14px 30px rgba(18, 48, 79, 0.08);
+            }
+
+            .app-navbar .nav-scroll-container {
+                overflow: visible;
+            }
+
+            .app-navbar .nav-scroll-container .nav {
+                flex-direction: column;
+                flex-wrap: nowrap;
+                white-space: normal;
+                width: 100%;
+            }
+
+            .app-navbar .navbar-nav {
+                width: 100%;
+            }
+
+            .app-navbar .navbar-nav.ms-auto {
+                margin-left: 0 !important;
+                padding-top: 0.5rem;
+                border-top: 1px solid var(--bs-border-color);
+            }
+
+            .app-navbar .nav-item {
+                width: 100%;
+            }
+
             .navbar .nav-link {
                 flex-direction: row;
                 justify-content: flex-start;
                 gap: 0.5rem;
                 align-items: center;
+                width: 100%;
+                padding: 0.75rem 0.85rem;
             }
 
             .navbar .nav-link i {
@@ -477,6 +573,19 @@
 
             .navbar .user-dropdown-toggle {
                 justify-content: flex-start;
+            }
+
+            .app-navbar .dropdown-menu {
+                position: static !important;
+                transform: none !important;
+                width: 100%;
+                margin-top: 0.45rem;
+                border-radius: 0.85rem;
+                box-shadow: none;
+            }
+
+            .app-navbar .dropdown-item {
+                padding-block: 0.75rem;
             }
 
             footer small {
@@ -500,10 +609,10 @@
     </div>
     <div id="app" class="d-flex flex-column flex-grow-1">
         @auth
-            <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+            <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm app-navbar">
                 <div class="container">
                     <a class="navbar-brand fw-bold text-primary d-flex align-items-center" href="{{ url('/') }}">
-                        <i class="bi bi-speedometer2 me-2"></i>
+                        <i class="bi bi-speedometer2"></i>
                         <span class="d-none d-sm-inline">{{ config('app.name', 'FMS') }}</span>
                         <span class="d-sm-none">FMS</span>
                     </a>
