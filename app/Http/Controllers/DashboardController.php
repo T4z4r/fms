@@ -6,8 +6,10 @@ use App\Models\Actual;
 use App\Models\Budget;
 use App\Models\BudgetLine;
 use App\Models\CostCentre;
+use App\Models\Setting;
 use App\Services\AiCommentaryService;
 use App\Services\AlertService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -224,9 +226,26 @@ class DashboardController extends Controller
 
     public function reports(Request $request)
     {
-        $year = $request->year ?? now()->year;
+        $year = (int) ($request->year ?? now()->year);
 
-        $costCentres = CostCentre::active()->with(['accounts', 'budgets' => fn ($q) => $q->where('year', $year)])->get();
+        return view('reports.index', $this->buildReportData($year));
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $year = (int) ($request->year ?? now()->year);
+        $pdf = Pdf::loadView('reports.pdf', $this->buildReportData($year))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->download('financial-report-'.$year.'.pdf');
+    }
+
+    private function buildReportData(int $year): array
+    {
+        $costCentres = CostCentre::active()
+            ->with(['owner', 'budgets' => fn ($query) => $query->where('year', $year)])
+            ->orderBy('name')
+            ->get();
 
         $actuals = Actual::where('year', $year)
             ->select('cost_centre_id', 'account_id', DB::raw('SUM(amount) as total'))
@@ -234,7 +253,49 @@ class DashboardController extends Controller
             ->get()
             ->groupBy('cost_centre_id');
 
-        return view('reports.index', compact('costCentres', 'actuals', 'year'));
+        $rows = $costCentres->map(function ($costCentre) use ($actuals) {
+            $budgetTotal = (float) $costCentre->budgets->sum('annual_budget');
+            $actualGroup = $actuals->get($costCentre->id);
+            $actualTotal = $actualGroup ? (float) $actualGroup->sum('total') : 0.0;
+            $variance = $budgetTotal - $actualTotal;
+            $ownerName = optional($costCentre->getRelation('owner'))->name;
+
+            return [
+                'name' => $costCentre->name,
+                'owner' => $ownerName,
+                'budget_total' => $budgetTotal,
+                'actual_total' => $actualTotal,
+                'variance' => $variance,
+                'variance_percent' => $budgetTotal > 0 ? ($variance / $budgetTotal) * 100 : null,
+                'status' => $variance >= 0 ? 'Under budget' : 'Over budget',
+            ];
+        });
+
+        $totals = [
+            'budget_total' => $rows->sum('budget_total'),
+            'actual_total' => $rows->sum('actual_total'),
+        ];
+        $totals['variance'] = $totals['budget_total'] - $totals['actual_total'];
+        $totals['variance_percent'] = $totals['budget_total'] > 0
+            ? ($totals['variance'] / $totals['budget_total']) * 100
+            : null;
+
+        $companySettings = Setting::getCompanySettings();
+        $companyName = $companySettings['company_name'] ?: config('app.name', 'FMS');
+        $currencyCode = $companySettings['company_currency'] ?: 'GBP';
+
+        return [
+            'year' => $year,
+            'rows' => $rows,
+            'totals' => $totals,
+            'generatedAt' => now(),
+            'companyName' => $companyName,
+            'currencyCode' => $currencyCode,
+            'currencySymbol' => Setting::getCurrencySymbol($currencyCode),
+            'costCentreCount' => $rows->count(),
+            'underBudgetCount' => $rows->where('variance', '>=', 0)->count(),
+            'overBudgetCount' => $rows->where('variance', '<', 0)->count(),
+        ];
     }
 
     public function forecast(Request $request)

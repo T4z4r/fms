@@ -25,6 +25,7 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/reports', [DashboardController::class, 'reports'])->name('reports');
+    Route::get('/reports/pdf', [DashboardController::class, 'exportPdf'])->name('reports.export.pdf');
     Route::get('/forecast', [DashboardController::class, 'forecast'])->name('forecast');
 
     Route::middleware(['role:admin'])->group(function () {
