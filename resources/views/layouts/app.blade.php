@@ -303,7 +303,8 @@
                                         <i class="bi bi-person"></i> {{ __('Profile') }}
                                     </a>
                                     <a class="dropdown-item" href="#"
-                                        data-confirm="Are you sure you want to logout?">
+                                        data-confirm="Are you sure you want to logout?"
+                                        data-confirm-form="logout-form">
                                         <i class="bi bi-box-arrow-right"></i> {{ __('Logout') }}
                                     </a>
 
@@ -381,6 +382,7 @@
             document.querySelectorAll('a[data-confirm]').forEach(function(link) {
                 link.addEventListener('click', function(e) {
                     var message = this.getAttribute('data-confirm') || 'Are you sure?';
+                    var formId = this.getAttribute('data-confirm-form');
                     e.preventDefault();
                     var href = this.getAttribute('href');
                     Swal.fire({
@@ -393,7 +395,19 @@
                         confirmButtonText: 'Confirm',
                         cancelButtonText: 'Cancel'
                     }).then((result) => {
-                        if (result.isConfirmed && href) {
+                        if (!result.isConfirmed) {
+                            return;
+                        }
+
+                        if (formId) {
+                            var form = document.getElementById(formId);
+                            if (form) {
+                                form.submit();
+                                return;
+                            }
+                        }
+
+                        if (href && href !== '#') {
                             window.location.href = href;
                         }
                     });
