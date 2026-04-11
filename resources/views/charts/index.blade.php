@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h4 class="mb-4"><i class="bi bi-pie-chart"></i> Financial Charts</h4>
+        <h4 class="mb-4"><i class="bi bi-pie-chart text-primary"></i> Financial Charts</h4>
 
         <form method="GET" class="row g-3 mb-4">
             <div class="col-md-4">
@@ -30,8 +30,14 @@
             <div class="row mb-4">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                             <h5 class="mb-0">Monthly Budget vs Actual Trend</h5>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Monthly trend chart type">
+                                <button type="button" class="btn btn-outline-primary active" data-chart-target="monthly-trend-chart" data-chart-type="line">Line</button>
+                                <button type="button" class="btn btn-outline-primary" data-chart-target="monthly-trend-chart" data-chart-type="column">Column</button>
+                                <button type="button" class="btn btn-outline-primary" data-chart-target="monthly-trend-chart" data-chart-type="area">Area</button>
+                                <button type="button" class="btn btn-outline-primary" data-chart-target="monthly-trend-chart" data-chart-type="spline">Spline</button>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div id="monthly-trend-chart"></div>
@@ -43,8 +49,15 @@
             <div class="row mb-4">
                 <div class="col-md-6">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                             <h5 class="mb-0">Account Distribution</h5>
+                            <div class="btn-group btn-group-sm flex-wrap" role="group" aria-label="Account chart type">
+                                <button type="button" class="btn btn-outline-primary active" data-chart-target="account-chart" data-chart-type="column">Column</button>
+                                <button type="button" class="btn btn-outline-primary" data-chart-target="account-chart" data-chart-type="bar">Bar</button>
+                                <button type="button" class="btn btn-outline-primary" data-chart-target="account-chart" data-chart-type="line">Line</button>
+                                <button type="button" class="btn btn-outline-primary" data-chart-target="account-chart" data-chart-type="area">Area</button>
+                                <button type="button" class="btn btn-outline-primary" data-chart-target="account-chart" data-chart-type="pie">Pie</button>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div id="account-chart"></div>
@@ -53,8 +66,14 @@
                 </div>
                 <div class="col-md-6">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                             <h5 class="mb-0">Yearly Comparison</h5>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Yearly comparison chart type">
+                                <button type="button" class="btn btn-outline-primary active" data-chart-target="yearly-chart" data-chart-type="column">Column</button>
+                                <button type="button" class="btn btn-outline-primary" data-chart-target="yearly-chart" data-chart-type="line">Line</button>
+                                <button type="button" class="btn btn-outline-primary" data-chart-target="yearly-chart" data-chart-type="bar">Bar</button>
+                                <button type="button" class="btn btn-outline-primary" data-chart-target="yearly-chart" data-chart-type="area">Area</button>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div id="yearly-chart"></div>
@@ -66,8 +85,14 @@
             <div class="row mb-4">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                             <h5 class="mb-0">Monthly Variance Trend</h5>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Monthly variance chart type">
+                                <button type="button" class="btn btn-outline-primary active" data-chart-target="variance-chart" data-chart-type="column">Column</button>
+                                <button type="button" class="btn btn-outline-primary" data-chart-target="variance-chart" data-chart-type="bar">Bar</button>
+                                <button type="button" class="btn btn-outline-primary" data-chart-target="variance-chart" data-chart-type="line">Line</button>
+                                <button type="button" class="btn btn-outline-primary" data-chart-target="variance-chart" data-chart-type="area">Area</button>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div id="variance-chart"></div>
@@ -79,18 +104,31 @@
             <script>
                 (function() {
                     var chartInstances = {};
+                    var chartState = {
+                        'monthly-trend-chart': 'line',
+                        'account-chart': 'column',
+                        'yearly-chart': 'column',
+                        'variance-chart': 'column'
+                    };
 
-                    window.renderCharts = function() {
-                        var monthlyCategories = @json($monthlyData['categories']);
-                        var monthlyBudget = @json($monthlyData['budget']);
-                        var monthlyActual = @json($monthlyData['actual']);
+                    var monthlyCategories = @json($monthlyData['categories']);
+                    var monthlyBudget = @json($monthlyData['budget']);
+                    var monthlyActual = @json($monthlyData['actual']);
+                    var accountData = @json($accountData);
+                    var yearlyData = @json($yearlyComparison);
+                    var varianceData = @json($varianceData);
 
-                        if (chartInstances['monthly-trend-chart']) {
-                            chartInstances['monthly-trend-chart'].destroy();
-                        }
+                    function setActiveChartButton(chartId, chartType) {
+                        document.querySelectorAll('[data-chart-target="' + chartId + '"]').forEach(function(button) {
+                            var isActive = button.getAttribute('data-chart-type') === chartType;
+                            button.classList.toggle('active', isActive);
+                        });
+                    }
+
+                    function renderMonthlyTrendChart(chartType) {
                         chartInstances['monthly-trend-chart'] = Highcharts.chart('monthly-trend-chart', {
                             chart: {
-                                type: 'line'
+                                type: chartType
                             },
                             title: {
                                 text: 'Monthly Budget vs Actual'
@@ -104,181 +142,84 @@
                                 }
                             },
                             series: [{
-                                    name: 'Budget',
-                                    data: monthlyBudget,
-                                    color: '#0d6efd'
-                                },
-                                {
-                                    name: 'Actual',
-                                    data: monthlyActual,
-                                    color: '#198754'
-                                }
-                            ],
-                            exporting: {
-                                menuItems: [{
-                                        text: 'Line',
-                                        onclick: function() {
-                                            this.update({
-                                                chart: {
-                                                    type: 'line'
-                                                }
-                                            });
-                                        }
-                                    },
-                                    {
-                                        text: 'Column',
-                                        onclick: function() {
-                                            this.update({
-                                                chart: {
-                                                    type: 'column'
-                                                }
-                                            });
-                                        }
-                                    },
-                                    {
-                                        text: 'Area',
-                                        onclick: function() {
-                                            this.update({
-                                                chart: {
-                                                    type: 'area'
-                                                }
-                                            });
-                                        }
-                                    },
-                                    {
-                                        text: 'Spline',
-                                        onclick: function() {
-                                            this.update({
-                                                chart: {
-                                                    type: 'spline'
-                                                }
-                                            });
-                                        }
-                                    }
-                                ]
-                            },
+                                name: 'Budget',
+                                data: monthlyBudget,
+                                color: '#0d6efd'
+                            }, {
+                                name: 'Actual',
+                                data: monthlyActual,
+                                color: '#198754'
+                            }],
                             credits: {
                                 enabled: false
                             }
                         });
+                    }
 
-                        var accountData = @json($accountData);
-                        if (chartInstances['account-chart']) {
-                            chartInstances['account-chart'].destroy();
-                        }
-                        chartInstances['account-chart'] = Highcharts.chart('account-chart', {
+                    function renderAccountChart(chartType) {
+                        var isPieChart = chartType === 'pie';
+                        var options = {
                             chart: {
-                                type: 'column'
+                                type: chartType
                             },
                             title: {
                                 text: 'Budget vs Actual by Account'
                             },
-                            xAxis: {
-                                categories: accountData.map(function(a) {
-                                    return a.name;
-                                })
-                            },
-                            yAxis: {
-                                title: {
-                                    text: 'Amount (£)'
-                                }
-                            },
-                            series: [{
-                                    name: 'Budget',
-                                    data: accountData.map(function(a) {
-                                        return a.budget;
-                                    }),
-                                    color: '#0d6efd'
-                                },
-                                {
-                                    name: 'Actual',
-                                    data: accountData.map(function(a) {
-                                        return a.actual;
-                                    }),
-                                    color: '#198754'
-                                }
-                            ],
-                            exporting: {
-                                menuItems: [{
-                                        text: 'Column',
-                                        onclick: function() {
-                                            this.update({
-                                                chart: {
-                                                    type: 'column'
-                                                }
-                                            });
-                                        }
-                                    },
-                                    {
-                                        text: 'Bar',
-                                        onclick: function() {
-                                            this.update({
-                                                chart: {
-                                                    type: 'bar'
-                                                }
-                                            });
-                                        }
-                                    },
-                                    {
-                                        text: 'Line',
-                                        onclick: function() {
-                                            this.update({
-                                                chart: {
-                                                    type: 'line'
-                                                }
-                                            });
-                                        }
-                                    },
-                                    {
-                                        text: 'Area',
-                                        onclick: function() {
-                                            this.update({
-                                                chart: {
-                                                    type: 'area'
-                                                }
-                                            });
-                                        }
-                                    },
-                                    {
-                                        text: 'Pie',
-                                        onclick: function() {
-                                            this.update({
-                                                chart: {
-                                                    type: 'pie'
-                                                },
-                                                series: [{
-                                                    name: 'Amount',
-                                                    data: accountData.map(function(a) {
-                                                        return {
-                                                            name: a.name,
-                                                            y: a.budget + a.actual
-                                                        };
-                                                    })
-                                                }]
-                                            });
-                                        }
-                                    }
-                                ]
-                            },
                             credits: {
                                 enabled: false
                             }
-                        });
+                        };
 
-                        var yearlyData = @json($yearlyComparison);
-                        if (chartInstances['yearly-chart']) {
-                            chartInstances['yearly-chart'].destroy();
+                        if (isPieChart) {
+                            options.series = [{
+                                name: 'Amount',
+                                data: accountData.map(function(account) {
+                                    return {
+                                        name: account.name,
+                                        y: account.budget + account.actual
+                                    };
+                                })
+                            }];
+                        } else {
+                            options.xAxis = {
+                                categories: accountData.map(function(account) {
+                                    return account.name;
+                                })
+                            };
+                            options.yAxis = {
+                                title: {
+                                    text: 'Amount (£)'
+                                }
+                            };
+                            options.series = [{
+                                name: 'Budget',
+                                data: accountData.map(function(account) {
+                                    return account.budget;
+                                }),
+                                color: '#0d6efd'
+                            }, {
+                                name: 'Actual',
+                                data: accountData.map(function(account) {
+                                    return account.actual;
+                                }),
+                                color: '#198754'
+                            }];
                         }
+
+                        chartInstances['account-chart'] = Highcharts.chart('account-chart', options);
+                    }
+
+                    function renderYearlyChart(chartType) {
                         chartInstances['yearly-chart'] = Highcharts.chart('yearly-chart', {
                             chart: {
-                                type: 'column'
+                                type: chartType
                             },
                             title: {
                                 text: 'Yearly Budget vs Actual'
                             },
                             xAxis: {
-                                categories: yearlyData.map(function(d) {
-                                    return d.year;
+                                categories: yearlyData.map(function(item) {
+                                    return item.year;
                                 })
                             },
                             yAxis: {
@@ -287,82 +228,35 @@
                                 }
                             },
                             series: [{
-                                    name: 'Budget',
-                                    data: yearlyData.map(function(d) {
-                                        return d.budget;
-                                    }),
-                                    color: '#0d6efd'
-                                },
-                                {
-                                    name: 'Actual',
-                                    data: yearlyData.map(function(d) {
-                                        return d.actual;
-                                    }),
-                                    color: '#198754'
-                                }
-                            ],
-                            exporting: {
-                                menuItems: [{
-                                        text: 'Column',
-                                        onclick: function() {
-                                            this.update({
-                                                chart: {
-                                                    type: 'column'
-                                                }
-                                            });
-                                        }
-                                    },
-                                    {
-                                        text: 'Line',
-                                        onclick: function() {
-                                            this.update({
-                                                chart: {
-                                                    type: 'line'
-                                                }
-                                            });
-                                        }
-                                    },
-                                    {
-                                        text: 'Bar',
-                                        onclick: function() {
-                                            this.update({
-                                                chart: {
-                                                    type: 'bar'
-                                                }
-                                            });
-                                        }
-                                    },
-                                    {
-                                        text: 'Area',
-                                        onclick: function() {
-                                            this.update({
-                                                chart: {
-                                                    type: 'area'
-                                                }
-                                            });
-                                        }
-                                    }
-                                ]
-                            },
+                                name: 'Budget',
+                                data: yearlyData.map(function(item) {
+                                    return item.budget;
+                                }),
+                                color: '#0d6efd'
+                            }, {
+                                name: 'Actual',
+                                data: yearlyData.map(function(item) {
+                                    return item.actual;
+                                }),
+                                color: '#198754'
+                            }],
                             credits: {
                                 enabled: false
                             }
                         });
+                    }
 
-                        var varianceData = @json($varianceData);
-                        if (chartInstances['variance-chart']) {
-                            chartInstances['variance-chart'].destroy();
-                        }
+                    function renderVarianceChart(chartType) {
                         chartInstances['variance-chart'] = Highcharts.chart('variance-chart', {
                             chart: {
-                                type: 'column'
+                                type: chartType
                             },
                             title: {
                                 text: 'Monthly Variance (Budget - Actual)'
                             },
                             xAxis: {
-                                categories: varianceData.map(function(v) {
-                                    return v.month;
+                                categories: varianceData.map(function(item) {
+                                    return item.month;
                                 })
                             },
                             yAxis: {
@@ -372,60 +266,70 @@
                             },
                             series: [{
                                 name: 'Variance',
-                                data: varianceData.map(function(v) {
+                                data: varianceData.map(function(item) {
                                     return {
-                                        y: v.variance,
-                                        color: v.variance >= 0 ? '#198754' : '#dc3545'
+                                        y: item.variance,
+                                        color: item.variance >= 0 ? '#198754' : '#dc3545'
                                     };
                                 })
                             }],
-                            exporting: {
-                                menuItems: [{
-                                        text: 'Column',
-                                        onclick: function() {
-                                            this.update({
-                                                chart: {
-                                                    type: 'column'
-                                                }
-                                            });
-                                        }
-                                    },
-                                    {
-                                        text: 'Bar',
-                                        onclick: function() {
-                                            this.update({
-                                                chart: {
-                                                    type: 'bar'
-                                                }
-                                            });
-                                        }
-                                    },
-                                    {
-                                        text: 'Line',
-                                        onclick: function() {
-                                            this.update({
-                                                chart: {
-                                                    type: 'line'
-                                                }
-                                            });
-                                        }
-                                    },
-                                    {
-                                        text: 'Area',
-                                        onclick: function() {
-                                            this.update({
-                                                chart: {
-                                                    type: 'area'
-                                                }
-                                            });
-                                        }
-                                    }
-                                ]
-                            },
                             credits: {
                                 enabled: false
                             }
                         });
+                    }
+
+                    function renderChart(chartId) {
+                        if (chartInstances[chartId]) {
+                            chartInstances[chartId].destroy();
+                        }
+
+                        if (chartId === 'monthly-trend-chart') {
+                            renderMonthlyTrendChart(chartState[chartId]);
+                        }
+
+                        if (chartId === 'account-chart') {
+                            renderAccountChart(chartState[chartId]);
+                        }
+
+                        if (chartId === 'yearly-chart') {
+                            renderYearlyChart(chartState[chartId]);
+                        }
+
+                        if (chartId === 'variance-chart') {
+                            renderVarianceChart(chartState[chartId]);
+                        }
+
+                        setActiveChartButton(chartId, chartState[chartId]);
+                    }
+
+                    window.setChartType = function(chartId, chartType) {
+                        chartState[chartId] = chartType;
+                        renderChart(chartId);
+                    };
+
+                    function bindChartTypeSwitchers() {
+                        document.querySelectorAll('[data-chart-target]').forEach(function(button) {
+                            if (button.dataset.chartSwitcherBound === 'true') {
+                                return;
+                            }
+
+                            button.dataset.chartSwitcherBound = 'true';
+                            button.addEventListener('click', function() {
+                                window.setChartType(
+                                    button.getAttribute('data-chart-target'),
+                                    button.getAttribute('data-chart-type')
+                                );
+                            });
+                        });
+                    }
+
+                    window.renderCharts = function() {
+                        bindChartTypeSwitchers();
+                        renderChart('monthly-trend-chart');
+                        renderChart('account-chart');
+                        renderChart('yearly-chart');
+                        renderChart('variance-chart');
                     };
 
                     if (document.readyState === 'loading') {

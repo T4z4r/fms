@@ -52,6 +52,21 @@
             font-size: 0.75rem;
         }
 
+        .navbar .user-dropdown-toggle {
+            flex-direction: row;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .navbar .user-dropdown-toggle i {
+            margin-bottom: 0;
+            font-size: 1rem;
+        }
+
+        .navbar .user-dropdown-toggle span {
+            font-size: 0.95rem;
+        }
+
         .nav-scroll-container {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
@@ -276,9 +291,11 @@
 
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle user-dropdown-toggle" href="#"
+                                    role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                    v-pre>
+                                    <i class="bi bi-person-circle text-primary"></i>
+                                    <span>{{ Auth::user()->name }}</span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

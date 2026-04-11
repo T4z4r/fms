@@ -152,16 +152,16 @@
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <div class="card">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Budget vs Actual Trend</h5>
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary"
+                                        <div class="btn-group btn-group-sm flex-wrap" role="group">
+                                            <button type="button" class="btn btn-outline-primary active"
                                                 onclick="changeChartType('monthly-trend-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('monthly-trend-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('monthly-trend-chart', 'area')">Area</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('monthly-trend-chart', 'spline')">Spline</button>
                                         </div>
                                     </div>
@@ -172,16 +172,16 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="card">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Department Comparison</h5>
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary"
+                                        <div class="btn-group btn-group-sm flex-wrap" role="group">
+                                            <button type="button" class="btn btn-outline-primary active"
                                                 onclick="changeChartType('department-chart', 'bar')">Bar</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('department-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('department-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('department-chart', 'area')">Area</button>
                                         </div>
                                     </div>
@@ -205,16 +205,16 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="card">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Yearly Comparison</h5>
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary"
+                                        <div class="btn-group btn-group-sm flex-wrap" role="group">
+                                            <button type="button" class="btn btn-outline-primary active"
                                                 onclick="changeChartType('yearly-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('yearly-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('yearly-chart', 'bar')">Bar</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('yearly-chart', 'area')">Area</button>
                                         </div>
                                     </div>
@@ -230,16 +230,16 @@
                         <div class="row mb-4">
                             <div class="col-md-12">
                                 <div class="card">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Monthly Variance Trend</h5>
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary"
+                                        <div class="btn-group btn-group-sm flex-wrap" role="group">
+                                            <button type="button" class="btn btn-outline-primary active"
                                                 onclick="changeChartType('variance-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('variance-chart', 'bar')">Bar</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('variance-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('variance-chart', 'area')">Area</button>
                                         </div>
                                     </div>
@@ -253,16 +253,16 @@
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <div class="card">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Quarterly Comparison</h5>
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary"
+                                        <div class="btn-group btn-group-sm flex-wrap" role="group">
+                                            <button type="button" class="btn btn-outline-primary active"
                                                 onclick="changeChartType('quarterly-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('quarterly-chart', 'bar')">Bar</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('quarterly-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('quarterly-chart', 'area')">Area</button>
                                         </div>
                                     </div>
@@ -273,16 +273,16 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="card">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Top 5 Spending Accounts</h5>
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary"
+                                        <div class="btn-group btn-group-sm flex-wrap" role="group">
+                                            <button type="button" class="btn btn-outline-primary active"
                                                 onclick="changeChartType('top-accounts-chart', 'bar')">Bar</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('top-accounts-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('top-accounts-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('top-accounts-chart', 'area')">Area</button>
                                         </div>
                                     </div>
@@ -337,16 +337,16 @@
                         <div class="row mb-4">
                             <div class="col-md-12">
                                 <div class="card">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Spending Velocity Analysis</h5>
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary"
+                                        <div class="btn-group btn-group-sm flex-wrap" role="group">
+                                            <button type="button" class="btn btn-outline-primary active"
                                                 onclick="changeChartType('spending-velocity-chart', 'area')">Area</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('spending-velocity-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('spending-velocity-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('spending-velocity-chart', 'spline')">Spline</button>
                                         </div>
                                     </div>
@@ -386,16 +386,16 @@
                         <div class="row mb-4">
                             <div class="col-md-12">
                                 <div class="card">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Budget Utilization Rate per Account</h5>
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary"
+                                        <div class="btn-group btn-group-sm flex-wrap" role="group">
+                                            <button type="button" class="btn btn-outline-primary active"
                                                 onclick="changeChartType('budget-utilization-chart', 'bar')">Bar</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('budget-utilization-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('budget-utilization-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('budget-utilization-chart', 'area')">Area</button>
                                         </div>
                                     </div>
@@ -441,16 +441,16 @@
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <div class="card">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Seasonal Trend Analysis</h5>
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary"
+                                        <div class="btn-group btn-group-sm flex-wrap" role="group">
+                                            <button type="button" class="btn btn-outline-primary active"
                                                 onclick="changeChartType('seasonal-trends-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('seasonal-trends-chart', 'bar')">Bar</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('seasonal-trends-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('seasonal-trends-chart', 'area')">Area</button>
                                         </div>
                                     </div>
@@ -504,16 +504,16 @@
                         <div class="row mb-4">
                             <div class="col-md-12">
                                 <div class="card">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Month-over-Month Growth Analysis</h5>
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary"
+                                        <div class="btn-group btn-group-sm flex-wrap" role="group">
+                                            <button type="button" class="btn btn-outline-primary active"
                                                 onclick="changeChartType('mom-growth-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('mom-growth-chart', 'bar')">Bar</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('mom-growth-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('mom-growth-chart', 'area')">Area</button>
                                         </div>
                                     </div>
@@ -629,16 +629,16 @@
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <div class="card">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Rolling Averages Analysis</h5>
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary"
+                                        <div class="btn-group btn-group-sm flex-wrap" role="group">
+                                            <button type="button" class="btn btn-outline-primary active"
                                                 onclick="changeChartType('rolling-averages-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('rolling-averages-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('rolling-averages-chart', 'area')">Area</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('rolling-averages-chart', 'spline')">Spline</button>
                                         </div>
                                     </div>
@@ -649,16 +649,16 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="card">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Cumulative Spending Analysis</h5>
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary"
+                                        <div class="btn-group btn-group-sm flex-wrap" role="group">
+                                            <button type="button" class="btn btn-outline-primary active"
                                                 onclick="changeChartType('cumulative-spending-chart', 'area')">Area</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('cumulative-spending-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('cumulative-spending-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('cumulative-spending-chart', 'spline')">Spline</button>
                                         </div>
                                     </div>
@@ -675,16 +675,16 @@
                         <div class="row mb-4">
                             <div class="col-md-12">
                                 <div class="card">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                                         <h5 class="mb-0">Full Year Forecast (Budget vs Actual vs Projected)</h5>
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <button type="button" class="btn btn-outline-secondary"
+                                        <div class="btn-group btn-group-sm flex-wrap" role="group">
+                                            <button type="button" class="btn btn-outline-primary active"
                                                 onclick="changeChartType('forecast-chart', 'line')">Line</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('forecast-chart', 'column')">Column</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('forecast-chart', 'area')">Area</button>
-                                            <button type="button" class="btn btn-outline-secondary"
+                                            <button type="button" class="btn btn-outline-primary"
                                                 onclick="changeChartType('forecast-chart', 'spline')">Spline</button>
                                         </div>
                                     </div>
@@ -830,6 +830,34 @@
             <script>
                 (function() {
                     var chartInstances = {};
+                    var defaultChartTypes = {
+                        'monthly-trend-chart': 'line',
+                        'department-chart': 'bar',
+                        'yearly-chart': 'column',
+                        'variance-chart': 'column',
+                        'quarterly-chart': 'column',
+                        'top-accounts-chart': 'bar',
+                        'spending-velocity-chart': 'area',
+                        'budget-utilization-chart': 'bar',
+                        'seasonal-trends-chart': 'column',
+                        'mom-growth-chart': 'column',
+                        'rolling-averages-chart': 'line',
+                        'cumulative-spending-chart': 'area',
+                        'forecast-chart': 'line'
+                    };
+
+                    function setActiveChartTypeButton(chartId, type) {
+                        document.querySelectorAll('button[onclick*="changeChartType"]').forEach(function(button) {
+                            var onclickValue = button.getAttribute('onclick') || '';
+                            var matches = onclickValue.match(/changeChartType\('([^']+)', '([^']+)'\)/);
+
+                            if (!matches || matches[1] !== chartId) {
+                                return;
+                            }
+
+                            button.classList.toggle('active', matches[2] === type);
+                        });
+                    }
 
                     window.renderPowerBICharts = function() {
                         var monthlyCategories = @json($monthlyData['categories']);
@@ -2179,6 +2207,10 @@
                                 enabled: false
                             }
                         });
+
+                        Object.keys(defaultChartTypes).forEach(function(chartId) {
+                            setActiveChartTypeButton(chartId, defaultChartTypes[chartId]);
+                        });
                     };
 
                     function exportToPDF() {
@@ -2324,6 +2356,8 @@
                                     }
                                 });
                             }
+
+                            setActiveChartTypeButton(chartId, type);
                         }
                     }
 
