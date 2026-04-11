@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\Actual;
 use App\Models\CostCentre;
+use App\Services\PowerBiExcelExportService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PowerBIController extends Controller
 {
+    public function __construct(private PowerBiExcelExportService $excelExportService) {}
+
     private function getQuarterMonths($quarter)
     {
         if ($quarter === 'all') {
@@ -28,18 +31,36 @@ class PowerBIController extends Controller
 
     public function index(Request $request)
     {
-        $year = $request->year ?? now()->year;
-        $quarter = $request->quarter ?? 'all';
-        $viewMode = $request->view_mode ?? 'interactive';
+        return view('powerbi.index', $this->buildAnalyticsData($request));
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $data = $this->buildAnalyticsData($request);
+
+        if (! $data['selectedCostCentreId']) {
+            return redirect()->route('powerbi', $request->query());
+        }
+
+        return $this->excelExportService->download($data);
+    }
+
+    private function buildAnalyticsData(Request $request): array
+    {
+        $year = (int) ($request->year ?? now()->year);
+        $quarter = (string) ($request->quarter ?? 'all');
+        $viewMode = (string) ($request->view_mode ?? 'interactive');
         $costCentres = CostCentre::active()->get();
         $selectedCostCentreId = $request->cost_centre_id ?? $costCentres->first()?->id;
 
         if (! $selectedCostCentreId) {
-            return view('powerbi.index', [
+            return [
                 'costCentres' => $costCentres,
                 'selectedCostCentreId' => null,
+                'selectedCostCentreName' => null,
                 'year' => $year,
                 'quarter' => $quarter,
+                'quarterLabel' => strtoupper($quarter) === 'ALL' ? 'All Quarters' : $quarter,
                 'viewMode' => $viewMode,
                 'kpiData' => [],
                 'monthlyData' => ['categories' => [], 'budget' => [], 'actual' => []],
@@ -50,9 +71,21 @@ class PowerBIController extends Controller
                 'quarterlyData' => [],
                 'topAccounts' => [],
                 'forecastData' => [],
-            ]);
+                'spendingVelocity' => [],
+                'budgetUtilization' => [],
+                'seasonalTrends' => ['seasonalData' => [], 'seasonalIndices' => [], 'totalCurrentYear' => 0, 'totalPreviousYear' => 0],
+                'momGrowth' => [],
+                'budgetPrediction' => [],
+                'riskAnalysis' => [],
+                'categoryBreakdown' => [],
+                'rollingAverages' => ['monthlyData' => [], 'rolling3Month' => [], 'rolling6Month' => []],
+                'cumulativeSpending' => [],
+                'anomalyDetection' => ['monthlyAnomalies' => [], 'accountAnomalies' => [], 'stats' => []],
+            ];
         }
 
+        $selectedCostCentreId = (int) $selectedCostCentreId;
+        $selectedCostCentre = $costCentres->firstWhere('id', $selectedCostCentreId) ?? CostCentre::find($selectedCostCentreId);
         $quarterMonths = $this->getQuarterMonths($quarter);
 
         $kpiData = $this->getKPIData($selectedCostCentreId, $year, $quarterMonths);
@@ -64,8 +97,6 @@ class PowerBIController extends Controller
         $quarterlyData = $this->getQuarterlyData($selectedCostCentreId, $year);
         $topAccounts = $this->getTopSpendingAccounts($selectedCostCentreId, $year, $quarterMonths);
         $forecastData = $this->getForecastData($selectedCostCentreId, $year, $quarterMonths);
-
-        // Advanced Analytics
         $spendingVelocity = $this->getSpendingVelocity($selectedCostCentreId, $year, $quarterMonths);
         $budgetUtilization = $this->getBudgetUtilizationRate($selectedCostCentreId, $year, $quarterMonths);
         $seasonalTrends = $this->getSeasonalTrendAnalysis($selectedCostCentreId, $year);
@@ -77,11 +108,13 @@ class PowerBIController extends Controller
         $cumulativeSpending = $this->getCumulativeSpending($selectedCostCentreId, $year, $quarterMonths);
         $anomalyDetection = $this->getAnomalyDetection($selectedCostCentreId, $year, $quarterMonths);
 
-        return view('powerbi.index', [
+        return [
             'costCentres' => $costCentres,
             'selectedCostCentreId' => $selectedCostCentreId,
+            'selectedCostCentreName' => $selectedCostCentre?->name,
             'year' => $year,
             'quarter' => $quarter,
+            'quarterLabel' => strtoupper($quarter) === 'ALL' ? 'All Quarters' : $quarter,
             'viewMode' => $viewMode,
             'kpiData' => $kpiData,
             'monthlyData' => $monthlyData,
@@ -92,7 +125,6 @@ class PowerBIController extends Controller
             'quarterlyData' => $quarterlyData,
             'topAccounts' => $topAccounts,
             'forecastData' => $forecastData,
-            // Advanced Analytics
             'spendingVelocity' => $spendingVelocity,
             'budgetUtilization' => $budgetUtilization,
             'seasonalTrends' => $seasonalTrends,
@@ -103,7 +135,7 @@ class PowerBIController extends Controller
             'rollingAverages' => $rollingAverages,
             'cumulativeSpending' => $cumulativeSpending,
             'anomalyDetection' => $anomalyDetection,
-        ]);
+        ];
     }
 
     private function getKPIData($costCentreId, $year, $quarterMonths = null)

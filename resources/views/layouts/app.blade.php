@@ -147,6 +147,26 @@
             font-size: 0.92rem;
         }
 
+        .page-loader-copy.is-stuck {
+            color: #8a5b00;
+        }
+
+        .page-loader-actions {
+            display: none;
+            margin-top: 1rem;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .page-loader-actions.is-visible {
+            display: flex;
+        }
+
+        .page-loader-actions .btn {
+            min-width: 8rem;
+        }
+
         @keyframes page-loader-spin {
             to {
                 transform: rotate(360deg);
@@ -604,7 +624,15 @@
             </div>
             <div class="page-loader-spinner" aria-hidden="true"></div>
             <p class="page-loader-title">{{ config('app.name', 'FMS') }}</p>
-            <p class="page-loader-copy">Preparing your workspace...</p>
+            <p class="page-loader-copy" data-loader-copy>Preparing your workspace...</p>
+            <div class="page-loader-actions" data-loader-actions>
+                <button type="button" class="btn btn-primary btn-sm" data-loader-retry>
+                    <i class="bi bi-arrow-clockwise me-1"></i> Retry
+                </button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" data-loader-dismiss>
+                    Continue
+                </button>
+            </div>
         </div>
     </div>
     <div id="app" class="d-flex flex-column flex-grow-1">
@@ -743,11 +771,32 @@
         document.addEventListener('DOMContentLoaded', function() {
             var body = document.body;
             var pageLoader = document.getElementById('pageLoader');
+            var loaderCopy = document.querySelector('[data-loader-copy]');
+            var loaderActions = document.querySelector('[data-loader-actions]');
+            var loaderRetry = document.querySelector('[data-loader-retry]');
+            var loaderDismiss = document.querySelector('[data-loader-dismiss]');
+            var stuckLoaderTimer = null;
+            var loaderStuckDelay = 10000;
+            var defaultLoaderCopy = 'Preparing your workspace...';
             var hidePageLoader = function() {
+                if (stuckLoaderTimer) {
+                    clearTimeout(stuckLoaderTimer);
+                    stuckLoaderTimer = null;
+                }
+
                 body.classList.add('page-ready');
 
                 if (pageLoader) {
                     pageLoader.setAttribute('aria-hidden', 'true');
+                }
+
+                if (loaderActions) {
+                    loaderActions.classList.remove('is-visible');
+                }
+
+                if (loaderCopy) {
+                    loaderCopy.textContent = defaultLoaderCopy;
+                    loaderCopy.classList.remove('is-stuck');
                 }
             };
 
@@ -757,8 +806,51 @@
                 if (pageLoader) {
                     pageLoader.setAttribute('aria-hidden', 'false');
                 }
+
+                if (loaderActions) {
+                    loaderActions.classList.remove('is-visible');
+                }
+
+                if (loaderCopy) {
+                    loaderCopy.textContent = defaultLoaderCopy;
+                    loaderCopy.classList.remove('is-stuck');
+                }
+
+                if (stuckLoaderTimer) {
+                    clearTimeout(stuckLoaderTimer);
+                }
+
+                stuckLoaderTimer = window.setTimeout(function() {
+                    if (body.classList.contains('page-ready')) {
+                        return;
+                    }
+
+                    if (loaderCopy) {
+                        loaderCopy.textContent =
+                            'This is taking longer than expected. You can retry the page or continue without the loader.';
+                        loaderCopy.classList.add('is-stuck');
+                    }
+
+                    if (loaderActions) {
+                        loaderActions.classList.add('is-visible');
+                    }
+                }, loaderStuckDelay);
             };
 
+            if (loaderRetry) {
+                loaderRetry.addEventListener('click', function() {
+                    showPageLoader();
+                    window.location.reload();
+                });
+            }
+
+            if (loaderDismiss) {
+                loaderDismiss.addEventListener('click', function() {
+                    hidePageLoader();
+                });
+            }
+
+            showPageLoader();
             window.addEventListener('load', hidePageLoader);
             setTimeout(hidePageLoader, 600);
 

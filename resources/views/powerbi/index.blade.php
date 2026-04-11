@@ -8,9 +8,9 @@
                 <button class="btn btn-outline-primary btn-sm" onclick="exportToPDF()">
                     <i class="bi bi-file-pdf"></i> PDF
                 </button>
-                <button class="btn btn-outline-success btn-sm" onclick="exportToExcel()">
+                <a href="{{ route('powerbi.export.excel', request()->query()) }}" class="btn btn-outline-success btn-sm">
                     <i class="bi bi-file-excel"></i> Excel
-                </button>
+                </a>
             </div>
         </div>
 
@@ -2228,108 +2228,6 @@
                         });
                     }
 
-                    function exportToExcel() {
-                        var monthlyData = @json($monthlyData);
-                        var yearlyData = @json($yearlyComparison);
-                        var varianceData = @json($varianceData);
-                        var budgetUtilizationData = @json($budgetUtilization);
-                        var seasonalData = @json($seasonalTrends);
-                        var momGrowthData = @json($momGrowth);
-                        var categoryData = @json($categoryBreakdown);
-                        var rollingData = @json($rollingAverages);
-                        var cumulativeData = @json($cumulativeSpending);
-                        var anomalyData = @json($anomalyDetection);
-
-                        var csvContent = "data:text/csv;charset=utf-8,";
-
-                        // Basic Data
-                        csvContent += "Month,Budget,Actual\n";
-                        monthlyData.categories.forEach(function(month, index) {
-                            csvContent += month + "," + monthlyData.budget[index] + "," + monthlyData.actual[index] +
-                                "\n";
-                        });
-
-                        csvContent += "\nYear,Budget,Actual\n";
-                        yearlyData.forEach(function(row) {
-                            csvContent += row.year + "," + row.budget + "," + row.actual + "\n";
-                        });
-
-                        csvContent += "\nMonth,Variance,Percentage\n";
-                        varianceData.forEach(function(row) {
-                            csvContent += row.month + "," + row.variance + "," + row.percentage + "\n";
-                        });
-
-                        // Budget Utilization
-                        csvContent += "\nAccount,Budget,Actual,Utilization Rate,Status\n";
-                        budgetUtilizationData.forEach(function(row) {
-                            csvContent += '"' + row.account + '",' + row.budget + "," + row.actual + "," + row
-                                .utilizationRate + "," + row.status + "\n";
-                        });
-
-                        // Seasonal Data
-                        csvContent += "\nQuarter,Current Amount,Previous Amount,Index,Previous Index,Change\n";
-                        seasonalData.seasonalData.forEach(function(season, index) {
-                            var indices = seasonalData.seasonalIndices[index];
-                            csvContent += season.quarter + "," + season.amount + "," +
-                                (seasonalData.totalPreviousYear / 4) + "," +
-                                indices.currentIndex + "," + indices.previousIndex + "," + indices.change + "\n";
-                        });
-
-                        // Month-over-Month Growth
-                        csvContent += "\nMonth,Current,Previous,Growth,Status\n";
-                        momGrowthData.forEach(function(row) {
-                            csvContent += row.month + "," + row.current + "," + row.previous + "," + row.growth + "," +
-                                row.status + "\n";
-                        });
-
-                        // Category Breakdown
-                        csvContent += "\nCategory,Total,Percentage\n";
-                        categoryData.forEach(function(row) {
-                            csvContent += row.category + "," + row.total + "," + row.percentage + "\n";
-                        });
-
-                        // Rolling Averages
-                        csvContent += "\nMonth,Actual,3-Month Avg,6-Month Avg\n";
-                        monthlyData.categories.forEach(function(month, index) {
-                            csvContent += month + "," + rollingData.monthlyData[index] + "," +
-                                (rollingData.rolling3Month[index] || '') + "," +
-                                (rollingData.rolling6Month[index] || '') + "\n";
-                        });
-
-                        // Cumulative Spending
-                        csvContent += "\nMonth,Monthly Spend,Cumulative Spend,Cumulative Budget,Variance,Efficiency\n";
-                        cumulativeData.forEach(function(row) {
-                            csvContent += row.month + "," + row.monthlySpend + "," + row.cumulativeSpend + "," +
-                                row.cumulativeBudget + "," + row.variance + "," + row.efficiency + "\n";
-                        });
-
-                        // Anomalies
-                        if (anomalyData.monthlyAnomalies.length > 0) {
-                            csvContent += "\nMonthly Anomalies\nMonth,Amount,Z-Score,Deviation,Type,Severity\n";
-                            anomalyData.monthlyAnomalies.forEach(function(row) {
-                                csvContent += row.month + "," + row.amount + "," + row.zScore + "," +
-                                    (row.deviation || '') + "," + row.type + "," + row.severity + "\n";
-                            });
-                        }
-
-                        if (anomalyData.accountAnomalies.length > 0) {
-                            csvContent += "\nAccount Anomalies\nAccount,Month,Amount,Z-Score,Type,Severity\n";
-                            anomalyData.accountAnomalies.forEach(function(row) {
-                                csvContent += '"' + row.account + '",' + row.month + "," + row.amount + "," + row
-                                    .zScore + "," +
-                                    row.type + "," + row.severity + "\n";
-                            });
-                        }
-
-                        var encodedUri = encodeURI(csvContent);
-                        var link = document.createElement("a");
-                        link.setAttribute("href", encodedUri);
-                        link.setAttribute("download", "powerbi_advanced_report.csv");
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                    }
-
                     function changeChartType(chartId, type) {
                         if (chartInstances[chartId]) {
                             if (type === 'pie' && chartId === 'monthly-trend-chart') {
@@ -2363,7 +2261,6 @@
 
                     window.changeChartType = changeChartType;
                     window.exportToPDF = exportToPDF;
-                    window.exportToExcel = exportToExcel;
 
                     if (document.readyState === 'loading') {
                         document.addEventListener('DOMContentLoaded', window.renderPowerBICharts);

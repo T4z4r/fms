@@ -60,6 +60,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/analysis/compare', [AnalysisController::class, 'compare'])->name('analysis.compare');
     Route::get('/charts', [ChartsController::class, 'index'])->name('charts');
     Route::get('/powerbi', [PowerBIController::class, 'index'])->name('powerbi');
+    Route::get('/powerbi/export/excel', [PowerBIController::class, 'exportExcel'])->name('powerbi.export.excel');
     Route::get('/tutorial', [TutorialController::class, 'index'])->name('tutorial');
 });
 
