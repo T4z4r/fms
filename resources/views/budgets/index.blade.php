@@ -1,14 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4><i class="bi bi-calculator text-primary"></i> Budgets</h4>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#budgetModal" data-mode="create">Add
-                Budget</button>
+    <div class="container page-shell">
+        <div class="page-header">
+            <h4 class="page-title"><i class="bi bi-calculator text-primary"></i> Budgets</h4>
+            <div class="page-actions">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#budgetModal"
+                    data-mode="create">Add Budget</button>
+            </div>
         </div>
 
-        <form method="GET" class="mb-4 d-flex gap-2">
+        <form method="GET" class="mb-4 responsive-filter-form">
             <select name="cost_centre_id" class="form-select">
                 <option value="">All Cost Centres</option>
                 @foreach ($costCentres as $cc)
@@ -28,47 +30,60 @@
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <table class="excel-table table  table-hover table-sm">
-            <thead>
-                <tr>
-                    <th>Cost Centre</th>
-                    <th>Account</th>
-                    <th>Year</th>
-                    <th>Annual Budget</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($budgets as $budget)
-                    <tr>
-                        <td>{{ $budget->costCentre?->name }}</td>
-                        <td>{{ $budget->account?->name }} ({{ $budget->account?->code }})</td>
-                        <td>{{ $budget->year }}</td>
-                        <td>£{{ number_format($budget->annual_budget, 2) }}</td>
-                        <td>
-                            <a href="{{ route('budgets.show', $budget) }}" class="btn btn-sm btn-primary">View</a>
-                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#budgetModal"
-                                data-mode="edit" data-id="{{ $budget->id }}"
-                                data-cost_centre_id="{{ $budget->cost_centre_id }}"
-                                data-account_id="{{ $budget->account_id }}"
-                                data-annual_budget="{{ $budget->annual_budget }}"
-                                data-year="{{ $budget->year }}">Edit</button>
-                            <form action="{{ route('budgets.destroy', $budget) }}" method="POST" class="d-inline">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger"
-                                    data-confirm="Are you sure you want to delete this budget?">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div class="card table-card">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="excel-table table table-hover table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th>Cost Centre</th>
+                                <th>Account</th>
+                                <th>Year</th>
+                                <th>Annual Budget</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($budgets as $budget)
+                                <tr>
+                                    <td>{{ $budget->costCentre?->name }}</td>
+                                    <td>{{ $budget->account?->name }} ({{ $budget->account?->code }})</td>
+                                    <td>{{ $budget->year }}</td>
+                                    <td>£{{ number_format($budget->annual_budget, 2) }}</td>
+                                    <td>
+                                        <div class="table-actions">
+                                            <a href="{{ route('budgets.show', $budget) }}"
+                                                class="btn btn-sm btn-primary">View</a>
+                                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                                data-bs-target="#budgetModal" data-mode="edit"
+                                                data-id="{{ $budget->id }}"
+                                                data-cost_centre_id="{{ $budget->cost_centre_id }}"
+                                                data-account_id="{{ $budget->account_id }}"
+                                                data-annual_budget="{{ $budget->annual_budget }}"
+                                                data-year="{{ $budget->year }}">Edit</button>
+                                            <form action="{{ route('budgets.destroy', $budget) }}" method="POST">
+                                                @csrf @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger"
+                                                    data-confirm="Are you sure you want to delete this budget?">Delete</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-    {{ $budgets->links() }}
+    <div class="container">
+        <div class="pagination-shell mt-3">
+            {{ $budgets->links() }}
+        </div>
     </div>
 
     <div class="modal fade" id="budgetModal" tabindex="-1">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="budgetModalTitle">Add Budget</h5>

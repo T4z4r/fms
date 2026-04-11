@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4><i class="bi bi-speedometer2 text-primary"></i> Financial Dashboard</h4>
-            <form method="GET" class="d-flex gap-2">
+    <div class="container page-shell">
+        <div class="page-header">
+            <h4 class="page-title"><i class="bi bi-speedometer2 text-primary"></i> Financial Dashboard</h4>
+            <form method="GET" class="responsive-filter-form page-actions">
                 <select name="year" class="form-select">
                     @for ($y = now()->year; $y >= now()->year - 5; $y--)
                         <option value="{{ $y }}" {{ $year == $y ? 'selected' : '' }}>{{ $y }}</option>
@@ -21,8 +21,8 @@
             </form>
         </div>
 
-        <div class="row mb-4">
-            <div class="col-md-3">
+        <div class="row g-3 mb-4">
+            <div class="col-sm-6 col-xl-3">
                 <div class="card bg-primary text-white">
                     <div class="card-body">
                         <h6 class="card-title">Annual Budget</h6>
@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-sm-6 col-xl-3">
                 <div class="card bg-info text-white">
                     <div class="card-body">
                         <h6 class="card-title">YTD Budget</h6>
@@ -38,7 +38,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-sm-6 col-xl-3">
                 <div class="card bg-success text-white">
                     <div class="card-body">
                         <h6 class="card-title">YTD Actual</h6>
@@ -46,7 +46,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-sm-6 col-xl-3">
                 <div class="card {{ $ytdVariance >= 0 ? 'bg-success' : 'bg-danger' }} text-white">
                     <div class="card-body">
                         <h6 class="card-title">YTD Variance</h6>
@@ -71,9 +71,9 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row g-2">
                         @foreach ($alerts->take(4) as $alert)
-                            <div class="col-md-6 mb-2">
+                            <div class="col-md-6">
                                 <div class="alert alert-{{ $alert->severity === 'high' ? 'danger' : 'warning' }} mb-0">
                                     <small>{{ $alert->type }}</small>
                                     <p class="mb-0">{{ $alert->message }}</p>
@@ -85,8 +85,8 @@
             </div>
         @endif
 
-        <div class="row mb-4">
-            <div class="col-md-8">
+        <div class="row g-4 mb-4">
+            <div class="col-lg-8">
                 <div class="card">
                     <div class="card-header">
                         <h5>Monthly Budget vs Actual Trend</h5>
@@ -130,7 +130,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-lg-4">
                 <div class="card">
                     <div class="card-header">
                         <h5>Forecast</h5>

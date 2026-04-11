@@ -91,9 +91,25 @@
                 position: static;
             }
         }
+
+        @media (max-width: 767.98px) {
+            .settings-card-header {
+                flex-direction: column;
+            }
+
+            .settings-field,
+            .settings-summary-item {
+                padding: 0.85rem;
+            }
+
+            .settings-submit {
+                width: 100%;
+                justify-content: center;
+            }
+        }
     </style>
 
-    <div class="container py-2 py-lg-3">
+    <div class="container py-2 py-lg-3 page-shell">
         <div class="mb-4">
             <div class="text-primary small fw-semibold text-uppercase mb-2">
                 <i class="bi bi-sliders me-1"></i> Administration

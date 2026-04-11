@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container py-3">
-        <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 mb-4">
+    <div class="container py-3 page-shell">
+        <div class="page-header">
             <div>
-                <h4 class="mb-1">
+                <h4 class="page-title mb-1">
                     <i class="bi bi-file-earmark-ruled text-primary"></i>
                     {{ $companyName }} Reports
                 </h4>
@@ -12,9 +12,11 @@
                 </p>
             </div>
 
-            <a href="{{ route('reports.export.pdf', ['year' => $year]) }}" class="btn btn-outline-primary">
-                <i class="bi bi-file-earmark-pdf me-1"></i> Export PDF
-            </a>
+            <div class="page-actions">
+                <a href="{{ route('reports.export.pdf', ['year' => $year]) }}" class="btn btn-outline-primary">
+                    <i class="bi bi-file-earmark-pdf me-1"></i> Export PDF
+                </a>
+            </div>
         </div>
 
         <div class="row g-3 mb-4">
@@ -58,7 +60,7 @@
 
         <div class="card mb-4">
             <div class="card-body">
-                <form method="GET" class="row g-3 align-items-end">
+                <form method="GET" class="responsive-filter-form">
                     <div class="col-sm-4 col-md-3">
                         <label for="year" class="form-label">Year</label>
                         <select id="year" name="year" class="form-select">
@@ -68,7 +70,7 @@
                             @endfor
                         </select>
                     </div>
-                    <div class="col-auto">
+                    <div>
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-funnel me-1"></i> Filter
                         </button>
@@ -77,13 +79,13 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card table-card">
             <div class="card-header">
                 <strong>Cost Centre Breakdown</strong>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
-        <table class="excel-table table  table-hover table-sm">
+                    <table class="excel-table table table-hover table-sm">
                         <thead>
                             <tr>
                                 <th>Cost Centre</th>

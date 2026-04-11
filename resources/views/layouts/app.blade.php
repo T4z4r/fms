@@ -28,6 +28,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        document.documentElement.classList.add('page-loader-enabled');
+    </script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
             dropdownElementList.forEach(function(dropdownToggle) {
@@ -36,6 +39,209 @@
         });
     </script>
     <style>
+        :root {
+            --app-mobile-gutter: 0.75rem;
+            --page-loader-bg: rgba(248, 250, 252, 0.96);
+            --page-loader-primary: #0d6efd;
+            --page-loader-accent: #7cb5ff;
+            --page-loader-text: #12304f;
+        }
+
+        main.py-4 {
+            padding-top: 1rem !important;
+            padding-bottom: 1.5rem !important;
+        }
+
+        body {
+            transition: opacity 0.2s ease;
+        }
+
+        .page-loader {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background:
+                radial-gradient(circle at top, rgba(124, 181, 255, 0.32), transparent 42%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.92), var(--page-loader-bg));
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
+        }
+
+        body.page-ready .page-loader {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .page-loader-panel {
+            min-width: min(100%, 20rem);
+            max-width: 24rem;
+            padding: 1.5rem 1.35rem;
+            border: 1px solid rgba(13, 110, 253, 0.12);
+            border-radius: 1.25rem;
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 20px 45px rgba(18, 48, 79, 0.14);
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .page-loader-brand {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 3.5rem;
+            height: 3.5rem;
+            margin-bottom: 1rem;
+            border-radius: 1rem;
+            background: linear-gradient(135deg, var(--page-loader-primary), #4aa3ff);
+            color: #fff;
+            font-size: 1.4rem;
+            box-shadow: 0 10px 24px rgba(13, 110, 253, 0.28);
+        }
+
+        .page-loader-spinner {
+            position: relative;
+            width: 3.75rem;
+            height: 3.75rem;
+            margin: 0 auto 1rem;
+        }
+
+        .page-loader-spinner::before,
+        .page-loader-spinner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 3px solid transparent;
+        }
+
+        .page-loader-spinner::before {
+            border-top-color: var(--page-loader-primary);
+            border-right-color: var(--page-loader-primary);
+            animation: page-loader-spin 0.9s linear infinite;
+        }
+
+        .page-loader-spinner::after {
+            inset: 0.4rem;
+            border-bottom-color: var(--page-loader-accent);
+            border-left-color: var(--page-loader-accent);
+            animation: page-loader-spin-reverse 1.2s linear infinite;
+        }
+
+        .page-loader-title {
+            margin: 0;
+            color: var(--page-loader-text);
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .page-loader-copy {
+            margin: 0.45rem 0 0;
+            color: #5b7087;
+            font-size: 0.92rem;
+        }
+
+        @keyframes page-loader-spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes page-loader-spin-reverse {
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+
+        .page-shell {
+            width: 100%;
+        }
+
+        .page-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-title {
+            margin-bottom: 0;
+        }
+
+        .page-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            width: 100%;
+        }
+
+        .page-actions>* {
+            flex: 1 1 auto;
+        }
+
+        .responsive-filter-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            align-items: end;
+        }
+
+        .responsive-filter-form .form-select,
+        .responsive-filter-form .form-control,
+        .responsive-filter-form .btn,
+        .responsive-filter-form .form-check,
+        .responsive-filter-form .form-check-label {
+            width: 100%;
+        }
+
+        .responsive-filter-form .btn {
+            white-space: nowrap;
+        }
+
+        .table-card {
+            overflow: hidden;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .excel-table {
+            min-width: 640px;
+        }
+
+        .table-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .table-actions .btn,
+        .table-actions form {
+            margin: 0;
+        }
+
+        .pagination-shell {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            overflow-x: auto;
+            padding-bottom: 0.25rem;
+        }
+
+        .pagination-shell .pagination {
+            flex-wrap: nowrap;
+        }
+
         .navbar .nav-link {
             display: flex;
             flex-direction: column;
@@ -71,6 +277,7 @@
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: thin;
+            width: 100%;
         }
 
         .nav-scroll-container::-webkit-scrollbar {
@@ -98,7 +305,35 @@
             }
         }
 
+        .navbar .navbar-collapse {
+            gap: 1rem;
+        }
+
+        .navbar .navbar-nav {
+            gap: 0.25rem;
+        }
+
         @media (max-width: 575.98px) {
+            .page-loader-panel {
+                padding: 1.25rem 1rem;
+                border-radius: 1rem;
+            }
+
+            .page-loader-brand {
+                width: 3rem;
+                height: 3rem;
+                font-size: 1.2rem;
+            }
+
+            .container {
+                padding-left: var(--app-mobile-gutter);
+                padding-right: var(--app-mobile-gutter);
+            }
+
+            .page-header {
+                align-items: stretch;
+            }
+
             .auth-card {
                 margin: 0.5rem;
                 max-width: calc(100% - 1rem);
@@ -130,6 +365,11 @@
             .form-select,
             .form-control {
                 font-size: 0.875rem;
+            }
+
+            .table-responsive {
+                margin-left: calc(var(--app-mobile-gutter) * -0.25);
+                margin-right: calc(var(--app-mobile-gutter) * -0.25);
             }
         }
 
@@ -194,10 +434,70 @@
         .excel-table tbody tr:hover>* {
             background-color: #6fb6ff;
         }
+
+        @media (min-width: 576px) {
+            .page-actions {
+                width: auto;
+            }
+
+            .page-actions>* {
+                width: auto;
+                flex: 0 0 auto;
+            }
+
+            .responsive-filter-form .form-select,
+            .responsive-filter-form .form-control {
+                width: auto;
+                flex: 1 1 12rem;
+            }
+
+            .responsive-filter-form .btn,
+            .responsive-filter-form .form-check {
+                width: auto;
+                flex: 0 0 auto;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .navbar .nav-link {
+                flex-direction: row;
+                justify-content: flex-start;
+                gap: 0.5rem;
+                align-items: center;
+            }
+
+            .navbar .nav-link i {
+                margin-bottom: 0;
+                font-size: 1rem;
+            }
+
+            .navbar .nav-link span {
+                font-size: 0.95rem;
+            }
+
+            .navbar .user-dropdown-toggle {
+                justify-content: flex-start;
+            }
+
+            footer small {
+                display: inline-block;
+                line-height: 1.5;
+            }
+        }
     </style>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
+    <div id="pageLoader" class="page-loader" aria-live="polite" aria-label="Page loading">
+        <div class="page-loader-panel">
+            <div class="page-loader-brand">
+                <i class="bi bi-bar-chart-line-fill"></i>
+            </div>
+            <div class="page-loader-spinner" aria-hidden="true"></div>
+            <p class="page-loader-title">{{ config('app.name', 'FMS') }}</p>
+            <p class="page-loader-copy">Preparing your workspace...</p>
+        </div>
+    </div>
     <div id="app" class="d-flex flex-column flex-grow-1">
         @auth
             <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
@@ -332,6 +632,64 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            var body = document.body;
+            var pageLoader = document.getElementById('pageLoader');
+            var hidePageLoader = function() {
+                body.classList.add('page-ready');
+
+                if (pageLoader) {
+                    pageLoader.setAttribute('aria-hidden', 'true');
+                }
+            };
+
+            var showPageLoader = function() {
+                body.classList.remove('page-ready');
+
+                if (pageLoader) {
+                    pageLoader.setAttribute('aria-hidden', 'false');
+                }
+            };
+
+            window.addEventListener('load', hidePageLoader);
+            setTimeout(hidePageLoader, 600);
+
+            document.querySelectorAll('a[href]').forEach(function(link) {
+                link.addEventListener('click', function(event) {
+                    if (event.defaultPrevented || this.target === '_blank' || this.hasAttribute('download')) {
+                        return;
+                    }
+
+                    var href = this.getAttribute('href');
+                    if (!href || href === '#' || href.startsWith('javascript:') || href.startsWith('mailto:') || href
+                        .startsWith('tel:')) {
+                        return;
+                    }
+
+                    if (this.dataset.bsToggle || this.dataset.confirmForm) {
+                        return;
+                    }
+
+                    var currentUrl = new URL(window.location.href);
+                    var nextUrl = new URL(href, window.location.href);
+
+                    if (currentUrl.href === nextUrl.href || nextUrl.origin !== currentUrl.origin) {
+                        return;
+                    }
+
+                    showPageLoader();
+                });
+            });
+
+            document.querySelectorAll('form').forEach(function(form) {
+                form.addEventListener('submit', function() {
+                    if (this.dataset.confirm) {
+                        return;
+                    }
+
+                    showPageLoader();
+                });
+            });
+
             document.querySelectorAll('form[data-confirm]').forEach(function(form) {
                 form.addEventListener('submit', function(e) {
                     var message = this.getAttribute('data-confirm') ||
